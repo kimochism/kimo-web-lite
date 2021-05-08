@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container } from './styles';
 import { BagIcon, UserIcon } from 'assets/icons';
+import { Link } from 'react-router-dom';
 
 const Menu = () => {
 	return (
@@ -9,7 +10,7 @@ const Menu = () => {
 				<h1>KIMOCHISM 気持ち</h1>
 			</div>
 			<div className="options">
-				<span>Home</span>
+				<Link to='/product'><span>Home</span></Link>
 				<span>Loja</span>
 				<span>Informações</span>
 				<span>

@@ -3,15 +3,14 @@ import Banner from 'components/Banner';
 import Footer from 'shared/Footer';
 import Menu from 'shared/Menu';
 
-
-const App = () => {
+const Home = () => {
 	return (
-		<div>
+		<>
 			<Menu/>
 			<Banner/>
 			<Footer/>
-		</div>
+		</>
 	);
 };
 
-export default App;
+export default Home;
