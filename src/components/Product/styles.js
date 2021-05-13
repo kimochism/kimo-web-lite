@@ -10,6 +10,7 @@ export const Container = styled.div`
         flex-wrap: wrap;
         flex-direction: column;
         display: flex;
+        cursor: pointer;
         span{
             font-weight: 600;
             padding: 8px 0px;

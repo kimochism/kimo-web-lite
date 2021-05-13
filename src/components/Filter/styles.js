@@ -19,6 +19,7 @@ export const Container = styled.div`
         button{
             padding: 8px 18px;
             background-color: black;
+            border-radius: 0px;
             border: 0px;
             cursor: pointer;
         }
@@ -40,5 +41,9 @@ export const Container = styled.div`
         span{
             padding-left: 12px;
         }
+    }
+
+    @media screen and (max-width: 780px){
+        display: none;
     }
 `;

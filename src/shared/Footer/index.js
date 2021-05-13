@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from './styles';
+import { FacebookIcon, InstagramIcon } from 'assets/icons';
 
 const Footer = () => {
 	return (
@@ -33,11 +34,12 @@ const Footer = () => {
 				<b className="headerMenuFooter">Contato</b>
 				<span>contato.kimochism@gmail.com</span>
 				<div className="socialMedia">
-					<a href="https://www.facebook.com/kimochismstore ">
-						<i className="fab fa-facebook-f"></i>
+					<a href="https://www.facebook.com/kimochismstore" target='blank'>
+						<img src={FacebookIcon} width="10px"/>
 					</a>
-					<a href="https://www.instagram.com/kimochismstore">
-						<i className="fab fa-instagram"></i>
+					<br/>
+					<a href="https://www.instagram.com/kimochism.store" target='blank'>
+						<img src={InstagramIcon} width="20px"/>
 					</a>
 				</div>
 			</div>
@@ -51,7 +53,6 @@ const Footer = () => {
                 Nossa principal missão é fornecer aos nossos clientes as melhores ofertas do mercado, de produtos que possuem qualidade e conforto, através do contato que temos com muitos fabricantes fora do país, oferecemos essa oportunidade a você, futuro cliente, de poder adquirir produtos de ponta com o melhor preço do mercado. 
 				</p>
 			</div>
-
 		</Container>
 	);
 };

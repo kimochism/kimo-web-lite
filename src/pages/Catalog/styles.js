@@ -14,7 +14,7 @@ export const Container = styled.div`
 
     .container-catalog-right{
         padding: 0px 80px;
-        padding-bottom: 140px;
+        padding-bottom: 50px;
         justify-content: center;
         flex-wrap: wrap;
         display: flex;
@@ -30,6 +30,30 @@ export const Container = styled.div`
             align-items: center;
         }
     }
-    /* Checkbox */
-    
+    @media screen and (max-width: 600px){
+        .container-catalog-right{
+            padding: 0px;
+        }
+    }
+
+    /* aux */
+
+    .aux-cont{
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 70px;
+        display: flex;
+    }
+
+    .pages-buttons{
+        button{
+            width: 40px;
+            height: 40px;
+            border: 3px solid black;
+            background-color: transparent;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+        }
+    }
 `;

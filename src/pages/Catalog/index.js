@@ -9,19 +9,26 @@ const Catalog = () => {
 	return (
 		<Container>
 			<Menu />
-
 			<div className="container-catalog">
-
 				<div className="container-catalog-left">
 					<Filter/>
 				</div>
-
-				<div className="container-catalog-right">
-					<Product/>
-					<Product/>
-					<Product/>
+				<div className="aux-cont">
+					<div className="container-catalog-right">
+						<Product/><Product/>
+						<Product/><Product/>
+						<Product/><Product/>
+					</div>
+					<div className="pages-buttons">
+						<button>1</button>
+						<button>2</button>
+						<button>3</button>
+						<span>...</span>
+						<button>10</button>
+					</div>
 				</div>
 			</div>
+
 			<Footer/>
 		</Container>
 	);

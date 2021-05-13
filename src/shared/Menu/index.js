@@ -7,12 +7,13 @@ const Menu = () => {
 	return (
 		<Container>
 			<div className="logo">
-				<h1>KIMOCHISM 気持ち</h1>
+				<Link to='/'>
+					<h1>KIMOCHISM <span>気持ち</span></h1>
+				</Link>
 			</div>
 			<div className="options">
-				<Link to='/product'><span>Home</span></Link>
+				<Link to='/'><span>Home</span></Link>
 				<Link to='/catalog'><span>Loja</span></Link>
-				<span>Loja</span>
 				<span>Informações</span>
 				<span>
 					<img src={UserIcon}/>
