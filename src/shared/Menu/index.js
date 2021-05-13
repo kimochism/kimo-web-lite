@@ -18,9 +18,11 @@ const Menu = () => {
 				<span>
 					<img src={UserIcon}/>
 				</span>
-				<span>
-					<img src={BagIcon}/>
-				</span>
+				<Link to='/product'>
+					<span>
+						<img src={BagIcon}/>
+					</span>
+				</Link>
 			</div>
             
 		</Container>
