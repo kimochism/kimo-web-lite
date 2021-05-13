@@ -11,6 +11,7 @@ const Menu = () => {
 			</div>
 			<div className="options">
 				<Link to='/product'><span>Home</span></Link>
+				<Link to='/catalog'><span>Loja</span></Link>
 				<span>Loja</span>
 				<span>Informações</span>
 				<span>
