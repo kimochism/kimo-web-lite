@@ -10,8 +10,8 @@ const Product = () => {
 			<div className="product-container">
 
 				<div className="product-left">
-					<img src="https://i.pinimg.com/564x/bf/d6/ca/bfd6ca102f24558f63fa7bbdc7a34df2.jpg" />
-					<img src="https://i.pinimg.com/564x/8d/2e/8f/8d2e8f9eb6fca418329b09d61498f231.jpg" />
+					<img src="https://i.pinimg.com/564x/bf/d6/ca/bfd6ca102f24558f63fa7bbdc7a34df2.jpg" alt="Foto do produto"/>
+					<img src="https://i.pinimg.com/564x/8d/2e/8f/8d2e8f9eb6fca418329b09d61498f231.jpg" alt="Foto do produto"/>
 				</div>
 
 				<div className="product-right">

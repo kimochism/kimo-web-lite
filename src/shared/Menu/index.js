@@ -16,11 +16,11 @@ const Menu = () => {
 				<Link to='/catalog'><span>Loja</span></Link>
 				<span>Informações</span>
 				<span>
-					<img src={UserIcon}/>
+					<img src={UserIcon} alt="Perfil"/>
 				</span>
 				<Link to='/product'>
 					<span>
-						<img src={BagIcon}/>
+						<img src={BagIcon} alt="Sacola"/>
 					</span>
 				</Link>
 			</div>

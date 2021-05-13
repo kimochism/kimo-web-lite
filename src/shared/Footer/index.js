@@ -35,11 +35,11 @@ const Footer = () => {
 				<span>contato.kimochism@gmail.com</span>
 				<div className="socialMedia">
 					<a href="https://www.facebook.com/kimochismstore" target='blank'>
-						<img src={FacebookIcon} width="10px"/>
+						<img src={FacebookIcon} width="10px" alt="Facebook"/>
 					</a>
 					<br/>
 					<a href="https://www.instagram.com/kimochism.store" target='blank'>
-						<img src={InstagramIcon} width="20px"/>
+						<img src={InstagramIcon} width="20px" alt="Instagram"/>
 					</a>
 				</div>
 			</div>

@@ -9,7 +9,7 @@ const Filter = () => {
 			<div className="filter-search">
 				<input type="text" placeholder="Oni Demon"></input>
 				<button>
-					<img src={SearchIcon} width="16px"/>
+					<img src={SearchIcon} width="16px" alt="Lupa de busca"/>
 				</button>
 			</div>
 			<div className="filter">
