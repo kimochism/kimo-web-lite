@@ -15,9 +15,11 @@ const Menu = () => {
 				<Link to='/'><span>Home</span></Link>
 				<Link to='/catalog'><span>Loja</span></Link>
 				<span>Informações</span>
-				<span>
-					<img src={UserIcon} alt="Perfil"/>
-				</span>
+				<Link to='/profile'>
+					<span>
+						<img src={UserIcon} alt="Perfil"/>
+					</span>
+				</Link>
 				<Link to='/product'>
 					<span>
 						<img src={BagIcon} alt="Sacola"/>
