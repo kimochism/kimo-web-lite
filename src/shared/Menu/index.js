@@ -20,7 +20,7 @@ const Menu = () => {
 						<img src={UserIcon} alt="Perfil"/>
 					</span>
 				</Link>
-				<Link to='/product'>
+				<Link to='/customerbag'>
 					<span>
 						<img src={BagIcon} alt="Sacola"/>
 					</span>

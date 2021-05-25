@@ -18,6 +18,10 @@ export const Container = styled.div`
         justify-content: center;
         flex-wrap: wrap;
         display: flex;
+        a{
+            color: black;
+            text-decoration: none;
+        }
     }
     
     

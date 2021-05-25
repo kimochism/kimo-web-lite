@@ -6,6 +6,11 @@ import InstagramIcon from './Icon-awesome-instagram.svg';
 import ArrowIcon from './Icon-ionic-ios-arrow-back.svg';
 import CheckedIcon from './Icon-awesome-check.svg';
 import PenIcon from './Icon-awesome-pen.svg';
+import TruckIcon from './Icon-awesome-truck.svg';
+import MapPinIcon from './Icon-feather-map-pin.svg';
+import BarcodeIcon from './barcode-png.svg';
+import PixIcon from './logo-pix-icone-1024.svg';
+import MasterCardIcon from './Icon-mastercard-card.svg';
 
 export {
 	BagIcon,
@@ -15,5 +20,10 @@ export {
 	InstagramIcon,
 	ArrowIcon,
 	CheckedIcon,
-	PenIcon
+	PenIcon,
+	TruckIcon,
+	MapPinIcon,
+	BarcodeIcon,
+	PixIcon,
+	MasterCardIcon
 };

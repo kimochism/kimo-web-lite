@@ -4,6 +4,7 @@ import Footer from 'shared/Footer/index';
 import Filter from '../../components/Filter/index';
 import Product from '../../components/Product/index';
 import { Container } from './styles';
+import { Link } from 'react-router-dom';
 
 const Catalog = () => {
 	return (
@@ -15,9 +16,12 @@ const Catalog = () => {
 				</div>
 				<div className="aux-cont">
 					<div className="container-catalog-right">
-						<Product/><Product/>
-						<Product/><Product/>
-						<Product/><Product/>
+						<Link to="/product"><Product/></Link>
+						<Product/>
+						<Product/>
+						<Product/>
+						<Product/>
+						<Product/>
 					</div>
 					<div className="pages-buttons">
 						<button>1</button>
