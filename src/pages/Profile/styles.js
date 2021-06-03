@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+    background-color: white;
     .container-profile{
         padding: 80px;
         padding-bottom: 120px;

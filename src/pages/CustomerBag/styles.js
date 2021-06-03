@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+    background-color: white;
     display: flex;
     .customer-bag-left{
         width: 100%;
@@ -24,7 +25,6 @@ export const Container = styled.div`
         padding: 20px 140px;
     }
     .customer-endereco{
-        background-color: white;
         flex-direction: column;
         display: flex;
         span{
