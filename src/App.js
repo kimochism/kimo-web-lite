@@ -10,6 +10,10 @@ const Catalog = lazy(() => import('./pages/Catalog'));
 const CustomerBag = lazy(() => import('./pages/CustomerBag'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
+// facebook chat
+import MessengerCustomerChat from 'react-messenger-customer-chat';
+
+
 
 const App = () => {
 	return (
@@ -24,6 +28,10 @@ const App = () => {
 					<Route exact path='/notfound' component={ () => <NotFound />}/>	
 				</Suspense>
 			</Switch>
+			<MessengerCustomerChat
+				pageId="105137654636679"
+				appId="330530065247617"
+			/>,
 		</Router>
 	);
 };
