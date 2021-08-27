@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Menu from 'shared/Menu/index';
 import { ArrowIcon, CheckedIcon } from 'assets/icons';
 import { Container } from './styles';
 import Footer from 'shared/Footer/index';
+import UserContext from 'context/userContext';
+import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
+
+	const userContext = useContext(UserContext);
+	const history = useHistory();
+
 	return (
 		<Container>
 			<Menu/>
@@ -35,7 +41,14 @@ const Profile = () => {
 							<span>Sobre</span>
 							<img src={ArrowIcon}/>
 						</button>
-						<button>
+						<button onClick={() => {
+							localStorage.removeItem('Authorization');
+							localStorage.removeItem('email');
+							userContext.isLogged = false;
+							userContext.email = null;
+
+							history.push('/');
+						}}>
 							<span>Sair</span>
 							<img src={ArrowIcon}/>
 						</button>

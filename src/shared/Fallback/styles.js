@@ -1,50 +1,62 @@
-import styled, { createGlobalStyle }  from 'styled-components';
-import { colors } from 'variables';
-
-
-export const GlobalStyle = createGlobalStyle`
-    body {
-        background-color: ${colors.gray1};
-    }
-`;
+import styled from 'styled-components';
 
 export const Container = styled.div`
-    left: 50%;
-    top: 50%;
-    position: absolute;
-    transform: translate(-50%, -50%);
-`;
-
-export const StyledSpinner = styled.svg`
-    animation: rotate 2s linear infinite;
-    margin: -25px 0 0 -25px;
-    width: 50px;
-    height: 50px;
-  
-    & .path {
-        stroke: ${colors.black};
-        stroke-linecap: round;
-        animation: dash 1.5s ease-in-out infinite;
-    }
-  
-    @keyframes rotate {
-        100% {
-            transform: rotate(360deg);
-        }
+    #main-load {
+        position:fixed;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
     }
 
-    @keyframes dash {
+    .loading {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .loading-letter {
+        font-size: 60px;
+        font-weight: normal;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: white;
+        animation-name: bounce;
+        animation-duration: 2s;
+        animation-iteration-count: infinite;
+    }
+
+    .loading-letter:nth-child(2) {
+        animation-delay: .1s; 
+    }
+    .loading-letter:nth-child(3) {
+        animation-delay: .2s;
+    }
+    .loading-letter:nth-child(4) {
+        animation-delay: .3s; 
+    }
+    .loading-letter:nth-child(5) {
+        animation-delay: .4s;
+    }
+    .loading-letter:nth-child(6) {
+        animation-delay: .5s; 
+    }
+    .loading-letter:nth-child(7) {
+        animation-delay: .6s;
+    }
+
+    @keyframes bounce {
         0% {
-            stroke-dasharray: 1, 150;
-            stroke-dashoffset: 0;
+            transform: translateY(0px)
         }
-        50% {
-            stroke-dasharray: 90, 150;
-            stroke-dashoffset: -35;
+        40% {
+            transform: translateY(-40px);
         }
+        80%,
         100% {
-            stroke-dasharray: 90, 150;
-            stroke-dashoffset: -124;
+            transform: translateY(0px);
         }
     }
 `;

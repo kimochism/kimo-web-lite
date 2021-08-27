@@ -13,25 +13,34 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 // facebook chat
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 
-
-
 const App = () => {
 	return (
 		<Router>
 			<Switch>
 				<Suspense fallback={<Fallback />}>
-			    	<Route exact path='/' component={ () => <Home />}/>
-			    	<Route exact path='/product' component={ () => <Product />}/>
-					<Route exact path='/profile' component={ () => <Profile />}/>
-					<Route exact path='/catalog' component={ () => <Catalog />}/>
-					<Route exact path='/customerbag' component={ () => <CustomerBag />}/>	
-					<Route exact path='/notfound' component={ () => <NotFound />}/>	
+					<Route exact path='/' component={() => <Home />} />
+					<Route exact path='/product' component={() => <Product />} />
+					<Route exact path='/profile' component={() => <Profile />} />
+					<Route exact path='/catalog' component={() => <Catalog />} />
+					<Route exact path='/customerbag' component={() => <CustomerBag />} />
+					<Route exact path='/notfound' component={() => <NotFound />} />
 				</Suspense>
 			</Switch>
+			<div id="main-load">
+				<div className="loading">
+					<div className="loading-letter">K</div>
+					<div className="loading-letter">I</div>
+					<div className="loading-letter">M</div>
+					<div className="loading-letter">O</div>
+					<div className="loading-letter">気</div>
+					<div className="loading-letter">持</div>
+					<div className="loading-letter">ち</div>
+				</div>
+			</div>
 			<MessengerCustomerChat
 				pageId="105137654636679"
 				appId="330530065247617"
-			/>,
+			/>
 		</Router>
 	);
 };

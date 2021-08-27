@@ -11,6 +11,7 @@ import MapPinIcon from './Icon-feather-map-pin.svg';
 import BarcodeIcon from './barcode-png.svg';
 import PixIcon from './logo-pix-icone-1024.svg';
 import MasterCardIcon from './Icon-mastercard-card.svg';
+import Close from './close_black.svg';
 
 export {
 	BagIcon,
@@ -25,5 +26,6 @@ export {
 	MapPinIcon,
 	BarcodeIcon,
 	PixIcon,
-	MasterCardIcon
+	MasterCardIcon,
+	Close,
 };

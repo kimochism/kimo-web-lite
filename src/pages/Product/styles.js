@@ -113,7 +113,7 @@ export const Container = styled.div`
 			font-weight: bold;
 			font-size: 16px;
 			cursor: pointer;
-			text-transform: uppercase
+			text-transform: uppercase;
 		}
 	}
 	/* variables */

@@ -1,21 +1,21 @@
 import React from 'react';
 
-import { Container, StyledSpinner, GlobalStyle } from './styles';
+import { Container } from './styles';
 
 const Fallback = () => {
 	return (
 		<Container>
-			<GlobalStyle />
-			<StyledSpinner viewBox="0 0 50 50">
-				<circle
-					className="path"
-					cx="25"
-					cy="25"
-					r="20"
-					fill="none"
-					strokeWidth="4"
-				/>
-			</StyledSpinner>
+			<div>
+				{/* <div className="loading">
+					<div className="loading-letter">K</div>
+					<div className="loading-letter">I</div>
+					<div className="loading-letter">M</div>
+					<div className="loading-letter">O</div>
+					<div className="loading-letter">気</div>
+					<div className="loading-letter">持</div>
+					<div className="loading-letter">ち</div>
+				</div> */}
+			</div>
 		</Container>
 	);
 };

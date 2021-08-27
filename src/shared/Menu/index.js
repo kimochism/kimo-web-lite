@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { Container } from './styles';
 import { BagIcon, UserIcon } from 'assets/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import UserContext from 'context/userContext';
+import SignInOut from 'shared/Modal/SignInOut/index';
 
 const Menu = () => {
+
+	const { isLogged } = useContext(UserContext);
+
+	const [isOpen, setIsOpen] = useState(false);
+
+	const history = useHistory();
+
+	const redirectToProfile = () => {
+		
+		if(!isLogged) {
+			setIsOpen(true);
+			return;
+		}
+
+		history.push('/profile');
+	};
+	
 	return (
 		<Container>
 			<div className="logo">
@@ -15,16 +34,15 @@ const Menu = () => {
 				<Link to='/'><span>Home</span></Link>
 				<Link to='/catalog'><span>Loja</span></Link>
 				<span>Informações</span>
-				<Link to='/profile'>
-					<span>
-						<img src={UserIcon} alt="Perfil"/>
-					</span>
-				</Link>
+				<span onClick={() => redirectToProfile()}>
+					<img src={UserIcon} alt="Perfil"/>
+				</span>
 				<Link to='/customerbag'>
 					<span>
 						<img src={BagIcon} alt="Sacola"/>
 					</span>
 				</Link>
+				<SignInOut isOpen={isOpen} defaultIsSignIn={true} handleClose={() => { setIsOpen(false); }}/>
 			</div>
             
 		</Container>
