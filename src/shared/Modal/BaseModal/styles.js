@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Modal from 'react-modal';
-import { colors } from 'variables';
+import { colors, sizes } from 'variables';
 
 export const StyledModal = styled(Modal)`
     display: flex;
@@ -8,7 +8,6 @@ export const StyledModal = styled(Modal)`
     align-items: center;
     width: 28%;
     max-height: 90%;
-    /* overflow-y: auto; */
     background: ${colors.white};
     outline: none;
     letter-spacing: 1px;
@@ -18,14 +17,14 @@ export const StyledModal = styled(Modal)`
 
     border: ${ props => props.withBorder ? '2px solid' + colors.black : '' };
 
-    top: ${ props => props.isTopScreen ? '5%' : '' };
-
+    top: ${ props => props.isTopScreen ? '5%' : '12%' };
 
     .header {
         width: 85%;
         display: flex;
         justify-content: space-between;
         padding: 15px 0 15px 0;
+        
         span {
             text-transform: uppercase;
             font-weight: bold;
@@ -44,5 +43,13 @@ export const StyledModal = styled(Modal)`
         width: 85%;
         height: 10%;
         padding: 10px;
+    }
+
+    @media screen and (max-width: ${sizes.md}) {
+        width: 90%;
+
+        .content {
+            width: 90%;
+        }
     }
 `;

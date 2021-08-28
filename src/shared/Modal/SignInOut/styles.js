@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { sizes } from 'variables';
 
 export const Container = styled.div`
     
@@ -59,8 +60,52 @@ export const Container = styled.div`
         .errorMessage {
             width: 100%;
             text-align: center;
+            font-size: 14px;
             color: red;
             padding: 40px 0px 0 0px;
+        }
+
+        @media screen and (min-width: ${sizes.xl}) {
+            input {
+                padding: 12px;
+            }
+
+            label {
+                font-size: 12px;
+                padding-top: 8px;
+            }
+
+            .product-button {
+                padding-top: 25px;
+            }
+
+            .errorMessage {
+                padding: 40px 0px 0px 0px;
+                font-size: 12px;
+            }
+
+            p {
+                text-align: center;
+                padding: ${props => props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px'};
+                font-size: 12px;
+            }
+        }
+
+        @media screen and (max-width: ${sizes.md}) {
+
+            input {
+                padding: 12px;
+            }
+
+            .product-button {
+                padding-top: 25px;
+            }
+            
+            p {
+                text-align: center;
+                padding: ${props => props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px'};
+                font-size: 14px;
+            }
         }
     }
 `;

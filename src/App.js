@@ -26,17 +26,6 @@ const App = () => {
 					<Route exact path='/notfound' component={() => <NotFound />} />
 				</Suspense>
 			</Switch>
-			<div id="main-load">
-				<div className="loading">
-					<div className="loading-letter">K</div>
-					<div className="loading-letter">I</div>
-					<div className="loading-letter">M</div>
-					<div className="loading-letter">O</div>
-					<div className="loading-letter">気</div>
-					<div className="loading-letter">持</div>
-					<div className="loading-letter">ち</div>
-				</div>
-			</div>
 			<MessengerCustomerChat
 				pageId="105137654636679"
 				appId="330530065247617"

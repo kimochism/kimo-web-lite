@@ -4,6 +4,7 @@ import BaseModal from '../BaseModal';
 import { Container } from './styles';
 import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
+import useFallback from 'hooks/useFallback';
 
 const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
@@ -12,6 +13,8 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			setIsSignIn(defaultIsSignIn);
 		}
 	}, [defaultIsSignIn]);
+
+	const [fallback, showFallback, hideFallback] = useFallback();
 
 	const customerService = new CustomerService();
 	const userService = new UserService();
@@ -40,7 +43,7 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 	const doLogin = async () => {
 
-		if(!login.email && !login.password) {
+		if (!login.email && !login.password) {
 			setError('Preencha todos os campos');
 			return;
 		}
@@ -55,6 +58,7 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			return;
 		}
 
+		showFallback();
 		await userService.auth({ email: login.email, password: login.password }).then(response => {
 
 			localStorage.setItem('Authorization', response.access_token);
@@ -68,13 +72,10 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			}
 		});
 
-
+		hideFallback();
 	};
 
 	const doRegister = async () => {
-
-
-		console.log(register);
 
 		if (!register.name) {
 			setError('Por favor insira um nome');
@@ -113,6 +114,7 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 		if (id) {
 
+			showFallback();
 			const { access_token } = await userService.auth({ email, password: register.password });
 
 			localStorage.setItem('Authorization', access_token);
@@ -128,6 +130,8 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			const urlToReload = window.location.href;
 			window.location.href = urlToReload;
 
+			hideFallback();
+
 		}
 
 	};
@@ -139,13 +143,14 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			withBorder={true}
 			isTopScreen={isTopScreen}
 		>
-			<Container>
+			<Container error={error}>
 				{isSignIn &&
 					<div className="content">
 						<div>
 							<label>Email</label>
 							<input
 								type="email"
+								name="email"
 								placeholder="kimochism@exemplo.com"
 								value={login.email}
 								onChange={e => setLogin({ ...login, email: e.target.value })}
@@ -228,16 +233,15 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 							<button onClick={doRegister}>Cadastrar</button>
 						</div>
 						{error &&
-							<div>
+							<div className="errorMessage">
 								{error}
 							</div>
 						}
 						<p>Já possui conta? <span className="sign-up" onClick={() => { setIsSignIn(true); setIsTopScreen(false); }}>Entre agora mesmo.</span></p>
 					</div>
 				}
-
-
 			</Container>
+			{fallback}
 		</BaseModal>
 	);
 };

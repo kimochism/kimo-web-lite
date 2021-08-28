@@ -17,45 +17,41 @@ export default class BaseService {
 	}
 
 	async get(url, pathParams = [], queries = null) {
-		this.startLoad();
+		
 
 		const buildedUrl = this.buildUrl(url, pathParams, queries);
 
 		const response = await this.http.get(buildedUrl);
 
-		this.closeLoad();
 		return response.data;
 	}
 
 	async post(url, data) {
-		this.startLoad();
+		
 
 		const buildedUrl = this.buildUrl(url);
 
 		const response = await this.http.post(buildedUrl, data);
-		this.closeLoad();
 
 		return response.data;
 	}
 
 	async put(url, data, pathParams = []) {
-		this.startLoad();
+		
 
 		const buildedUrl = this.buildUrl(url, pathParams, null);
 
 		const response = await this.http.put(buildedUrl, data);
-		this.closeLoad();
 
 		return response.data;
 	}
 
 	async delete(url, pathParams = []) {
-		this.startLoad();
+		
 
 		const buildedUrl = this.buildUrl(url, pathParams, null);
 
 		const response = await this.http.delete(buildedUrl);
-		this.closeLoad();
 
 		return response.data;
 	}
@@ -96,18 +92,4 @@ export default class BaseService {
 
 		return url;
 	}
-
-	startLoad() {
-		const load = document.getElementById('main-load');
-		load.style.display = 'flex';
-	}
-
-	closeLoad() {
-		const load = document.getElementById('main-load');
-
-		setTimeout(() => {
-			load.style.display = 'none';
-		}, 100);
-	}
-
 }
