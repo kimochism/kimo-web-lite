@@ -127,8 +127,8 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 			const { access_token } = await userService.auth({ email, password: register.password });
 
-			localStorage.setItem('id', id);
 			localStorage.setItem('authorization', access_token);
+			localStorage.setItem('email', register.email);
 
 			const urlToReload = window.location.href;
 			window.location.href = urlToReload;
