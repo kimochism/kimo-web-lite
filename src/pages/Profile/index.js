@@ -1,100 +1,232 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Menu from 'shared/Menu/index';
 import { ArrowIcon, CheckedIcon } from 'assets/icons';
 import { Container } from './styles';
 import Footer from 'shared/Footer/index';
 import UserContext from 'context/userContext';
 import { useHistory } from 'react-router-dom';
+import { UserService } from 'services/UserService';
+import { CustomerService } from 'services/CustomerService';
+import { EditIconBlack, EditIconWhite } from 'assets/icons/index';
 
 const Profile = () => {
 
 	const userContext = useContext(UserContext);
 	const history = useHistory();
 
+	const userService = new UserService();
+	const customerService = new CustomerService();
+
+	const [isEditable, setIsEditable] = useState(false);
+
+	const [customer, setCustomer] = useState({
+		id: '',
+		full_name: '',
+		firstName: '',
+		lastName: '',
+		document: '',
+		cell_phone_number: ''
+	});
+
+	const [defaultCustomer, setDefaultCustomer] = useState();
+
+	const [user, setUser] = useState({
+		email: ''
+	});
+
+	useEffect(() => {
+		getData();
+	}, []);
+
+	const getData = async () => {
+
+		const foundUser = await userService.showByEmail(userContext.email);
+
+		if (foundUser) {
+
+			setUser(foundUser);
+			const foundCustomer = await customerService.showByUser(foundUser._id);
+
+			if (foundCustomer) {
+
+				let names = foundCustomer ? foundCustomer.full_name.split(' ') : [];
+
+				setCustomer({
+					id: foundCustomer._id,
+					full_name: foundCustomer.full_name,
+					firstName: names[0],
+					lastName: names[names.length - 1],
+					document: foundCustomer.document,
+					cell_phone_number: foundCustomer.cell_phone_number
+				});
+
+				setDefaultCustomer({
+					id: foundCustomer._id,
+					full_name: foundCustomer.full_name,
+					firstName: names[0],
+					lastName: names[names.length - 1],
+					document: foundCustomer.document,
+					cell_phone_number: foundCustomer.cell_phone_number
+				});
+			}
+		}
+	};
+
+	const onChange = e => {
+		setCustomer({ ...customer, [e.target.name]: e.target.value });
+	};
+
+	const updateCustomer = async () => {
+		if (customer.firstName !== defaultCustomer.firstName ||
+			customer.lastName !== defaultCustomer.lastName ||
+			customer.cell_phone_number !== defaultCustomer.cell_phone_number) {
+			
+			let full_name = defaultCustomer.full_name.split(' ');
+
+			full_name[0] = customer.firstName;
+			full_name[full_name.length-1] = customer.lastName;
+
+			full_name = full_name.join(' ');
+
+			const customerUpdated = await customerService.update(customer.id, {
+				full_name,
+				cell_phone_number: customer.cell_phone_number
+			});
+
+			if(customerUpdated) {
+				setIsEditable(false);
+			}
+		}
+	};
+
 	return (
-		<Container>
-			<Menu/>
-			<div className="container-profile">
-				<div className="profile-left">
-					<div className="profile-btn-option">
-						<button>
-							<span>Conta</span>
-							<img src={ArrowIcon}/>
-						</button>
-						<button>
-							<span>Endereços</span>
-							<img src={ArrowIcon}/>
-						</button>
-						<button>
-							<span>Notificações</span>
-							<img src={ArrowIcon}/>
-						</button>
-						<button>
-							<span>Privacidade</span>
-							<img src={ArrowIcon}/>
-						</button>
-						<button>
-							<span>Suporte</span>
-							<img src={ArrowIcon}/>
-						</button>
-						<button>
-							<span>Sobre</span>
-							<img src={ArrowIcon}/>
-						</button>
-						<button onClick={() => {
-							localStorage.removeItem('Authorization');
-							localStorage.removeItem('email');
-							userContext.isLogged = false;
-							userContext.email = null;
+		<>
+			{(user && customer) &&
+				<Container>
+					<Menu />
+					<div className="container-profile">
+						<div className="profile-left">
+							<div className="profile-btn-option">
+								<button>
+									<span>Conta</span>
+									<img src={ArrowIcon} />
+								</button>
+								<button>
+									<span>Endereços</span>
+									<img src={ArrowIcon} />
+								</button>
+								<button>
+									<span>Notificações</span>
+									<img src={ArrowIcon} />
+								</button>
+								<button>
+									<span>Privacidade</span>
+									<img src={ArrowIcon} />
+								</button>
+								<button>
+									<span>Suporte</span>
+									<img src={ArrowIcon} />
+								</button>
+								<button>
+									<span>Sobre</span>
+									<img src={ArrowIcon} />
+								</button>
+								<button onClick={() => {
+									localStorage.removeItem('Authorization');
+									localStorage.removeItem('email');
+									userContext.isLogged = false;
+									userContext.email = null;
 
-							history.push('/');
-						}}>
-							<span>Sair</span>
-							<img src={ArrowIcon}/>
-						</button>
-					</div>
-				</div>
-				<div className="profile-right">
-					<div className="profile-picture-and-name">
-						<div className="profile-picture"></div>
-						<span>
-                            Usuário Sobrenome
-						</span>
-					</div>
-					<div className="profile-account-form">
-						<div>
-							<div>
-								<label>Nome</label>
-								<input type="text" placeholder="Alexandre" disabled/>
-							</div>
-							<div>
-								<label>Sobrenome</label>
-								<input type="text" placeholder="Souza"/>
+									history.push('/');
+								}}>
+									<span>Sair</span>
+									<img src={ArrowIcon} />
+								</button>
 							</div>
 						</div>
-						<div className="profile-input-is-not">
-							<label>Email</label>
-							<input type="email" placeholder="alexandre.souza@gmail.com"/>
-						</div>
-						<div>
-							<div>
-								<label>Celular</label>
-								<input type="number" placeholder="(11) 98765-4321"/>
+						<div className="profile-right">
+							<div className="profile-picture-and-name">
+								<div className="profile-picture"></div>
+								<span>
+									{customer.full_name}
+								</span>
 							</div>
-							<div>
-								<label>Telefone</label>
-								<input type="text" placeholder="9876-5432"/>
+							<div className="profile-account-form">
+								<div>
+									<div>
+										<label>Nome</label>
+										<input
+											type="text"
+											name="firstName"
+											placeholder='Nome'
+											value={customer.firstName}
+											onChange={e => onChange(e)}
+											disabled={!isEditable} />
+									</div>
+									<div>
+										<label>Sobrenome</label>
+										<input
+											type="text"
+											name="lastName"
+											placeholder="Sobrenome"
+											onChange={e => onChange(e)}
+											value={customer.lastName}
+											disabled={!isEditable} />
+									</div>
+								</div>
+								<div className="profile-input-is-not">
+									<label>Email</label>
+									<div className="input-with-icon input-disabled">
+										<input
+											type="email"
+											placeholder={user.email}
+											value={user.email}
+											disabled />
+										<img src={EditIconBlack} onClick={() => history.push('/editEmail')}/>
+									</div>
+								</div>
+								<div>
+									<div>
+										<label>Celular</label>
+										<input
+											type="text"
+											name="cell_phone_number"
+											placeholder="Celular"
+											onChange={e => onChange(e)}
+											value={customer.cell_phone_number}
+											disabled={!isEditable} />
+									</div>
+									<div>
+										<label>CPF</label>
+										<input
+											type="document"
+											name="document"
+											className="input-disabled"
+											value={customer.document}
+											placeholder={customer.document}
+											disabled />
+									</div>
+								</div>
 							</div>
-						</div>
-					</div>
 
-					<button>
-						<img src={CheckedIcon}/>
-					</button>
-				</div>
-			</div>
-			<Footer/>
-		</Container>
+							<button onClick={() => {
+								if (!isEditable) {
+									setIsEditable(true);
+									return;
+								}
+
+								if (isEditable) {
+									updateCustomer();
+								}
+							}}>
+								{isEditable ? <img src={CheckedIcon} /> : <img src={EditIconWhite} />}
+							</button>
+						</div>
+					</div>
+					<Footer />
+				</Container>
+			}
+		</>
 	);
 };
 

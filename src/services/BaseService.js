@@ -4,7 +4,7 @@ import { enviroment } from '../enviroment/enviroment';
 export default class BaseService {
 
 	constructor() {
-		const authorization = localStorage.getItem('Authorization');
+		const authorization = localStorage.getItem('authorization');
 
 		this.http = axios.create({
 			baseURL: enviroment.api,

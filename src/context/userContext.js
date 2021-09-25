@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-const authorization = localStorage.getItem('Authorization');
+const authorization = localStorage.getItem('authorization');
 const email = localStorage.getItem('email');
 
 const UserContext = createContext({ 

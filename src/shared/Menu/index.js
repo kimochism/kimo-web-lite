@@ -3,7 +3,7 @@ import { Container } from './styles';
 import { BagIcon, UserIcon } from 'assets/icons';
 import { Link, useHistory } from 'react-router-dom';
 import UserContext from 'context/userContext';
-import SignInOut from 'shared/Modal/SignInOut/index';
+import SignInUp from 'shared/Modal/SignInUp/index';
 
 const Menu = () => {
 
@@ -42,7 +42,7 @@ const Menu = () => {
 						<img src={BagIcon} alt="Sacola"/>
 					</span>
 				</Link>
-				<SignInOut isOpen={isOpen} defaultIsSignIn={true} handleClose={() => { setIsOpen(false); }}/>
+				<SignInUp isOpen={isOpen} defaultIsSignIn={true} handleClose={() => { setIsOpen(false); }}/>
 			</div>
             
 		</Container>

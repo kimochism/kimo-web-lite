@@ -7,7 +7,7 @@ export const StyledModal = styled(Modal)`
     flex-direction: column;
     align-items: center;
     width: 28%;
-    max-height: 90%;
+    max-height: 95%;
     background: ${colors.white};
     outline: none;
     letter-spacing: 1px;
@@ -17,7 +17,7 @@ export const StyledModal = styled(Modal)`
 
     border: ${ props => props.withBorder ? '2px solid' + colors.black : '' };
 
-    top: ${ props => props.isTopScreen ? '5%' : '12%' };
+    top: ${ props => props.isTopScreen ? '3%' : '12%' };
 
     .header {
         width: 85%;

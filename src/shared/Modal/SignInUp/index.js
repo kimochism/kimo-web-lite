@@ -6,7 +6,7 @@ import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
 import useFallback from 'hooks/useFallback';
 
-const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
+const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 	useEffect(() => {
 		if (defaultIsSignIn) {
@@ -31,13 +31,13 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 	const [register, setRegister] = useState({
 		name: '',
 		email: '',
+		document: '',
 		phone: '',
 		password: '',
 		confirmPassword: ''
 	});
 
 	const onChange = e => {
-
 		setRegister({ ...register, [e.target.name]: e.target.value });
 	};
 
@@ -61,15 +61,17 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		showFallback();
 		await userService.auth({ email: login.email, password: login.password }).then(response => {
 
-			localStorage.setItem('Authorization', response.access_token);
+			localStorage.setItem('authorization', response.access_token);
 			localStorage.setItem('email', login.email);
 
 			const urlToReload = window.location.href;
 			window.location.href = urlToReload;
 		}).catch(error => {
-			if (error.response || error.response.status === 401) {
+			if (error.response && error.response.status === 401) {
 				setError('Email e/ou senha inválido');
 			}
+
+			setError('Erro inesperado, tente novamente mais tarde');
 		});
 
 		hideFallback();
@@ -107,6 +109,8 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			return;
 		}
 
+		showFallback();
+
 		const { _id: id, email } = await userService.store({
 			email: register.email,
 			password: register.password
@@ -114,18 +118,17 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 		if (id) {
 
-			showFallback();
-			const { access_token } = await userService.auth({ email, password: register.password });
-
-			localStorage.setItem('Authorization', access_token);
-
 			await customerService.store({
 				full_name: register.name,
+				document: register.document,
 				cell_phone_number: register.phone,
 				user_id: id
 			});
 
-			localStorage.setItem('email', email);
+			const { access_token } = await userService.auth({ email, password: register.password });
+
+			localStorage.setItem('id', id);
+			localStorage.setItem('authorization', access_token);
 
 			const urlToReload = window.location.href;
 			window.location.href = urlToReload;
@@ -143,7 +146,7 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			withBorder={true}
 			isTopScreen={isTopScreen}
 		>
-			<Container error={error}>
+			<Container error={error} isSignIn={isSignIn}>
 				{isSignIn &&
 					<div className="content">
 						<div>
@@ -180,11 +183,11 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 				{!isSignIn &&
 					<div className="content">
 						<div>
-							<label>Nome</label>
+							<label>Nome completo</label>
 							<input
 								type="text"
 								name="name"
-								placeholder="Seu nome"
+								placeholder="Seu nome completo	"
 								value={register.name}
 								onChange={e => onChange(e)}
 							/>
@@ -196,6 +199,16 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 								name="email"
 								placeholder="kimochism@exemplo.com"
 								value={register.email}
+								onChange={e => onChange(e)}
+							/>
+						</div>
+						<div>
+							<label>Documento (CPF)</label>
+							<input
+								type="document"
+								name="document"
+								placeholder="000.000.000-00"
+								value={register.document}
 								onChange={e => onChange(e)}
 							/>
 						</div>
@@ -246,10 +259,10 @@ const SignInOut = ({ isOpen, handleClose, defaultIsSignIn }) => {
 	);
 };
 
-SignInOut.propTypes = {
+SignInUp.propTypes = {
 	isOpen: PropTypes.bool,
 	handleClose: PropTypes.func,
 	defaultIsSignIn: PropTypes.bool
 };
 
-export default SignInOut;
+export default SignInUp;

@@ -9,6 +9,7 @@ const Product = lazy(() => import('./pages/Product'));
 const Catalog = lazy(() => import('./pages/Catalog'));
 const CustomerBag = lazy(() => import('./pages/CustomerBag'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const EditEmail = lazy(() => import('./pages/EditEmail'));
 
 // facebook chat
 import MessengerCustomerChat from 'react-messenger-customer-chat';
@@ -24,6 +25,7 @@ const App = () => {
 					<Route exact path='/catalog' component={() => <Catalog />} />
 					<Route exact path='/customerbag' component={() => <CustomerBag />} />
 					<Route exact path='/notfound' component={() => <NotFound />} />
+					<Route exact path='/editEmail' component={() => <EditEmail />} />
 				</Suspense>
 			</Switch>
 			<MessengerCustomerChat

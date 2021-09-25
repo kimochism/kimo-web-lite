@@ -14,4 +14,12 @@ export class CustomerService extends BaseService {
 	async show(id) {
 		return await this.get(serviceURLs.CUSTOMERS_ID, [id]); 
 	}
+
+	async showByUser(user_id) {
+		return await this.get(serviceURLs.CUSTOMERS_USER_ID, [user_id]);
+	}
+	
+	async update(id, data) {
+		return await this.put(serviceURLs.CUSTOMERS_ID, data, [id]);
+	}
 }

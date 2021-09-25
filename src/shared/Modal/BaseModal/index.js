@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledModal } from './styles';
 import PropTypes from 'prop-types';
-import { Close } from 'assets/icons';
+import { CloseIcon } from 'assets/icons';
 
 const BaseModal = ({ isOpen, handleClose, children, withBorder, isTopScreen }) => {
 
@@ -30,7 +30,7 @@ const BaseModal = ({ isOpen, handleClose, children, withBorder, isTopScreen }) =
 			<div className="header">
 				<span>Kimochism 気持ち</span>
 				<span onClick={() => handleClose() } className="close">
-					<img src={Close} />
+					<img src={CloseIcon} />
 				</span>
 			</div>
 			<div className="content">

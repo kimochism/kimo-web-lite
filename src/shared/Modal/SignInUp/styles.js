@@ -103,7 +103,8 @@ export const Container = styled.div`
             
             p {
                 text-align: center;
-                padding: ${props => props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px'};
+                /* padding: ${props => props.error ? '10px 0px 0px 0px' : '30px 0px 10px 0px'}; */
+                padding: ${props => props.error && !props.isSignIn ? '0px' : ''};
                 font-size: 14px;
             }
         }

@@ -16,4 +16,8 @@ export class UserService extends BaseService {
 		return await this.post(serviceURLs.USERS, data);
 	}
 
+	async showByEmail(email) {
+		return await this.get(serviceURLs.USERS_EMAIL, [email]);
+	}
+
 }

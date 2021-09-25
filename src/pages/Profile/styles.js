@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from 'variables';
 
 export const Container = styled.div`
     background-color: white;
@@ -12,8 +13,10 @@ export const Container = styled.div`
         width: 265px;
         height: auto;
     }
+    .input-disabled{
+        background: ${colors.gray2};
+    }
     .profile-btn-option{
-        
         button{
             width: 100%;
             background-color: black;
@@ -49,10 +52,14 @@ export const Container = styled.div`
         button{
             cursor: pointer;
             width: 264px;
+            height: 50px;
             margin-top: 25px;
             padding: 18px;
             background-color: black;
             border: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
     .profile-picture-and-name{
@@ -104,5 +111,21 @@ export const Container = styled.div`
     }
     .profile-input-is-not{
         flex-direction: column;
+        .input-with-icon{
+            position:relative;
+            width: 100%;
+            direction: rtl;
+            input{
+                text-align: left;
+            }
+            img{
+                position:absolute;
+                bottom:25%;
+                right:15px;
+                width:24px;
+                height:24px;
+                cursor: pointer;
+            }
+        }
     }
 `;
