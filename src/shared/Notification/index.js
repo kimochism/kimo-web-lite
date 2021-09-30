@@ -1,8 +1,11 @@
 import React from 'react';
 
 import { Container } from './styles';
+import PropTypes from 'prop-types';
 
-const Notification = () => {
+const Notification = ({ history, options }) => {
+
+	console.log(options);
 	return (
 		<Container>
 			<img src="https://i.imgur.com/48spIdP.png"/>
@@ -13,11 +16,16 @@ const Notification = () => {
 finalizar sua compra.</span>
 				</div>
 				<div className="button-finish">
-					<button className="">Finalizar </button>
+					<button onClick={() => history && history.push('/customerbag')}>Finalizar </button>
 				</div>
 			</div>
 		</Container>
 	);
+};
+
+Notification.propTypes = {
+	history: PropTypes.object,
+	options: PropTypes.object,
 };
 
 export default Notification;

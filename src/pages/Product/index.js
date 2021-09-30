@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router';
 import { ProductService } from 'services/ProductService';
 import Footer from 'shared/Footer';
 import Menu from 'shared/Menu';
@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 const Product = () => {
 
 	const { id } = useParams();
-
+	const history = useHistory();
 	const productService = new ProductService();
 
 	const [defaultProduct, setDefaultProduct] = useState();
@@ -19,7 +19,8 @@ const Product = () => {
 	const [availableColors, setAvailableColors] = useState([]);
 	const [options, setOptions] = useState({
 		color: '',
-		size: ''
+		size: '',
+		product: {}
 	});
 
 	const sizesRef = useRef(null);
@@ -40,11 +41,10 @@ const Product = () => {
 		const data = await productService.show(id);
 		setProduct(data);
 		setDefaultProduct(data);
+		setOptions({...options, product: data});
 	};
 
 	const selectSize = (e, size) => {
-
-		// console.log(defaultProduct.varieties);
 
 		const colors = defaultProduct.varieties.filter(filter => filter.size === size).map(variety => variety.color);
 
@@ -74,6 +74,24 @@ const Product = () => {
 
 		setOptions({ ...options, color });
 		e.currentTarget.classList.add('selected-color');
+	};
+
+	const addProductToBag = () => {
+
+		if(!options.size) {
+			alert('Escolha um tamanho');
+			return;
+		}
+
+		if(!options.color) {
+			alert('Escolha uma cor');
+			return;
+		}
+
+		toast(<Notification history={history} />, {
+			hideProgressBar: true,
+			position: toast.POSITION.TOP_RIGHT,
+		});
 	};
 
 	return (
@@ -123,17 +141,6 @@ const Product = () => {
 									}
 								</div>
 							</div>
-							<div className="product-social-media">
-								<span>
-									<a href="https://www.instagram.com/kimochism.store/" target="blank">
-										Veja quem comprou esse,
-										e outros produtos no nosso Instagram ;)
-									</a>
-								</span>
-							</div>
-							<div className="product-button">
-								<button>Comprar</button>
-							</div>
 						</div>
 						<div className="product-social-media">
 							<span>
@@ -143,11 +150,8 @@ const Product = () => {
 								</a> 
 							</span>
 						</div>
-						<div onClick={() => toast(Notification, {
-							hideProgressBar: true,
-							position: toast.POSITION.BOTTOM_RIGHT,
-						})} className="product-button">
-							<button>Comprar</button>
+						<div onClick={() => addProductToBag()} className="product-button">
+							<button>Adicionar a sacola</button>
 						</div>
 					</div>
 				</div>

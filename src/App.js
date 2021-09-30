@@ -36,7 +36,7 @@ const App = () => {
 				pageId="105137654636679"
 				appId="330530065247617"
 			/>
-			<ToastContainer style={{padding: '0px', width: '500px'}}/>
+			<ToastContainer autoClose={5000} style={{padding: '0px', width: '500px'}}/>
 		</Router>
 	);
 };
