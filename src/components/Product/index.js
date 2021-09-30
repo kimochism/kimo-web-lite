@@ -1,16 +1,22 @@
 import React from 'react';
 import { Container } from './styles';
+import PropTypes from 'prop-types';
 
-const Product = () => {
+const Product = ({ product }) => {
+
 	return(
 		<Container>
 			<div className="box-item-product">
-				<img src="https://i.pinimg.com/564x/84/a8/44/84a84467aa5bde128d943ea5eb1665f8.jpg" className="box-item-product-image" alt="Foto do produto"/>
-				<span>Camiseta Oni Demon</span>
-				<span>R$ 199,00 </span>
+				<img src={product.images[0].url} className="box-item-product-image" alt="Foto do produto" />
+				<span>{product.name}</span>
+				<span>R$ {product.price}</span>
 			</div>
 		</Container>
 	);
+};
+
+Product.propTypes = {
+	product: PropTypes.object.isRequired
 };
 
 export default Product;

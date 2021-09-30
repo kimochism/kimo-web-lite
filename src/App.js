@@ -20,7 +20,7 @@ const App = () => {
 			<Switch>
 				<Suspense fallback={<Fallback />}>
 					<Route exact path='/' component={() => <Home />} />
-					<Route exact path='/product' component={() => <Product />} />
+					<Route exact path='/product/:id' component={() => <Product />} />
 					<Route exact path='/profile' component={() => <Profile />} />
 					<Route exact path='/catalog' component={() => <Catalog />} />
 					<Route exact path='/customerbag' component={() => <CustomerBag />} />

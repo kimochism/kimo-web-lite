@@ -6,5 +6,8 @@ export const serviceURLs = {
 
 	CUSTOMERS: '/customers',
 	CUSTOMERS_ID: '/customers/{id}',
-	CUSTOMERS_USER_ID: '/customers/user/{user_id}'
+	CUSTOMERS_USER_ID: '/customers/user/{user_id}',
+
+	PRODUCTS: '/products',
+	PRODUCTS_ID: '/products/{id}',
 };

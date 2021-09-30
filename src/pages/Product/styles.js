@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from 'variables';
 
 export const Container = styled.div`
 	background-color: white;
@@ -66,7 +67,18 @@ export const Container = styled.div`
 		justify-content: center;
 		align-items: center;
 		display: flex;
+		cursor: pointer;
 	}
+
+	.selected {
+		background-color: ${colors.black};
+		color: ${colors.white};
+	}
+
+	.selected-color {
+		background-color: orange;
+	}
+	
 	.product-color{
 		div{
 			flex-direction: row;
@@ -86,6 +98,7 @@ export const Container = styled.div`
 		justify-content: center;
 		align-items: center;
 		display: flex;
+		cursor: pointer;
 	}
 	.product-social-media{
 		padding: 50px 0px;
@@ -122,5 +135,8 @@ export const Container = styled.div`
 	}
 	.bg-white{
 		background-color: white;
+	}
+	.bg-red{
+		background-color: red;
 	}
 `;
