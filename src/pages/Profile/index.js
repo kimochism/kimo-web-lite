@@ -134,7 +134,9 @@ const Profile = () => {
 								<button onClick={() => {
 									localStorage.removeItem('Authorization');
 									localStorage.removeItem('email');
+									localStorage.removeItem('firstName');
 									userContext.isLogged = false;
+									userContext.firstName = null;
 									userContext.email = null;
 
 									history.push('/');

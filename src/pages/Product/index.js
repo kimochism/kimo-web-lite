@@ -1,14 +1,16 @@
+/* eslint-disable quotes */
 import React from 'react';
-import Footer from 'shared/Footer/index';
-import Menu from '../../shared/Menu/index';
+import Footer from 'shared/Footer';
+import Menu from '../../shared/Menu';
 import { Container } from './styles';
+import Notification from 'shared/Notification';
+import { toast } from 'react-toastify';
 
 const Product = () => {
 	return (
 		<Container>
 			<Menu />
 			<div className="product-container">
-
 				<div className="product-left">
 					<img src="https://i.pinimg.com/564x/84/a8/44/84a84467aa5bde128d943ea5eb1665f8.jpg" alt="Foto do produto"/>
 				</div>
@@ -54,7 +56,10 @@ const Product = () => {
 								</a> 
 							</span>
 						</div>
-						<div className="product-button">
+						<div onClick={() => toast(Notification, {
+							hideProgressBar: true,
+							position: toast.POSITION.BOTTOM_RIGHT,
+						})} className="product-button">
 							<button>Comprar</button>
 						</div>
 					</div>
