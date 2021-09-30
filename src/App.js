@@ -11,6 +11,10 @@ const CustomerBag = lazy(() => import('./pages/CustomerBag'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const EditEmail = lazy(() => import('./pages/EditEmail'));
 
+// toasts
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // facebook chat
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 
@@ -32,6 +36,7 @@ const App = () => {
 				pageId="105137654636679"
 				appId="330530065247617"
 			/>
+			<ToastContainer style={{padding: '0px', width: '500px'}}/>
 		</Router>
 	);
 };

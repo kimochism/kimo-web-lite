@@ -59,10 +59,13 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		}
 
 		showFallback();
-		await userService.auth({ email: login.email, password: login.password }).then(response => {
+		await userService.auth({ email: login.email, password: login.password }).then( async response => {
 
 			localStorage.setItem('authorization', response.access_token);
 			localStorage.setItem('email', login.email);
+			const user = await userService.showByEmail(login.email);
+			const customer = await customerService.showByUser(user._id);
+			localStorage.setItem('firstName', customer.full_name.split(' ')[0]);
 
 			const urlToReload = window.location.href;
 			window.location.href = urlToReload;

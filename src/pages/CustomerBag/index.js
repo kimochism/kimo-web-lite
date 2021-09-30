@@ -18,7 +18,7 @@ const CustomerBag = () => {
 							Entregar em
 						</span>
 						<span>
-							<img src={ MapPinIcon } alt="Perfil" width="18px"/>
+							<img className="pin" src={ MapPinIcon } alt="Perfil" width="18px"/>
 							&nbsp;Rua Alfrejord Braumderson A23, Santo Grau - SP
 						</span>
 						<span>
@@ -129,7 +129,7 @@ const CustomerBag = () => {
 						<span>Frete:</span>
 						<span>R$79,90</span>
 					</div>
-					<button>CONFIRMAR</button>
+					<button>Finalizar</button>
 				</div>
 			</div>
 		</Container>

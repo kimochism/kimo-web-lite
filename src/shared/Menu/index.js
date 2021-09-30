@@ -7,7 +7,7 @@ import SignInUp from 'shared/Modal/SignInUp/index';
 
 const Menu = () => {
 
-	const { isLogged } = useContext(UserContext);
+	const { isLogged, firstName } = useContext(UserContext);
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -34,11 +34,12 @@ const Menu = () => {
 				<Link to='/'><span>Home</span></Link>
 				<Link to='/catalog'><span>Loja</span></Link>
 				<span>Informações</span>
-				<span onClick={() => redirectToProfile()}>
+				<span className="first-name" onClick={() => redirectToProfile()}>
+					<div>{firstName}</div>
 					<img src={UserIcon} alt="Perfil"/>
 				</span>
 				<Link to='/customerbag'>
-					<span>
+					<span className="bag-customer">
 						<img src={BagIcon} alt="Sacola"/>
 					</span>
 				</Link>

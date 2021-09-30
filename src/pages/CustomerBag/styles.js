@@ -87,13 +87,14 @@ export const Container = styled.div`
     .come-back{
         position: absolute;
         bottom: 80px;
+        display: flex;
         a{
-            color: white;
-            background-color: black;
+            width: 100%;
+            color: black;
+            font-weight: 600;
             padding: 20px;
             text-decoration: none;
             img{
-                filter: invert(1);
                 transform: rotate(180deg);
                 margin-right: 10px;
             }
@@ -166,15 +167,50 @@ export const Container = styled.div`
         button{
             margin: 0px auto;
             margin-top: 20px;
-            width: 360px;
+            width: 340px;
             padding: 20px;
             border: 5px solid black;
             background-color: white;
-            box-shadow: -15px 15px white;
+            box-shadow: -12px 12px white;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
             text-transform: uppercase
         }
+    }
+
+    /* Media Query */
+    @media screen and (max-width: 1320px) {
+        flex-direction: column;
+        .logo{
+            padding: 20px 40px;
+            h1{
+                text-align: center;
+                font-size: 20px;
+            }
+        }
+        .customer-bag-container-infos{
+            width: auto;
+            padding: 20px 40px;
+        }
+        .customer-bag-right{
+            width: auto;
+        }
+        .customer-endereco{
+            .pin{
+                display: none;
+            }
+            span{
+                font-size: 14px;
+            }
+        }
+        .come-back{
+            width: 100%;
+            position: unset;
+            padding: 8px 0px;
+        }
+    }
+    @media screen and (max-width: 600px){
+
     }
 `;

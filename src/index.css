@@ -109,3 +109,19 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
+/* Classes for the displayed toast */
+.Toastify__toast {
+  background-color: white !important;
+  border: 3px solid black;
+  border-radius: 0px !important;
+  box-shadow: 12px 12px black !important;
+}
+.Toastify__toast--rtl {
+}
+.Toastify__toast-body {
+}
+/* Used to define container behavior: width, position: fixed etc... */
+.Toastify__toast-container {
+  width: 500px;
+}
