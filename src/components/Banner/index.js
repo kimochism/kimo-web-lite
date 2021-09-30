@@ -1,13 +1,13 @@
 import React from 'react';
 import { Container } from './styles';
-import { FuelegonImage, BannerImage } from 'assets/images';
+import { FuelegonImage } from 'assets/images';
 import { Link } from 'react-router-dom';
 
 const Banner = () => {
 	return (
 		<Container>
 			<div className="banner-letter">
-				<img src={ BannerImage } alt="Roupas e acessórios, Otaku & Geek" />
+				<h1>Roupas e<br/> acessórios<br/> Otaku & Geek</h1>
 				<Link to='/catalog'>
 					<button className="btn-primary">
 						checar agora
