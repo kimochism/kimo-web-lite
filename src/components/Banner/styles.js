@@ -11,13 +11,14 @@ export const Container = styled.div`
     display: flex;
 
     .banner-letter{
-        margin-top: 10%;
         width: 640px;
         flex-direction: column;
         align-items: center;
         display: flex;
-        img{
-            width: 100%;
+        h1{
+            margin: 0px;
+            font-size: 85px;
+            letter-spacing: 2px;
         }
     }
     .btn-primary{
