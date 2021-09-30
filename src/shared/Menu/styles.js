@@ -27,6 +27,16 @@ export const Container = styled.div`
             }
         }
     }
+    .first-name{
+        align-items: center;
+        display: flex;
+        div{
+            padding-right:10px;
+        }
+    }
+    .bag-customer img{
+        margin-top: 10px;
+    }
 
     /* Media query */
 
@@ -46,6 +56,9 @@ export const Container = styled.div`
                     width: 20px;
                 }
             }
+        }
+        .userName{
+
         }
     }
     @media screen and (max-width: 750px) {

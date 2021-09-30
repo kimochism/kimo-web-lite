@@ -4,6 +4,8 @@ import { ProductService } from 'services/ProductService';
 import Footer from 'shared/Footer';
 import Menu from 'shared/Menu';
 import { Container } from './styles';
+import Notification from 'shared/Notification';
+import { toast } from 'react-toastify';
 
 const Product = () => {
 
@@ -132,6 +134,20 @@ const Product = () => {
 							<div className="product-button">
 								<button>Comprar</button>
 							</div>
+						</div>
+						<div className="product-social-media">
+							<span>
+								<a href="https://www.instagram.com/kimochism.store/" target="blank">
+									Veja quem comprou esse,
+									e outros produtos no nosso Instagram ;)
+								</a> 
+							</span>
+						</div>
+						<div onClick={() => toast(Notification, {
+							hideProgressBar: true,
+							position: toast.POSITION.BOTTOM_RIGHT,
+						})} className="product-button">
+							<button>Comprar</button>
 						</div>
 					</div>
 				</div>

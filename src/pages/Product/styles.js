@@ -115,7 +115,7 @@ export const Container = styled.div`
 		}
 	}
 	.product-button{
-		padding-top: 50px;
+		margin-top: 50px;
 		button{
 			width: 100%;
 			padding: 20px;
