@@ -74,10 +74,6 @@ export const Container = styled.div`
 		background-color: ${colors.black};
 		color: ${colors.white};
 	}
-
-	.selected-color {
-		background-color: orange;
-	}
 	
 	.product-color{
 		div{
@@ -89,12 +85,16 @@ export const Container = styled.div`
 			}
 		}
 	}
+	.product-color-content{
+		border: 1px solid gray;
+		padding: 3px;
+		margin-right: 2%;
+
+	}
 	.product-color-box{
 		width: 52px;
 		height: 52px;
-		margin-right: 2%;
 		background-color: white;
-		border: 1px solid black;
 		justify-content: center;
 		align-items: center;
 		display: flex;
@@ -138,5 +138,8 @@ export const Container = styled.div`
 	}
 	.bg-red{
 		background-color: red;
+	}
+	.selected-color {
+		border: 1px solid black;
 	}
 `;

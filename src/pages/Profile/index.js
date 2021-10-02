@@ -132,7 +132,7 @@ const Profile = () => {
 									<img src={ArrowIcon} />
 								</button>
 								<button onClick={() => {
-									localStorage.removeItem('Authorization');
+									localStorage.removeItem('authorization');
 									localStorage.removeItem('email');
 									localStorage.removeItem('firstName');
 									userContext.isLogged = false;
