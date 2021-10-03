@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { enviroment } from 'enviroment/enviroment';
 
-const { PROD } = process.env;
+const { DEV } = process.env;
 
 export default class BaseService {
 
@@ -9,7 +9,7 @@ export default class BaseService {
 		const authorization = localStorage.getItem('authorization');
 
 		this.http = axios.create({
-			baseURL: PROD ? enviroment.api_production : enviroment.api_stage,
+			baseURL: DEV ? enviroment.api_stage : enviroment.api_production,
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
