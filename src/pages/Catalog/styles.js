@@ -14,9 +14,9 @@ export const Container = styled.div`
     /* righht */
 
     .container-catalog-right{
+        width: 1000px;
         padding: 0px 80px;
-        padding-bottom: 50px;
-        justify-content: center;
+        justify-content: left;
         flex-wrap: wrap;
         display: flex;
         a{
@@ -29,7 +29,7 @@ export const Container = styled.div`
     /* Media Query */
     @media screen and (max-width: 1624px) {
         .container-catalog-right{
-            
+            width: auto;
             flex-direction: column;
             justify-content: center;
             align-items: center;
@@ -37,6 +37,7 @@ export const Container = styled.div`
     }
     @media screen and (max-width: 600px){
         .container-catalog-right{
+            width: auto;
             padding: 0px;
         }
     }

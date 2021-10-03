@@ -10,6 +10,7 @@ const Catalog = lazy(() => import('./pages/Catalog'));
 const CustomerBag = lazy(() => import('./pages/CustomerBag'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const EditEmail = lazy(() => import('./pages/EditEmail'));
+const Board = lazy(() => import('./pages/Board'));
 
 // toasts
 import { ToastContainer } from 'react-toastify';
@@ -30,6 +31,7 @@ const App = () => {
 					<Route exact path='/customerbag' component={() => <CustomerBag />} />
 					<Route exact path='/notfound' component={() => <NotFound />} />
 					<Route exact path='/editEmail' component={() => <EditEmail />} />
+					<Route exact path='/board' component={() => <Board />} />
 				</Suspense>
 			</Switch>
 			<MessengerCustomerChat

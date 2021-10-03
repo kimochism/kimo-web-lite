@@ -9,6 +9,9 @@ export const Container = styled.div`
     justify-content: space-around;
     flex-wrap: wrap-reverse;
     display: flex;
+    a{
+        text-decoration:none;
+    }
     div {
         width: 300px;
         line-height: 15px;

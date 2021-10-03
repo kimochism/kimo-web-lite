@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const Container = styled.div`
     background-color: white;
     height: 80vh;
-    min-height: 800px;
     padding: 0 140px;
     padding-bottom: 20px;
     justify-content: space-around;
