@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from './styles';
 import { FacebookIcon, InstagramIcon } from 'assets/icons';
-import { Link } from 'react-router-dom';
 
 const Footer = () => {
 	return (
@@ -28,7 +27,7 @@ const Footer = () => {
 				{/* <span>Política de Entrega</span>
 				<span>Política de Devolução</span>
 				<span>Política de Privacidade</span> */}
-				<Link to='/board'><span>Informações</span></Link>
+				<span>Informações</span>
 				<span>COVID-19</span>
 			</div>
             
