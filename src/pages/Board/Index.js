@@ -7,7 +7,8 @@ const Board = () => {
 	return (
 		<Container>
 			<Menu/>
-		</Container>);
+		</Container>
+	);
 };
 
 export default Board;
