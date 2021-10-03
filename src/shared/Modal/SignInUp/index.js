@@ -5,6 +5,7 @@ import { Container } from './styles';
 import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
 import useFallback from 'hooks/useFallback';
+import InputMask from 'react-input-mask';
 
 const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
@@ -41,7 +42,9 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		setRegister({ ...register, [e.target.name]: e.target.value });
 	};
 
-	const doLogin = async () => {
+	const doLogin = async (e) => {
+
+		e.preventDefault();
 
 		if (!login.email && !login.password) {
 			setError('Preencha todos os campos');
@@ -80,7 +83,9 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		hideFallback();
 	};
 
-	const doRegister = async () => {
+	const doRegister = async (e) => {
+
+		e.preventDefault();
 
 		if (!register.name) {
 			setError('Por favor insira um nome');
@@ -139,7 +144,6 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			hideFallback();
 
 		}
-
 	};
 
 	return (
@@ -151,7 +155,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		>
 			<Container error={error} isSignIn={isSignIn}>
 				{isSignIn &&
-					<div className="content">
+					<form className="content" onSubmit={e => doLogin(e)}>
 						<div>
 							<label>Email</label>
 							<input
@@ -180,11 +184,11 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 							</div>
 						}
 						<p>Ainda não possui conta? <span className="sign-up" onClick={() => { setIsSignIn(false); setIsTopScreen(true); }}>Cadastre-se</span></p>
-					</div>
+					</form>
 				}
 
 				{!isSignIn &&
-					<div className="content">
+					<form className="content" onSubmit={e => doRegister(e)}>
 						<div>
 							<label>Nome completo</label>
 							<input
@@ -207,17 +211,20 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 						</div>
 						<div>
 							<label>Documento (CPF)</label>
-							<input
+							<InputMask 
+								mask="999.999.999-99"
+								maskChar={null}
 								type="document"
 								name="document"
 								placeholder="000.000.000-00"
-								value={register.document}
-								onChange={e => onChange(e)}
-							/>
+								value={register.document} 
+								onChange={e => onChange(e)} />
 						</div>
 						<div>
-							<label>Telefone</label>
-							<input
+							<label>Celular</label>
+							<InputMask
+								mask="(99) 99999-9999"
+								maskChar={null}
 								type="phone"
 								name="phone"
 								placeholder="(11) 99999-9999"
@@ -254,7 +261,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 							</div>
 						}
 						<p>Já possui conta? <span className="sign-up" onClick={() => { setIsSignIn(true); setIsTopScreen(false); }}>Entre agora mesmo.</span></p>
-					</div>
+					</form>
 				}
 			</Container>
 			{fallback}

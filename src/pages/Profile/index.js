@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
 import { EditIconBlack, EditIconWhite } from 'assets/icons/index';
+import InputMask from 'react-input-mask';
 
 const Profile = () => {
 
@@ -190,7 +191,9 @@ const Profile = () => {
 								<div>
 									<div>
 										<label>Celular</label>
-										<input
+										<InputMask
+											mask="(99) 99999-9999"
+											maskChar={null}
 											type="text"
 											name="cell_phone_number"
 											placeholder="Celular"
@@ -200,7 +203,9 @@ const Profile = () => {
 									</div>
 									<div>
 										<label>CPF</label>
-										<input
+										<InputMask
+											mask="999.999.999-99"
+											maskChar={null}
 											type="document"
 											name="document"
 											className="input-disabled"

@@ -10,4 +10,7 @@ export const serviceURLs = {
 
 	PRODUCTS: '/products',
 	PRODUCTS_ID: '/products/{id}',
+
+	CUSTOMER_BAGS: '/customerBags',
+	CUSTOMER_BAGS_ID: '/customerBags/{id}',
 };
