@@ -7,7 +7,7 @@ export default class BaseService {
 		const authorization = localStorage.getItem('authorization');
 
 		this.http = axios.create({
-			baseURL: enviroment.api,
+			baseURL: process.env.PROD ? enviroment.api_production : enviroment.api_stage,
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',

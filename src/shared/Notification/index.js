@@ -16,7 +16,7 @@ const Notification = ({ history, options }) => {
 finalizar sua compra.</span>
 				</div>
 				<div className="button-finish">
-					<button onClick={() => history && history.push('/customerbag')}>Finalizar </button>
+					<button onClick={() => history && history.push('/customerbag', [options])}>Finalizar </button>
 				</div>
 			</div>
 		</Container>

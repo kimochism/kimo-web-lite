@@ -79,16 +79,22 @@ const Product = () => {
 	const addProductToBag = () => {
 
 		if(!options.size) {
-			alert('Escolha um tamanho');
+			toast('Escolha um tamanho!', {
+				hideProgressBar: true,
+				position: toast.POSITION.TOP_CENTER,
+			});
 			return;
 		}
 
 		if(!options.color) {
-			alert('Escolha uma cor');
+			toast('Escolha uma cor!', {
+				hideProgressBar: true,
+				position: toast.POSITION.TOP_CENTER,
+			});
 			return;
 		}
 
-		toast(<Notification history={history} />, {
+		toast(<Notification history={history} options={options} />, {
 			hideProgressBar: true,
 			position: toast.POSITION.TOP_RIGHT,
 		});
@@ -132,10 +138,11 @@ const Product = () => {
 								</div>
 								<div ref={colorsRef}>
 									{availableColors && availableColors.map(availableColor =>
-										<div
+										<div 
 											key={availableColor}
-											onClick={(e) => selectColor(e, availableColor)}
-											className={`product-color-box bg-${availableColor}`}>
+											className="product-color-content"
+											onClick={(e) => selectColor(e, availableColor)}>
+											<div className={`product-color-box bg-${availableColor}`}></div>
 										</div>
 									)
 									}
