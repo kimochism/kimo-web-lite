@@ -3,7 +3,7 @@ import { Container } from './styles';
 import { BagIcon, UserIcon } from 'assets/icons';
 import { Link, useHistory } from 'react-router-dom';
 import UserContext from 'context/userContext';
-import SignInUp from 'shared/Modal/SignInUp/index';
+import SignInUp from 'shared/Modal/SignInUp';
 
 const Menu = () => {
 

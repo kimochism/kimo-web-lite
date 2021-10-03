@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Menu from 'shared/Menu/index';
+import Menu from 'shared/Menu';
 import { ArrowIcon, CheckedIcon } from 'assets/icons';
 import { Container } from './styles';
-import Footer from 'shared/Footer/index';
+import Footer from 'shared/Footer';
 import UserContext from 'context/userContext';
 import { useHistory } from 'react-router-dom';
 import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
-import { EditIconBlack, EditIconWhite } from 'assets/icons/index';
+import { EditIconBlack, EditIconWhite } from 'assets/icons';
 import InputMask from 'react-input-mask';
 
 const Profile = () => {

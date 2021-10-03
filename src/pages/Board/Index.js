@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from 'shared/Menu/index';
+import Menu from 'shared/Menu';
 
 import { Container } from './styles';
 
