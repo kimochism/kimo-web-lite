@@ -11,16 +11,43 @@ const Catalog = () => {
 
 	const productService = new ProductService();
 	const [products, setProducts] = useState([]);
+	const [options, setOptions] = useState({
+		offset: 0,
+		limit: 6,
+		total: 0
+	});
+
+	const [availablePages, setAvailablePages] = useState(0);
 
 	useEffect(() => {
 		getProducts();
-	}, []);
+	}, [options]);
 
 	const getProducts = async () => {
-		const { data } = await productService.list();
+
+		
+		const { data, total } = await productService.list(options);
 
 		setProducts(data);
+
+		if(options.total !== total) {
+			setOptions({...options, total });
+		} 
+
+		setAvailablePages(options.total / options.limit);
 	};
+
+	const buttonPages = () => {
+
+		let buttons = [];
+		let pages = (availablePages % 2) !== 0 ? parseInt(availablePages+1) : availablePages;
+		for(let i = 1; i <= pages; i++) {
+			buttons.push(<button onClick={() => setOptions({ ...options, offset: i-1 })}>{i}</button>);
+		}
+
+		return buttons;
+	};
+
 
 	return (
 		<Container>
@@ -38,14 +65,9 @@ const Catalog = () => {
 								</Link>
 							);
 						})}
-						{/* <Link to="/product"><Product/></Link> */}
 					</div>
 					<div className="pages-buttons">
-						<button>1</button>
-						<button>2</button>
-						<button>3</button>
-						<span>...</span>
-						<button>10</button>
+						{buttonPages()}
 					</div>
 				</div>
 			</div>

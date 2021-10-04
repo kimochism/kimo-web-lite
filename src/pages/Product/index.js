@@ -6,12 +6,14 @@ import Menu from 'shared/Menu';
 import { Container } from './styles';
 import Notification from 'shared/Notification';
 import { toast } from 'react-toastify';
+import { CustomerBagService } from 'services/CustomerBagService';
 
 const Product = () => {
 
 	const { id } = useParams();
 	const history = useHistory();
 	const productService = new ProductService();
+	const customerBagService = new CustomerBagService();
 
 	const [defaultProduct, setDefaultProduct] = useState();
 	const [product, setProduct] = useState();
@@ -20,8 +22,8 @@ const Product = () => {
 	const [options, setOptions] = useState({
 		color: '',
 		size: '',
-		product: {}
 	});
+	const [productAddedToCart, setProductAddedToCart] = useState(false);
 
 	const sizesRef = useRef(null);
 	const colorsRef = useRef(null);
@@ -41,7 +43,6 @@ const Product = () => {
 		const data = await productService.show(id);
 		setProduct(data);
 		setDefaultProduct(data);
-		setOptions({...options, product: data});
 	};
 
 	const selectSize = (e, size) => {
@@ -78,6 +79,10 @@ const Product = () => {
 
 	const addProductToBag = () => {
 
+		if(productAddedToCart) {
+			return;
+		}
+
 		if(!options.size) {
 			toast('Escolha um tamanho!', {
 				hideProgressBar: true,
@@ -94,10 +99,27 @@ const Product = () => {
 			return;
 		}
 
-		toast(<Notification history={history} options={options} />, {
-			hideProgressBar: true,
-			position: toast.POSITION.TOP_RIGHT,
+		const response = customerBagService.store({
+			product: product._id,
+			quantity: 1,
+			options,
+			email: localStorage.getItem('email')
 		});
+
+		if(response) {
+			toast(<Notification history={history} options={options} />, {
+				hideProgressBar: true,
+				position: toast.POSITION.TOP_RIGHT,
+			});
+			setProductAddedToCart(true);
+		}
+
+		if(!response) {
+			toast('Erro ao adicionar produto ao carrinho, fale com a equipe de suporte', {
+				hideProgressBar: true,
+				position: toast.POSITION.TOP_RIGHT,
+			});
+		}
 	};
 
 	return (
@@ -158,7 +180,7 @@ const Product = () => {
 							</span>
 						</div>
 						<div onClick={() => addProductToBag()} className="product-button">
-							<button>Adicionar a sacola</button>
+							<button>{ productAddedToCart ? 'Produto adicionado a sacola' : 'Adicionar a sacola'}</button>
 						</div>
 					</div>
 				</div>

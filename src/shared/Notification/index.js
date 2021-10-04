@@ -4,8 +4,6 @@ import { Container } from './styles';
 import PropTypes from 'prop-types';
 
 const Notification = ({ history, options }) => {
-
-	console.log(options);
 	return (
 		<Container>
 			<img src="https://i.imgur.com/48spIdP.png"/>

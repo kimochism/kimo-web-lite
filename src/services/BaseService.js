@@ -1,15 +1,15 @@
 import axios from 'axios';
 import { enviroment } from 'enviroment/enviroment';
 
-const { DEV } = process.env;
+const { REACT_APP_DEV } = process.env;
 
 export default class BaseService {
 
 	constructor() {
 		const authorization = localStorage.getItem('authorization');
-
+		
 		this.http = axios.create({
-			baseURL: DEV ? enviroment.api_stage : enviroment.api_production,
+			baseURL: REACT_APP_DEV ? enviroment.api_stage : enviroment.api_production,
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',

@@ -14,7 +14,7 @@ const Filter = () => {
 			</div>
 			<div className="filter">
 
-				<div className="item-filter" For="camiseta">
+				<div className="item-filter">
 					<div className="checkbox-wrapper">
 						<input type="checkbox" id="camiseta" hidden />
 						<label htmlFor="camiseta" className="checkmark"></label>
