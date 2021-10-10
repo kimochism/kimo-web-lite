@@ -15,6 +15,7 @@ export const Container = styled.div`
         color: black;
     }
     div{
+        text-align: left !important;
         width: 360px;
         display: flex;
         flex-direction: column;

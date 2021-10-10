@@ -9,7 +9,7 @@ const Product = ({ product }) => {
 			<div className="box-item-product">
 				<img src={product.images[0].url} className="box-item-product-image" alt="Foto do produto" />
 				<span>{product.name}</span>
-				<span>R$ {product.price}</span>
+				<span>R$ {parseFloat(product.price).toFixed(2)}</span>
 			</div>
 		</Container>
 	);

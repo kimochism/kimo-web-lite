@@ -7,12 +7,12 @@ export class CustomerBagService extends BaseService {
 		super();
 	}
 
-	async store(data) {
-		return await this.post(serviceURLs.CUSTOMER_BAGS, data);
+	async listByEmail(email) {
+		return await this.get(serviceURLs.CUSTOMER_BAGS_EMAIL, [email]);
 	}
 
-	async show(id) {
-		return await this.get(serviceURLs.CUSTOMER_BAGS_ID, [id]); 
+	async store(data) {
+		return await this.post(serviceURLs.CUSTOMER_BAGS, data);
 	}
 	
 	async update(id, data) {
