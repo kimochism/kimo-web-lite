@@ -148,6 +148,16 @@ const Product = () => {
 									}
 								</div>
 							</div>
+							<div className="product-quantity">
+								<div>
+									<span>Quantidade</span>
+								</div>
+								<div>
+									<button> - </button>
+									<label> 1 </label>
+									<button> + </button>
+								</div>
+							</div>
 						</div>
 						<div className="product-social-media">
 							<span>

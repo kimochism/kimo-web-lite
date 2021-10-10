@@ -64,8 +64,7 @@ const CustomerBag = () => {
 					<img src={ BagIcon }/>
 					<span>Sua sacola</span>
 				</div>
-
-
+				
 				{/* lista de produtos */}
 				<div className="list-products">
 
@@ -75,18 +74,16 @@ const CustomerBag = () => {
 							<span>Camiseta Oni Demon</span>
 							<span>Tamanho</span>
 							<span>Cor</span>
-							<span>Quantidade</span>
-							<span>Preço Unidade</span>
-						</div>
-					</div>
-
-					<div className="product-item">
-						<img src="https://i.pinimg.com/564x/1c/e3/9d/1ce39d9aecc17bd5754c80b78f419c4f.jpg"/>
-						<div className="product-info">
-							<span>Camiseta Oni Demon</span>
-							<span>Tamanho</span>
-							<span>Cor</span>
-							<span>Quantidade</span>
+							<div className="quantity-products">
+								<div>
+									<span>Quantidade</span>
+								</div>
+								<div className="quantity-buttons">
+									<button> - </button>
+									<label> 1 </label>
+									<button> + </button>
+								</div>
+							</div>
 							<span>Preço Unidade</span>
 						</div>
 					</div>
@@ -97,7 +94,36 @@ const CustomerBag = () => {
 							<span>Camiseta Oni Demon</span>
 							<span>Tamanho</span>
 							<span>Cor</span>
-							<span>Quantidade</span>
+							<div className="quantity-products">
+								<div>
+									<span>Quantidade</span>
+								</div>
+								<div className="quantity-buttons">
+									<button> - </button>
+									<label> 1 </label>
+									<button> + </button>
+								</div>
+							</div>
+							<span>Preço Unidade</span>
+						</div>
+					</div>
+
+					<div className="product-item">
+						<img src="https://i.pinimg.com/564x/1c/e3/9d/1ce39d9aecc17bd5754c80b78f419c4f.jpg"/>
+						<div className="product-info">
+							<span>Camiseta Oni Demon</span>
+							<span>Tamanho</span>
+							<span>Cor</span>
+							<div className="quantity-products">
+								<div>
+									<span>Quantidade</span>
+								</div>
+								<div className="quantity-buttons">
+									<button> - </button>
+									<label> 1 </label>
+									<button> + </button>
+								</div>
+							</div>
 							<span>Preço Unidade</span>
 						</div>
 					</div>
@@ -108,7 +134,16 @@ const CustomerBag = () => {
 							<span>Camiseta Oni Demon</span>
 							<span>Tamanho</span>
 							<span>Cor</span>
-							<span>Quantidade</span>
+							<div className="quantity-products">
+								<div>
+									<span>Quantidade</span>
+								</div>
+								<div className="quantity-buttons">
+									<button> - </button>
+									<label> 1 </label>
+									<button> + </button>
+								</div>
+							</div>
 							<span>Preço Unidade</span>
 						</div>
 					</div>

@@ -35,17 +35,23 @@ export const Container = styled.div`
         background-color: white;
     }
     .item-filter{
+        cursor: pointer;
         padding: 8px;
         align-items: center;
         display: flex;
+        &:hover{
+            background-color: #efefef;
+        }
         input{
             border: 1px solid black;
             color: black;
+            cursor: pointer;
         }
-        span{
+        .title-filter-item{
             padding-left: 12px;
             font-weight: 600;
             letter-spacing: 1px;
+            cursor: pointer;
         }
     }
 

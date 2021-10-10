@@ -14,53 +14,53 @@ const Filter = () => {
 			</div>
 			<div className="filter">
 
-				<div className="item-filter" For="camiseta">
+				<label className="item-filter" htmlFor="camiseta">
 					<div className="checkbox-wrapper">
 						<input type="checkbox" id="camiseta" hidden />
 						<label htmlFor="camiseta" className="checkmark"></label>
 					</div>
-					<span>Camisetas</span>
-				</div>
+					<label className="title-filter-item" htmlFor="camiseta">Camisetas</label>
+				</label>
 
-				<div className="item-filter">
+				<label className="item-filter" htmlFor="moletom">
 					<div className="checkbox-wrapper">
 						<input type="checkbox" id="moletom" hidden />
 						<label htmlFor="moletom" className="checkmark"></label>
 					</div>
-					<span>Moletons</span>
-				</div>
-
-				<div className="item-filter">
+					<label className="title-filter-item" htmlFor="moletom">Moletom</label>
+				</label>
+				
+				<label className="item-filter" htmlFor="acessorios">
 					<div className="checkbox-wrapper">
 						<input type="checkbox" id="acessorios" hidden />
 						<label htmlFor="acessorios" className="checkmark"></label>
 					</div>
-					<span>Acessórios</span>
-				</div>
-
-				<div className="item-filter">
+					<label className="title-filter-item" htmlFor="acessorios">Acessórios</label>
+				</label>
+				
+				<label className="item-filter" htmlFor="canecas">
 					<div className="checkbox-wrapper">
 						<input type="checkbox" id="canecas" hidden />
 						<label htmlFor="canecas" className="checkmark"></label>
 					</div>
-					<span>Canecas</span>
-				</div>
-
-				<div className="item-filter">
+					<label className="title-filter-item" htmlFor="canecas">Canecas</label>
+				</label>
+				
+				<label className="item-filter" htmlFor="diversos">
 					<div className="checkbox-wrapper">
 						<input type="checkbox" id="diversos" hidden />
 						<label htmlFor="diversos" className="checkmark"></label>
 					</div>
-					<span>Diversos</span>
-				</div>
-
-				<div className="item-filter">
+					<label className="title-filter-item" htmlFor="diversos">Diversos</label>
+				</label>
+				
+				<label className="item-filter" htmlFor="outros">
 					<div className="checkbox-wrapper">
 						<input type="checkbox" id="outros" hidden />
 						<label htmlFor="outros" className="checkmark"></label>
 					</div>
-					<span>Outros</span>
-				</div>
+					<label className="title-filter-item" htmlFor="outros">Outros</label>
+				</label>
 
 			</div>
 		</Container>

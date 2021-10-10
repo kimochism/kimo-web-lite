@@ -15,8 +15,6 @@ const Banner = () => {
 				</Link>
 			</div>
 			<div className="banner-image">
-				<div className="border-image">
-				</div>
 				<img src={ FuelegonImage } alt="Personagem de Anime"/>
 			</div>
 

@@ -39,4 +39,25 @@ export const Container = styled.div`
             width: 100%;
         }
     }
+    /* Media Query */
+    @media screen and (max-width: 1280px) {
+        flex-direction: column-reverse;
+        .banner-letter{
+            width: auto;
+            h1{
+                font-size: 45px;
+            }
+        }
+        .banner-image{
+            margin-top: 5%;
+            width: 362px;
+            height: 362px;
+        }
+        .btn-primary{
+            margin-top: 30px;
+        }
+    }
+    @media screen and (max-width: 600px){
+        
+    }
 `;

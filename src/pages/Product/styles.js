@@ -20,6 +20,33 @@ export const Container = styled.div`
 	.product-right{
 		width: 400px;
 	}
+	.product-quantity{
+		div{
+			align-items: center;
+			flex-direction: row;
+			display: flex;
+			label{
+				width: 54px;
+				height: 54px;
+				font-size: 20px;
+				justify-content: center;
+				align-items: center;
+				display: flex;
+			}
+			span{
+				font-weight: bold;
+				padding: 10px 0px;
+			}
+			button{
+				width: 54px;
+				height: 54px;
+				font-size: 20px;
+				border: 1px solid black;
+				background-color: white;
+				cursor: pointer;
+			}
+		}
+	}
 	.product-buy{
 		background-color: white;
 		flex-direction: column;

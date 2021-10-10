@@ -119,7 +119,11 @@ code {
 }
 .Toastify__toast--rtl {
 }
-.Toastify__toast-body {
+.Toastify__toast-body div{
+  letter-spacing: 2px;
+  text-align: center;
+  font-weight: 600;
+  color: black;
 }
 /* Used to define container behavior: width, position: fixed etc... */
 .Toastify__toast-container {

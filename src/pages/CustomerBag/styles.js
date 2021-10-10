@@ -121,32 +121,49 @@ export const Container = styled.div`
     }
     .list-products{
         background-color: #0f0f0f;
-        max-height: 450px;
+        height: 450px;
         padding: 30px 40px;
         padding-bottom: 0px;
         overflow: auto;
     }
     .product-item{
+        flex-direction: row;
         color: white;
         margin-bottom: 15px;
         padding-bottom: 15px;
         border-bottom: 1px solid black;
+        justify-content: space-between;
         display: flex;
         img{
             width: 150px;
         }
     }
     .product-info{
-        padding-left: 20px;
+        width: 100%;
+        padding-left: 12px;
         justify-content: space-between;
         flex-direction: column;
         display: flex;
-        span:nth-child(1){
-            font-size: 20px   
-        }
+        
         span{
             font-size: 14px;
             font-weight: 600;
+        }
+    }
+    .quantity-products{
+        flex-direction: row;
+        display: flex;
+    }
+    .quantity-buttons{
+        margin: auto;
+        width: 70px;
+        justify-content: space-between;
+        display: flex;
+        button{
+            cursor: pointer;
+            font-size: 13px;
+            border: 2px solid white;
+            background-color: white;
         }
     }
 
@@ -194,6 +211,7 @@ export const Container = styled.div`
             padding: 20px 40px;
         }
         .customer-bag-right{
+            height: auto;
             width: auto;
         }
         .customer-endereco{

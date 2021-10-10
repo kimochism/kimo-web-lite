@@ -41,6 +41,7 @@ export const Container = styled.div`
     /* Media query */
 
     @media screen and (max-width: 1380px) {
+        overflow: hidden;
         flex-direction: column;
         justify-content: center;
         .logo{
