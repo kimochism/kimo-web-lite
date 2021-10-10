@@ -25,7 +25,7 @@ const Catalog = () => {
 
 	const getProducts = async () => {
 
-		
+
 		const { data, total } = await productService.list(options);
 
 		setProducts(data);
