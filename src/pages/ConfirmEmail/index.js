@@ -2,6 +2,8 @@ import { AuthContext } from 'context/AuthContext';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import Footer from 'shared/Footer/index';
+import Menu from 'shared/Menu/index';
+import Warning from 'components/Warning/index';
 import { Container } from './styles';
 
 const ConfirmEmail = () => {
@@ -27,10 +29,14 @@ const ConfirmEmail = () => {
 
 	return (
 		<Container>
-			<div>
-				<p>Enviamos uma confirmação de email, por favor verifique-o.</p>
+			<Menu/>
+			<Warning/>
+			<div className="confirm-message-container">
+				<div className="confirm-message">
+					<p>Enviamos um email para confirmação da sua conta, <br/> por favor verifique-o.</p>
+				</div>
 			</div>
-			<Footer />
+			<Footer/>
 		</Container>
 	);
 };
