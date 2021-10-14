@@ -69,7 +69,12 @@ export default function useAuth() {
 		const email = localStorage.getItem('email');
 		const foundUser = await userService.showByEmail(email);
 
-		if(foundUser && foundUser.email_verified) return true;
+		if(foundUser && foundUser.email_verified) {
+			setAuthenticated(true);
+			setEmailVerified(true);
+			localStorage.setItem('emailVerified', true);
+			return true;
+		}
 		
 		return false;
 	};

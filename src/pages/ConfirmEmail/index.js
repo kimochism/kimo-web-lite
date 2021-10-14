@@ -12,20 +12,14 @@ const ConfirmEmail = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		setInterval(() => {
-			handleVerifyEmail();
+		setInterval(async () => {
+			const isVerified = await verifyEmail();
+
+			if(isVerified) {
+				history.push('/');
+			}
 		}, 1500);
 	}, []);
-
-	const handleVerifyEmail = async () => {
-		const isVerified = await verifyEmail();
-
-		if(isVerified) {
-			history.push('/');
-		}
-
-		return;
-	};
 
 	return (
 		<Container>
