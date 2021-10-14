@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseModal from '../BaseModal';
 import { Container } from './styles';
@@ -6,6 +6,7 @@ import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
 import useFallback from 'hooks/useFallback';
 import InputMask from 'react-input-mask';
+import { AuthContext } from 'context/AuthContext';
 
 const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
@@ -14,6 +15,8 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			setIsSignIn(defaultIsSignIn);
 		}
 	}, [defaultIsSignIn]);
+
+	const { handleLogin } = useContext(AuthContext);
 
 	const [fallback, showFallback, hideFallback] = useFallback();
 
@@ -62,23 +65,14 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		}
 
 		showFallback();
-		await userService.auth({ email: login.email, password: login.password }).then( async response => {
 
-			localStorage.setItem('authorization', response.access_token);
-			localStorage.setItem('email', login.email);
-			const user = await userService.showByEmail(login.email);
-			const customer = await customerService.showByUser(user._id);
-			localStorage.setItem('firstName', customer.full_name.split(' ')[0]);
+		const response = await handleLogin(login.email, login.password);
 
-			const urlToReload = window.location.href;
-			window.location.href = urlToReload;
-		}).catch(error => {
-			if (error.response && error.response.status === 401) {
-				setError('Email e/ou senha inválido');
-			}
+		console.debug(response);
 
-			setError('Erro inesperado, tente novamente mais tarde');
-		});
+		if(response && !response.success) {
+			setError(response.message);
+		}
 
 		hideFallback();
 	};
@@ -119,7 +113,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 		showFallback();
 
-		const { _id: id, email } = await userService.store({
+		const { _id: id } = await userService.store({
 			email: register.email,
 			password: register.password
 		});
@@ -133,17 +127,13 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 				user_id: id
 			});
 
-			const { access_token } = await userService.auth({ email, password: register.password });
-
-			localStorage.setItem('authorization', access_token);
-			localStorage.setItem('email', register.email);
-
-			const urlToReload = window.location.href;
-			window.location.href = urlToReload;
+			await handleLogin(register.email, register.password);
 
 			hideFallback();
 
 		}
+
+		hideFallback();
 	};
 
 	return (

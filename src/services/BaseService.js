@@ -9,7 +9,7 @@ export default class BaseService {
 		const authorization = localStorage.getItem('authorization');
 		
 		this.http = axios.create({
-			baseURL: REACT_APP_DEV === true ? enviroment.api_stage : enviroment.api_production,
+			baseURL: REACT_APP_DEV ? enviroment.api_stage : enviroment.api_production,
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
@@ -20,7 +20,6 @@ export default class BaseService {
 
 	async get(url, pathParams = [], queries = null) {
 		
-
 		const buildedUrl = this.buildUrl(url, pathParams, queries);
 
 		const response = await this.http.get(buildedUrl);
@@ -30,7 +29,6 @@ export default class BaseService {
 
 	async post(url, data) {
 		
-
 		const buildedUrl = this.buildUrl(url);
 
 		const response = await this.http.post(buildedUrl, data);
@@ -40,7 +38,6 @@ export default class BaseService {
 
 	async put(url, data, pathParams = []) {
 		
-
 		const buildedUrl = this.buildUrl(url, pathParams, null);
 
 		const response = await this.http.put(buildedUrl, data);
@@ -50,7 +47,6 @@ export default class BaseService {
 
 	async delete(url, pathParams = []) {
 		
-
 		const buildedUrl = this.buildUrl(url, pathParams, null);
 
 		const response = await this.http.delete(buildedUrl);

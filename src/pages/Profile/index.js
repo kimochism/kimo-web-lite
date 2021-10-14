@@ -9,30 +9,34 @@ import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
 import { EditIconBlack, EditIconWhite } from 'assets/icons';
 import InputMask from 'react-input-mask';
+import { AuthContext } from 'context/AuthContext';
+import { Redirect } from 'react-router';
+import useFallback from 'hooks/useFallback';
 
 const Profile = () => {
 
 	const userContext = useContext(UserContext);
+
+	const { emailVerified, authenticated, handleLogout } = useContext(AuthContext);
+	const [fallback, showFallback, hideFallback] = useFallback();
+
 	const history = useHistory();
 
 	const userService = new UserService();
 	const customerService = new CustomerService();
 
 	const [isEditable, setIsEditable] = useState(false);
-
 	const [customer, setCustomer] = useState({
 		id: '',
 		full_name: '',
 		firstName: '',
 		lastName: '',
 		document: '',
-		cell_phone_number: ''
+		cell_phone_number: '',
 	});
-
 	const [defaultCustomer, setDefaultCustomer] = useState();
-
 	const [user, setUser] = useState({
-		email: ''
+		email: '',
 	});
 
 	useEffect(() => {
@@ -41,11 +45,13 @@ const Profile = () => {
 
 	const getData = async () => {
 
+		showFallback();
 		const foundUser = await userService.showByEmail(userContext.email);
 
 		if (foundUser) {
 
-			setUser(foundUser);
+			setUser({ ...user, email: foundUser.email });
+
 			const foundCustomer = await customerService.showByUser(foundUser._id);
 
 			if (foundCustomer) {
@@ -69,6 +75,8 @@ const Profile = () => {
 					document: foundCustomer.document,
 					cell_phone_number: foundCustomer.cell_phone_number
 				});
+
+				hideFallback();
 			}
 		}
 	};
@@ -99,7 +107,11 @@ const Profile = () => {
 			}
 		}
 	};
+ 
+	if(!authenticated) return <Redirect to="/" />;
 
+	if(!emailVerified) return <Redirect to="/confirmEmail" />;
+	
 	return (
 		<>
 			{(user && customer) &&
@@ -132,16 +144,7 @@ const Profile = () => {
 									<span>Sobre</span>
 									<img src={ArrowIcon} />
 								</button>
-								<button onClick={() => {
-									localStorage.removeItem('authorization');
-									localStorage.removeItem('email');
-									localStorage.removeItem('firstName');
-									userContext.isLogged = false;
-									userContext.firstName = null;
-									userContext.email = null;
-
-									history.push('/');
-								}}>
+								<button onClick={() => { handleLogout(); history.push('/'); }}>
 									<span>Sair</span>
 									<img src={ArrowIcon} />
 								</button>
@@ -233,6 +236,7 @@ const Profile = () => {
 					<Footer />
 				</Container>
 			}
+			{fallback}
 		</>
 	);
 };
