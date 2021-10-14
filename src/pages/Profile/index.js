@@ -20,6 +20,8 @@ const Profile = () => {
 	const { emailVerified, authenticated, handleLogout } = useContext(AuthContext);
 	const [fallback, showFallback, hideFallback] = useFallback();
 
+	console.log(emailVerified);
+	
 	const history = useHistory();
 
 	const userService = new UserService();

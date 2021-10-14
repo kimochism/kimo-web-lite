@@ -19,5 +19,4 @@ export class UserService extends BaseService {
 	async showByEmail(email) {
 		return await this.get(serviceURLs.USERS_EMAIL, [email]);
 	}
-
 }

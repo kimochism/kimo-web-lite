@@ -7,6 +7,7 @@ import { CustomerService } from 'services/CustomerService';
 import useFallback from 'hooks/useFallback';
 import InputMask from 'react-input-mask';
 import { AuthContext } from 'context/AuthContext';
+import { useHistory } from 'react-router';
 
 const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
@@ -17,6 +18,8 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 	}, [defaultIsSignIn]);
 
 	const { handleLogin } = useContext(AuthContext);
+
+	const history = useHistory();
 
 	const [fallback, showFallback, hideFallback] = useFallback();
 
@@ -68,13 +71,15 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 		const response = await handleLogin(login.email, login.password);
 
-		console.debug(response);
+		if (response && response.success) history.push('profile');
 
-		if(response && !response.success) {
+
+		if (response && !response.success) {
 			setError(response.message);
 		}
 
 		hideFallback();
+
 	};
 
 	const doRegister = async (e) => {
@@ -113,27 +118,44 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 		showFallback();
 
-		const { _id: id } = await userService.store({
-			email: register.email,
-			password: register.password
-		});
-
-		if (id) {
-
-			await customerService.store({
-				full_name: register.name,
-				document: register.document,
-				cell_phone_number: register.phone,
-				user_id: id
+		await userService.showByEmail(register.email)
+			.then(async user => {
+				storeCustomer(user._id);
+				return;
+			}).catch(async () => {
+				await userService.store({
+					email: register.email,
+					password: register.password
+				}).then(async user => {
+					return storeCustomer(user._id);
+				}).catch(error => {
+				// 409 - conflict code
+					if (error.response && error.response.status === 406) {
+						hideFallback();
+						setError(error.response.data.error);
+					}
+				});
 			});
+	};
 
-			await handleLogin(register.email, register.password);
+	const storeCustomer = async userId => {
+		await customerService.store({
+			full_name: register.name,
+			document: register.document,
+			cell_phone_number: register.phone,
+			user_id: userId
+		}).then(async () => {
+			const response = await handleLogin(register.email, register.password);
 
+			if (response && response.success) history.push('profile');
 			hideFallback();
-
-		}
-
-		hideFallback();
+		}).catch(error => {
+			// 409 - conflict code
+			if (error.response && error.response.status === 406) {
+				hideFallback();
+				setError(error.response.data.message);
+			}
+		});
 	};
 
 	return (
@@ -201,13 +223,13 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 						</div>
 						<div>
 							<label>Documento (CPF)</label>
-							<InputMask 
+							<InputMask
 								mask="999.999.999-99"
 								maskChar={null}
 								type="document"
 								name="document"
 								placeholder="000.000.000-00"
-								value={register.document} 
+								value={register.document}
 								onChange={e => onChange(e)} />
 						</div>
 						<div>

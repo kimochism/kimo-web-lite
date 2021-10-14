@@ -9,8 +9,6 @@ export default function useAuth() {
 	const [emailVerified, setEmailVerified] = useState(false);
 	const [loading, setLoading] = useState(true);
 
-
-
 	const userService = new UserService();
 	const customerService = new CustomerService();
 
@@ -26,17 +24,16 @@ export default function useAuth() {
 	}, []);
 
 	const handleLogin = async (email, password) => {
-		await userService.auth({ email, password }).then(async response => {
+		return await userService.auth({ email, password }).then(async response => {
 
 			localStorage.setItem('authorization', response.access_token);
 			localStorage.setItem('email', email);
 
 			const user = await userService.showByEmail(email);
 
-			localStorage.setItem('emailVerified', user.email_verified);
-
 			if (user.email_verified) {
 				setEmailVerified(true);
+				localStorage.setItem('emailVerified', user.email_verified);
 			}
 
 			const customer = await customerService.showByUser(user._id);
@@ -49,8 +46,7 @@ export default function useAuth() {
 				history.push('/confirmEmail');
 			}
 
-			const urlToReload = window.location.href;
-			window.location.href = urlToReload;
+			return { success: true, message: 'success' };
 
 		}).catch(error => {
 			if (error.response && error.response.status === 401) {
@@ -62,14 +58,20 @@ export default function useAuth() {
 
 	const handleLogout = () => {
 		setAuthenticated(false);
+		setEmailVerified(false);
 		localStorage.removeItem('authorization');
 		localStorage.removeItem('email');
 		localStorage.removeItem('firstName');
+		localStorage.removeItem('emailVerified');
 	};
 
 	const verifyEmail = async () => {
-		setAuthenticated(true);
-		console.log('verificado');
+		const email = localStorage.getItem('email');
+		const foundUser = await userService.showByEmail(email);
+
+		if(foundUser && foundUser.email_verified) return true;
+		
+		return false;
 	};
 
 	return { authenticated, loading, emailVerified, handleLogin, handleLogout, verifyEmail };

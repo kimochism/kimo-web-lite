@@ -22,7 +22,9 @@ const Menu = () => {
 			return;
 		}
 
-		history.push('/profile');
+		if(authenticated) {
+			history.push('/profile');
+		}
 	};
 
 	return (

@@ -43,7 +43,7 @@ export default function Routes() {
 				<Route exact path='/customerbag' component={() => <CustomerBag />} />
 				<Route exact path='/notfound' component={() => <NotFound />} />
 				<Route exact path='/editEmail' component={() => <EditEmail />} />
-				<Route exact path='/confirmEmail' component={() => <ConfirmEmail />} />
+				<Route isPrivate={true} exact path='/confirmEmail' component={() => <ConfirmEmail />} />
 			</Suspense>
 		</Switch>
 	);
