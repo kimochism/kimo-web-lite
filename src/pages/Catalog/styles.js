@@ -5,6 +5,7 @@ export const Container = styled.div`
     margin: 0 auto;
     
     .container-catalog{
+        min-height: 1000px;
         padding: 0 140px;
         margin-top: 80px;
         justify-content: center;
