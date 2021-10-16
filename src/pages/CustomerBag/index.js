@@ -3,16 +3,20 @@ import { Container } from './styles';
 import { Link } from 'react-router-dom';
 import { MapPinIcon, ArrowIcon, BarcodeIcon, PixIcon, MasterCardIcon, TruckIcon, BagIcon } from 'assets/icons';
 import { CustomerBagService } from 'services/CustomerBagService';
+import useFallback from 'hooks/useFallback';
 
 const CustomerBag = () => {
 
 	const customerBagService = new CustomerBagService();
+	
 	const email = localStorage.getItem('email');
 
 	const [customerBags, setCustomerBags] = useState([]);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [productsAmount, setProductsAmount] = useState(0);
 	const [freight, setFreight] = useState(0);
+
+	const [fallback, showFallback, hideFallback] = useFallback();
 
 	useEffect(() => {
 		getCustomerBags();
@@ -24,22 +28,40 @@ const CustomerBag = () => {
 
 	const getCustomerBags = async () => {
 
+		showFallback();
 		const data = await customerBagService.listByEmail(email);
-		
+
 		setCustomerBags(data);
-		setProductsAmount(data.reduce((accumulator, current) => {
-			accumulator += parseFloat(current.product.price) * current.quantity;
-			
-			return accumulator;
-		}, 0));
+		
 		setFreight(7.90);
 		setTotalAmount(productsAmount + freight);
+		setProductsAmount(data.reduce((accumulator, current) => {
+			accumulator += parseFloat(current.product.price) * current.quantity;
+			return accumulator;
+		}, 0));
+
+		hideFallback();
+	};
+
+	const changeQuantity = async (id, quantity) => {
+		
+		showFallback();
+
+		if(quantity === 0) {
+			await customerBagService.destroy(id);
+			getCustomerBags();
+			hideFallback();
+			return;
+		}
+
+		await customerBagService.update(id, { quantity });
+		getCustomerBags();
+
+		hideFallback();
 	};
 
 	return (
 		<Container>
-
-			
 			<div className="customer-bag-left">
 				<div className="logo">
 					<Link to='/'>
@@ -98,89 +120,32 @@ const CustomerBag = () => {
 					<img src={BagIcon} />
 					<span>Sua sacola</span>
 				</div>
-				
+
 				{/* lista de produtos */}
 				<div className="list-products">
-
-					<div className="product-item">
-						<img src="https://i.pinimg.com/564x/a9/70/49/a97049b24e6cf4c66a4203aed78d97e9.jpg"/>
-						<div className="product-info">
-							<span>Camiseta Oni Demon</span>
-							<span>Tamanho</span>
-							<span>Cor</span>
-							<div className="quantity-products">
-								<div>
-									<span>Quantidade</span>
-								</div>
-								<div className="quantity-buttons">
-									<button> - </button>
-									<label> 1 </label>
-									<button> + </button>
-								</div>
-							</div>
-							<span>Preço Unidade</span>
-						</div>
-					</div>
-
-					<div className="product-item">
-						<img src="https://i.pinimg.com/564x/58/4d/05/584d051284c082464883ab5215f1864f.jpg"/>
-						<div className="product-info">
-							<span>Camiseta Oni Demon</span>
-							<span>Tamanho</span>
-							<span>Cor</span>
-							<div className="quantity-products">
-								<div>
-									<span>Quantidade</span>
-								</div>
-								<div className="quantity-buttons">
-									<button> - </button>
-									<label> 1 </label>
-									<button> + </button>
+					{customerBags && customerBags.map(customerBag => {
+						return (
+							<div className="product-item" key={customerBag._id}>
+								<img src={customerBag.product.images[0].url} />
+								<div className="product-info">
+									<span>{customerBag.product.name}</span>
+									<span>Tamanho: {customerBag.options.size}</span>
+									<span>Cor: {customerBag.options.color.label}</span>
+									<div className="quantity-products">
+										<div>
+											<span>Quantidade: {customerBag.quantity}</span>
+										</div>
+										<div className="quantity-buttons">
+											<button onClick={() => changeQuantity(customerBag._id, customerBag.quantity - 1)}> - </button>
+											<label> {customerBag.quantity} </label>
+											<button onClick={() => changeQuantity(customerBag._id, customerBag.quantity + 1)}> + </button>
+										</div>
+									</div>
+									<span>Preço Unidade: R$ {parseFloat(customerBag.product.price).toFixed(2)}</span>
 								</div>
 							</div>
-							<span>Preço Unidade</span>
-						</div>
-					</div>
-
-					<div className="product-item">
-						<img src="https://i.pinimg.com/564x/1c/e3/9d/1ce39d9aecc17bd5754c80b78f419c4f.jpg"/>
-						<div className="product-info">
-							<span>Camiseta Oni Demon</span>
-							<span>Tamanho</span>
-							<span>Cor</span>
-							<div className="quantity-products">
-								<div>
-									<span>Quantidade</span>
-								</div>
-								<div className="quantity-buttons">
-									<button> - </button>
-									<label> 1 </label>
-									<button> + </button>
-								</div>
-							</div>
-							<span>Preço Unidade</span>
-						</div>
-					</div>
-
-					<div className="product-item">
-						<img src="https://i.pinimg.com/564x/c3/4c/a6/c34ca62345b7ac399f83bcda0e2d3f24.jpg"/>
-						<div className="product-info">
-							<span>Camiseta Oni Demon</span>
-							<span>Tamanho</span>
-							<span>Cor</span>
-							<div className="quantity-products">
-								<div>
-									<span>Quantidade</span>
-								</div>
-								<div className="quantity-buttons">
-									<button> - </button>
-									<label> 1 </label>
-									<button> + </button>
-								</div>
-							</div>
-							<span>Preço Unidade</span>
-						</div>
-					</div>
+						);
+					})}
 				</div>
 				{/* lista de produtos */}
 
@@ -200,6 +165,7 @@ const CustomerBag = () => {
 					<button>Finalizar</button>
 				</div>
 			</div>
+			{fallback}
 		</Container>
 	);
 };

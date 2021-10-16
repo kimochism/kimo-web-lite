@@ -7,11 +7,15 @@ import { Container } from './styles';
 import Notification from 'shared/Notification';
 import { toast } from 'react-toastify';
 import { CustomerBagService } from 'services/CustomerBagService';
+import useFallback from 'hooks/useFallback';
 
 const Product = () => {
 
 	const { id } = useParams();
 	const history = useHistory();
+
+	const [fallback, showFallback, hideFallback] = useFallback();
+
 	const productService = new ProductService();
 	const customerBagService = new CustomerBagService();
 
@@ -20,9 +24,13 @@ const Product = () => {
 	const [availableSizes, setAvailableSizes] = useState([]);
 	const [availableColors, setAvailableColors] = useState([]);
 	const [options, setOptions] = useState({
-		color: '',
+		color: {
+			name: '',
+			label: '',
+		},
 		size: '',
 	});
+	const [quantity, setQuantity] = useState(1);
 	const [productAddedToCart, setProductAddedToCart] = useState(false);
 
 	const sizesRef = useRef(null);
@@ -35,14 +43,20 @@ const Product = () => {
 	useEffect(() => {
 		if (product && product.varieties) {
 			setAvailableSizes(product.varieties.filter((item, index, self) => self.findIndex(variety => (variety.size === item.size)) === index).map(variety => variety.size));
-			setAvailableColors(product.varieties.filter((item, index, self) => self.findIndex(variety => (variety.color === item.color)) === index).map(variety => variety.color));
+			setAvailableColors(product.varieties.filter((item, index, self) => self.findIndex(variety => (variety.color.name === item.color.name)) === index).map(variety => variety.color));
 		}
 	}, [product]);
 
 	const getProduct = async () => {
+
+		showFallback();
+
 		const data = await productService.show(id);
+
 		setProduct(data);
 		setDefaultProduct(data);
+
+		hideFallback();
 	};
 
 	const selectSize = (e, size) => {
@@ -62,8 +76,7 @@ const Product = () => {
 	};
 
 	const selectColor = (e, color) => {
-		
-		const sizes = defaultProduct.varieties.filter(filter => filter.color === color).map(variety => variety.size);
+		const sizes = defaultProduct.varieties.filter(filter => filter.color.name === color.name).map(variety => variety.size);
 
 		setAvailableSizes(sizes);
 
@@ -101,7 +114,7 @@ const Product = () => {
 
 		const response = customerBagService.store({
 			product: product._id,
-			quantity: 1,
+			quantity,
 			options,
 			email: localStorage.getItem('email')
 		});
@@ -112,6 +125,10 @@ const Product = () => {
 				position: toast.POSITION.TOP_RIGHT,
 			});
 			setProductAddedToCart(true);
+
+			setTimeout(() => {
+				setProductAddedToCart(false);
+			}, 3000);
 		}
 
 		if(!response) {
@@ -161,10 +178,10 @@ const Product = () => {
 								<div ref={colorsRef}>
 									{availableColors && availableColors.map(availableColor =>
 										<div 
-											key={availableColor}
+											key={availableColor.name}
 											className="product-color-content"
 											onClick={(e) => selectColor(e, availableColor)}>
-											<div className={`product-color-box bg-${availableColor}`}></div>
+											<div className={`product-color-box bg-${availableColor.name}`}></div>
 										</div>
 									)
 									}
@@ -175,9 +192,9 @@ const Product = () => {
 									<span>Quantidade</span>
 								</div>
 								<div>
-									<button> - </button>
-									<label> 1 </label>
-									<button> + </button>
+									<button onClick={ () => quantity <= 1 ? 1 : setQuantity(quantity - 1)}> - </button>
+									<label>{quantity}</label>
+									<button onClick={ () => setQuantity(quantity + 1)}> + </button>
 								</div>
 							</div>
 						</div>
@@ -196,6 +213,7 @@ const Product = () => {
 				</div>
 			}
 			<Footer />
+			{fallback}
 		</Container>
 	);
 };

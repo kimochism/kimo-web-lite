@@ -2,7 +2,6 @@ import React from 'react';
 import { Container } from './styles';
 
 const Fallback = () => {
-
 	return (
 		<Container>
 			<div className="loading">

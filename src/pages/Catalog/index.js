@@ -6,17 +6,20 @@ import Product from 'components/Product';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
 import { ProductService } from 'services/ProductService';
+import useFallback from 'hooks/useFallback';
 
 const Catalog = () => {
 
+	const [fallback, showFallback, hideFallback] = useFallback();
+
 	const productService = new ProductService();
+
 	const [products, setProducts] = useState([]);
 	const [options, setOptions] = useState({
 		offset: 0,
 		limit: 6,
 		total: 0
 	});
-
 	const [availablePages, setAvailablePages] = useState(0);
 
 	useEffect(() => {
@@ -25,7 +28,7 @@ const Catalog = () => {
 
 	const getProducts = async () => {
 
-
+		showFallback();
 		const { data, total } = await productService.list(options);
 
 		setProducts(data);
@@ -35,6 +38,8 @@ const Catalog = () => {
 		} 
 
 		setAvailablePages(options.total / options.limit);
+
+		hideFallback();
 	};
 
 	const buttonPages = () => {
@@ -73,6 +78,7 @@ const Catalog = () => {
 			</div>
 
 			<Footer/>
+			{fallback}
 		</Container>
 	);
 };

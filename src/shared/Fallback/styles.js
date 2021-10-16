@@ -4,13 +4,14 @@ export const Container = styled.div`
     position:fixed;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
     display:flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
     top: 0;
     left: 0;
+    backdrop-filter: blur(1px);
     
     .loading {
         display: flex;

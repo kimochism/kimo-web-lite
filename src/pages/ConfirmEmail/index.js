@@ -12,13 +12,17 @@ const ConfirmEmail = () => {
 	const history = useHistory();
 
 	useEffect(() => {
-		setInterval(async () => {
+		const interval = setInterval(async () => {
 			const isVerified = await verifyEmail();
 
 			if(isVerified) {
 				history.push('/');
 			}
 		}, 1500);
+
+		return () => {
+			clearInterval(interval);
+		};
 	}, []);
 
 	return (

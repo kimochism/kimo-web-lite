@@ -7,27 +7,38 @@ export default function useAuth() {
 
 	const [authenticated, setAuthenticated] = useState(false);
 	const [emailVerified, setEmailVerified] = useState(false);
+	const [email, setEmail] = useState('');
+	const [firstName, setFirstName] = useState('');
 	const [loading, setLoading] = useState(true);
 
 	const userService = new UserService();
 	const customerService = new CustomerService();
 
 	useEffect(() => {
+
 		const authentication = localStorage.getItem('authorization');
 		const emailVerified = localStorage.getItem('emailVerified');
+		const email = localStorage.getItem('email');
+		const firstName = localStorage.getItem('firstName');
 
 		if (authentication) setAuthenticated(true);
-
+		if (firstName) setFirstName(firstName);
+		if (email) setEmail(email);
 		if (emailVerified) setEmailVerified(true);
 
 		setLoading(false);
 	}, []);
 
 	const handleLogin = async (email, password) => {
+
+		localStorage.clear();
+
 		return await userService.auth({ email, password }).then(async response => {
 
 			localStorage.setItem('authorization', response.access_token);
 			localStorage.setItem('email', email);
+
+			setEmail(email);
 
 			const user = await userService.showByEmail(email);
 
@@ -59,10 +70,7 @@ export default function useAuth() {
 	const handleLogout = () => {
 		setAuthenticated(false);
 		setEmailVerified(false);
-		localStorage.removeItem('authorization');
-		localStorage.removeItem('email');
-		localStorage.removeItem('firstName');
-		localStorage.removeItem('emailVerified');
+		localStorage.clear();
 	};
 
 	const verifyEmail = async () => {
@@ -79,5 +87,5 @@ export default function useAuth() {
 		return false;
 	};
 
-	return { authenticated, loading, emailVerified, handleLogin, handleLogout, verifyEmail };
+	return { authenticated, loading, firstName, email, emailVerified, handleLogin, handleLogout, verifyEmail };
 }

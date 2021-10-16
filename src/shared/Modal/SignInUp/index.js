@@ -8,6 +8,7 @@ import useFallback from 'hooks/useFallback';
 import InputMask from 'react-input-mask';
 import { AuthContext } from 'context/AuthContext';
 import { useHistory } from 'react-router';
+import { cpf } from 'cpf-cnpj-validator';
 
 const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
@@ -29,12 +30,10 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 	const [isSignIn, setIsSignIn] = useState(defaultIsSignIn);
 	const [isTopScreen, setIsTopScreen] = useState(false);
 	const [error, setError] = useState('');
-
 	const [login, setLogin] = useState({
 		email: '',
 		password: '',
 	});
-
 	const [register, setRegister] = useState({
 		name: '',
 		email: '',
@@ -51,77 +50,29 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 	const doLogin = async (e) => {
 
 		e.preventDefault();
-
-		if (!login.email && !login.password) {
-			setError('Preencha todos os campos');
-			return;
-		}
-
-		if (!login.email) {
-			setError('Insira um email');
-			return;
-		}
-
-		if (!login.password) {
-			setError('Insira uma senha');
-			return;
-		}
-
+		if(!validateLoginFields()) return;
 		showFallback();
-
 		const response = await handleLogin(login.email, login.password);
 
-		if (response && response.success) history.push('profile');
+		if(response && response.success) history.push('/profile');
 
 
-		if (response && !response.success) {
+		if(response && !response.success) {
 			setError(response.message);
 		}
-
 		hideFallback();
-
 	};
 
 	const doRegister = async (e) => {
 
 		e.preventDefault();
-
-		if (!register.name) {
-			setError('Por favor insira um nome');
-			return;
-		}
-
-		if (!register.email) {
-			setError('Por favor insira um email.');
-			return;
-		}
-
-		if (!register.phone) {
-			setError('Por favor insira um telegone');
-			return;
-		}
-
-		if (!register.password) {
-			setError('Por favor insira uma senha');
-			return;
-		}
-
-		if (!register.confirmPassword) {
-			setError('Por favor confirme sua senha');
-			return;
-		}
-
-		if (register.password !== register.confirmPassword) {
-			setError('Senhas não conferem');
-			return;
-		}
-
+		setError('');
+		if(!validateRegisterFields()) return;
 		showFallback();
 
 		await userService.showByEmail(register.email)
 			.then(async user => {
-				storeCustomer(user._id);
-				return;
+				return storeCustomer(user._id);
 			}).catch(async () => {
 				await userService.store({
 					email: register.email,
@@ -129,27 +80,121 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 				}).then(async user => {
 					return storeCustomer(user._id);
 				}).catch(error => {
-				// 409 - conflict code
+					// 409 - conflict code
 					if (error.response && error.response.status === 406) {
 						hideFallback();
 						setError(error.response.data.error);
 					}
 				});
 			});
+
+		hideFallback();
+	};
+
+	const validateLoginFields = () => {
+		
+		if(!login.email && !login.password) {
+			setError('Preencha todos os campos');
+			return false;
+		}
+
+		if(!login.email) {
+			setError('Insira um email');
+			return false;
+		}
+
+		if(!login.password) {
+			setError('Insira uma senha');
+			return false;
+		}
+
+		return true;
+	};
+
+	const validateRegisterFields = () => {
+		const validateEmail = (email) => {
+			const re = /\S+@\S+\.\S+/;
+			return re.test(email);
+		};
+
+		const validatePhoneNumber = (phone) => {
+			const re = /^\((?:[14689][1-9]|2[12478]|3[1234578]|5[1345]|7[134579])\) (?:[2-8]|9[1-9])[0-9]{3}-[0-9]{4}$/g;
+			return re.test(phone);
+		};
+
+		if(!register.name) {
+			setError('Por favor insira um nome');
+			return false;
+		}
+
+		if (!register.email) {
+			setError('Por favor insira um email.');
+			return false;
+		}
+
+		if(!validateEmail(register.email)) {
+			setError('Por favor, insira um email válido');
+			return false;
+		}
+
+		if(!register.document) {
+			setError('Por favor insira o CPF');
+			return false;
+		}
+
+		if(!cpf.isValid(register.document)) {
+			setError('Por favor insira um CPF válido');
+			return false;
+		}
+
+		if(!register.phone) {
+			setError('Por favor insira um tefelone');
+			return false;
+		}
+
+		if(!validatePhoneNumber(register.phone)) {
+			setError('Por favor insira um tefelone válido');
+			return false;
+		}
+
+		if(!register.password) {
+			setError('Por favor insira uma senha');
+			return false;
+		}
+
+		if(!register.confirmPassword) {
+			setError('Por favor confirme sua senha');
+			return false;
+		}
+
+		if(register.password !== register.confirmPassword) {
+			setError('Senhas não conferem');
+			return false;
+		}
+
+		if(register.password.length < 6 || register.password.length < 6) {
+			setError('Senha precisa ter ao menos 6 caracteres');
+			return false;
+		}
+
+		return true;
 	};
 
 	const storeCustomer = async userId => {
+
 		await customerService.store({
 			full_name: register.name,
 			document: register.document,
 			cell_phone_number: register.phone,
 			user_id: userId
 		}).then(async () => {
+
 			const response = await handleLogin(register.email, register.password);
 
-			if (response && response.success) history.push('profile');
+			if (response && response.success) history.push('/profile');
 			hideFallback();
 		}).catch(error => {
+
 			// 409 - conflict code
 			if (error.response && error.response.status === 406) {
 				hideFallback();
@@ -195,7 +240,17 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 								{error}
 							</div>
 						}
-						<p>Ainda não possui conta? <span className="sign-up" onClick={() => { setIsSignIn(false); setIsTopScreen(true); }}>Cadastre-se</span></p>
+						<p>Ainda não possui conta? 
+							<span 
+								className="sign-up"
+								onClick={() => {
+									setIsSignIn(false);
+									setIsTopScreen(true);
+									setError(''); 
+								}}>
+									&nbsp;Cadastre-se
+							</span>
+						</p>
 					</form>
 				}
 
@@ -272,7 +327,17 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 								{error}
 							</div>
 						}
-						<p>Já possui conta? <span className="sign-up" onClick={() => { setIsSignIn(true); setIsTopScreen(false); }}>Entre agora mesmo.</span></p>
+						<p>Já possui conta?
+							<span
+								className="sign-up"
+								onClick={() => {
+									setIsSignIn(true); 
+									setIsTopScreen(false); 
+									setError(''); 
+								}}>
+									&nbsp;Entre agora mesmo.
+							</span>
+						</p>
 					</form>
 				}
 			</Container>

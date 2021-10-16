@@ -18,4 +18,8 @@ export class CustomerBagService extends BaseService {
 	async update(id, data) {
 		return await this.put(serviceURLs.CUSTOMER_BAGS_ID, data, [id]);
 	}
+
+	async destroy(id) {
+		return await this.delete(serviceURLs.CUSTOMER_BAGS_ID, [id]);
+	}
 }

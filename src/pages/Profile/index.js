@@ -3,7 +3,6 @@ import Menu from 'shared/Menu';
 import { ArrowIcon, CheckedIcon } from 'assets/icons';
 import { Container } from './styles';
 import Footer from 'shared/Footer';
-import UserContext from 'context/userContext';
 import { useHistory } from 'react-router-dom';
 import { UserService } from 'services/UserService';
 import { CustomerService } from 'services/CustomerService';
@@ -15,12 +14,9 @@ import useFallback from 'hooks/useFallback';
 
 const Profile = () => {
 
-	const userContext = useContext(UserContext);
-
-	const { emailVerified, authenticated, handleLogout } = useContext(AuthContext);
+	const { emailVerified, email, authenticated, handleLogout } = useContext(AuthContext);
+	
 	const [fallback, showFallback, hideFallback] = useFallback();
-
-	console.log(emailVerified);
 	
 	const history = useHistory();
 
@@ -42,13 +38,16 @@ const Profile = () => {
 	});
 
 	useEffect(() => {
-		getData();
-	}, []);
+		if(email) {
+			getData();
+		}
+	}, [email]);
 
 	const getData = async () => {
 
 		showFallback();
-		const foundUser = await userService.showByEmail(userContext.email);
+
+		const foundUser = await userService.showByEmail(email);
 
 		if (foundUser) {
 

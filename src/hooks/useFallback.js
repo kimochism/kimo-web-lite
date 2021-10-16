@@ -8,7 +8,9 @@ const useFallback = () => {
 	return [
 		loading ? <Fallback /> : null,
 		() => setLoading(true),
-		() => setLoading(false),
+		() => setTimeout(() => {
+			setLoading(false);
+		}, 1000)
 	];
 };
 

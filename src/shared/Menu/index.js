@@ -2,14 +2,12 @@ import React, { useContext, useState } from 'react';
 import { Container } from './styles';
 import { BagIcon, UserIcon } from 'assets/icons';
 import { Link, useHistory } from 'react-router-dom';
-import UserContext from 'context/userContext';
 import SignInUp from 'shared/Modal/SignInUp';
 import { AuthContext } from 'context/AuthContext';
 
 const Menu = () => {
-
-	const { firstName } = useContext(UserContext);
-	const { authenticated } = useContext(AuthContext);
+	
+	const { firstName, authenticated } = useContext(AuthContext);
 
 	const [isOpen, setIsOpen] = useState(false);
 
