@@ -11,7 +11,7 @@ export const Container = styled.div`
     z-index: 9999;
     top: 0;
     left: 0;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(2px);
     
     .loading {
         display: flex;

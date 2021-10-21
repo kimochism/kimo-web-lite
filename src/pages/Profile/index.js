@@ -14,9 +14,9 @@ import useFallback from 'hooks/useFallback';
 
 const Profile = () => {
 
-	const { emailVerified, email, authenticated, handleLogout } = useContext(AuthContext);
+	const { email, authenticated, handleLogout } = useContext(AuthContext);
 	
-	const [fallback, showFallback, hideFallback] = useFallback();
+	const [fallback, showFallback, hideFallback, loading] = useFallback();
 	
 	const history = useHistory();
 
@@ -35,6 +35,7 @@ const Profile = () => {
 	const [defaultCustomer, setDefaultCustomer] = useState();
 	const [user, setUser] = useState({
 		email: '',
+		email_verified: false
 	});
 
 	useEffect(() => {
@@ -51,7 +52,7 @@ const Profile = () => {
 
 		if (foundUser) {
 
-			setUser({ ...user, email: foundUser.email });
+			setUser({ ...user, email: foundUser.email, email_verified: foundUser.email_verified });
 
 			const foundCustomer = await customerService.showByUser(foundUser._id);
 
@@ -110,8 +111,6 @@ const Profile = () => {
 	};
  
 	if(!authenticated) return <Redirect to="/" />;
-
-	if(!emailVerified) return <Redirect to="/confirmEmail" />;
 	
 	return (
 		<>
@@ -182,7 +181,11 @@ const Profile = () => {
 									</div>
 								</div>
 								<div className="profile-input-is-not">
-									<label>Email</label>
+									<label>
+										Email
+										{ (!loading && user && !user.email_verified) && <span className="email-verified">Verificar email!</span> }
+									</label>
+									
 									<div className="input-with-icon input-disabled">
 										<input
 											type="email"

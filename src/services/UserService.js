@@ -19,4 +19,8 @@ export class UserService extends BaseService {
 	async showByEmail(email) {
 		return await this.get(serviceURLs.USERS_EMAIL, [email]);
 	}
+
+	async confirmEmail(id) {
+		return await this.get(serviceURLs.USERS_CONFIRM_EMAIL, [id]);
+	}
 }

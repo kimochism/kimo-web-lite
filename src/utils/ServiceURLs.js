@@ -3,6 +3,7 @@ export const serviceURLs = {
 
 	USERS: '/users',
 	USERS_EMAIL: '/users/email/{email}',
+	USERS_CONFIRM_EMAIL: '/users/confirm/email/{id}', 
 
 	CUSTOMERS: '/customers',
 	CUSTOMERS_ID: '/customers/{id}',
