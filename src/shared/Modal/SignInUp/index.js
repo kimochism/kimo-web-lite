@@ -50,12 +50,13 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 	const doLogin = async (e) => {
 
 		e.preventDefault();
+
 		if(!validateLoginFields()) return;
+		
 		showFallback();
 		const response = await handleLogin(login.email, login.password);
 
 		if(response && response.success) history.push('/profile');
-
 
 		if(response && !response.success) {
 			setError(response.message);

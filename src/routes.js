@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { AuthContext } from './context/AuthContext';
 
-import Fallback from 'shared/Fallback';
+// import Fallback from 'shared/Fallback';
 const Home = lazy(() => import('./pages/Home'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Product = lazy(() => import('./pages/Product'));
@@ -13,6 +13,7 @@ const CustomerBag = lazy(() => import('./pages/CustomerBag'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const EditEmail = lazy(() => import('./pages/EditEmail'));
 const ConfirmEmail = lazy(() => import('./pages/ConfirmEmail'));
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail'));
 
 const CustomRoute = ({ isPrivate, ...rest }) => {
 	const { loading, authenticated } = useContext(AuthContext);
@@ -35,7 +36,7 @@ CustomRoute.propTypes = {
 export default function Routes() {
 	return (
 		<Switch>
-			<Suspense fallback={<Fallback />}>
+			<Suspense fallback={() => { }}>
 				<Route exact path='/' component={() => <Home />} />
 				<Route exact path='/product/:id' component={() => <Product />} />
 				<Route isPrivate exact path='/profile' component={() => <Profile />} />
@@ -43,7 +44,8 @@ export default function Routes() {
 				<Route exact path='/customerbag' component={() => <CustomerBag />} />
 				<Route exact path='/notfound' component={() => <NotFound />} />
 				<Route exact path='/editEmail' component={() => <EditEmail />} />
-				<Route isPrivate={true} exact path='/confirmEmail' component={() => <ConfirmEmail />} />
+				<Route isPrivate exact path='/confirmEmail' component={() => <ConfirmEmail />} />
+				<Route isPrivate exact path='/verifyEmail/:id' component={() => <VerifyEmail />} />
 			</Suspense>
 		</Switch>
 	);

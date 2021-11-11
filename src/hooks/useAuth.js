@@ -1,12 +1,10 @@
 import { useState, useEffect } from 'react';
 import { CustomerService } from 'services/CustomerService';
 import { UserService } from 'services/UserService';
-import history from '../history';
 
 export default function useAuth() {
 
 	const [authenticated, setAuthenticated] = useState(false);
-	const [emailVerified, setEmailVerified] = useState(false);
 	const [email, setEmail] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [loading, setLoading] = useState(true);
@@ -17,14 +15,12 @@ export default function useAuth() {
 	useEffect(() => {
 
 		const authentication = localStorage.getItem('authorization');
-		const emailVerified = localStorage.getItem('emailVerified');
 		const email = localStorage.getItem('email');
 		const firstName = localStorage.getItem('firstName');
 
 		if (authentication) setAuthenticated(true);
 		if (firstName) setFirstName(firstName);
 		if (email) setEmail(email);
-		if (emailVerified) setEmailVerified(true);
 
 		setLoading(false);
 	}, []);
@@ -43,7 +39,6 @@ export default function useAuth() {
 			const user = await userService.showByEmail(email);
 
 			if (user.email_verified) {
-				setEmailVerified(true);
 				localStorage.setItem('emailVerified', user.email_verified);
 			}
 
@@ -54,12 +49,16 @@ export default function useAuth() {
 			setAuthenticated(true);
 
 			if (!user.email_verified) {
-				history.push('/confirmEmail');
+				window.location.href = '/confirmEmail';
+				return { success: false, message: 'confirmar email' };
 			}
 
 			return { success: true, message: 'success' };
 
 		}).catch(error => {
+
+			console.log(error);
+
 			if (error.response && error.response.status === 401) {
 				return { success: false, message: 'Email e/ou senha inválido' };
 			}
@@ -69,7 +68,6 @@ export default function useAuth() {
 
 	const handleLogout = () => {
 		setAuthenticated(false);
-		setEmailVerified(false);
 		localStorage.clear();
 	};
 
@@ -79,7 +77,6 @@ export default function useAuth() {
 
 		if(foundUser && foundUser.email_verified) {
 			setAuthenticated(true);
-			setEmailVerified(true);
 			localStorage.setItem('emailVerified', true);
 			return true;
 		}
@@ -87,5 +84,12 @@ export default function useAuth() {
 		return false;
 	};
 
-	return { authenticated, loading, firstName, email, emailVerified, handleLogin, handleLogout, verifyEmail };
+	const emailIsVerified = async () => {
+		const confirmed = await userService.showByEmail(email);
+
+		if(confirmed) return true;
+		return false;
+	};
+
+	return { authenticated, loading, firstName, email, handleLogin, handleLogout, verifyEmail, emailIsVerified };
 }

@@ -91,6 +91,11 @@ export const Container = styled.div`
             font-weight: 600;
             padding-bottom: 8px;
         }
+        .email-verified {
+            margin-left: 10px;
+            color: ${colors.red1};
+            cursor: pointer;
+        }
         input{
             padding: 15px;
             border: 2px solid black;
