@@ -129,22 +129,22 @@ const Profile = () => {
 									<span>Endereços</span>
 									<img src={ArrowIcon} />
 								</button>
-								<button>
+								{/* <button>
 									<span>Notificações</span>
 									<img src={ArrowIcon} />
-								</button>
-								<button>
+								</button> */}
+								{/* <button>
 									<span>Privacidade</span>
 									<img src={ArrowIcon} />
-								</button>
-								<button>
+								</button> */}
+								{/* <button>
 									<span>Suporte</span>
 									<img src={ArrowIcon} />
-								</button>
-								<button>
+								</button> */}
+								{/* <button>
 									<span>Sobre</span>
 									<img src={ArrowIcon} />
-								</button>
+								</button> */}
 								<button onClick={() => { handleLogout(); history.push('/'); }}>
 									<span>Sair</span>
 									<img src={ArrowIcon} />

@@ -34,9 +34,8 @@ const Menu = () => {
 			</div>
 			<div className="options">
 				<Link to='/'><span>Home</span></Link>
-				<Link to='/catalog'><span>Loja</span></Link>
-				<span>Moletons</span>
-				<span>Camisetas</span>
+				<Link to='/catalog'><span>Catálogo</span></Link>
+				<span>Coleções</span>
 				<span className="first-name" onClick={() => redirectToProfile()}>
 					<div>{authenticated && firstName}</div>
 					<img src={UserIcon} alt="Perfil" />

@@ -2,7 +2,8 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     background-color: white;
-    height: 80vh;
+    min-height: 80vh;
+    height: auto;
     padding: 0 140px;
     padding-bottom: 20px;
     justify-content: space-around;

@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import { MapPinIcon, ArrowIcon, BarcodeIcon, PixIcon, MasterCardIcon, TruckIcon, BagIcon } from 'assets/icons';
 import { CustomerBagService } from 'services/CustomerBagService';
 import useFallback from 'hooks/useFallback';
+import Menu from 'shared/Menu';
+import Footer from 'shared/Footer';
+import NoProducts from 'components/NoProducts';
 
 const CustomerBag = () => {
 
@@ -59,7 +62,13 @@ const CustomerBag = () => {
 
 		hideFallback();
 	};
-
+	if(customerBags.length === 0 || !customerBags) return (
+		<div>
+			<Menu/>
+			<NoProducts/>
+			<Footer/>
+		</div>
+	);
 	return (
 		<Container>
 			<div className="customer-bag-left">

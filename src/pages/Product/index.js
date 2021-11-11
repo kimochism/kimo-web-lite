@@ -104,7 +104,7 @@ const Product = () => {
 			return;
 		}
 
-		if(!options.color) {
+		if(!options.color.name || !options.color.label) {
 			toast('Escolha uma cor!', {
 				hideProgressBar: true,
 				position: toast.POSITION.TOP_CENTER,
@@ -197,6 +197,12 @@ const Product = () => {
 									<button onClick={ () => setQuantity(quantity + 1)}> + </button>
 								</div>
 							</div>
+						</div>
+						<div className="product-cep">
+							<span>Calcule o seu Frete</span>
+							<input placeholder="00000-000"/>
+							<a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="blank">Não sabe seu cep? Pesquise aqui &gt; </a>
+							<span>Taxa de entrega SEDEX: &nbsp; 7,90</span>
 						</div>
 						<div className="product-social-media">
 							<span>

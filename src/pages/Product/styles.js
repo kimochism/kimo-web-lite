@@ -21,13 +21,15 @@ export const Container = styled.div`
 		width: 400px;
 	}
 	.product-quantity{
+		margin-top: 3%;
+		margin-bottom: 3%;
 		div{
 			align-items: center;
 			flex-direction: row;
 			display: flex;
 			label{
-				width: 54px;
-				height: 54px;
+				width: 34px;
+				height: 34px;
 				font-size: 20px;
 				justify-content: center;
 				align-items: center;
@@ -38,8 +40,8 @@ export const Container = styled.div`
 				padding: 10px 0px;
 			}
 			button{
-				width: 54px;
-				height: 54px;
+				width: 32px;
+				height: 32px;
 				font-size: 20px;
 				border: 1px solid black;
 				background-color: white;
@@ -52,7 +54,7 @@ export const Container = styled.div`
 		flex-direction: column;
 		display: flex;
 		h4{
-			font-size: 34px;
+			font-size: 30px;
 			font-weight: 400;
 			padding-bottom: 15px;
 			margin: 0px;
@@ -85,14 +87,16 @@ export const Container = styled.div`
 		}
 	}
 	.product-size-box{
-		width: 52px;
-		height: 52px;
+		width: 32px;
+		height: 32px;
 		margin-right: 2%;
+		margin-bottom: 3%;
 		font-weight: 600;
 		background-color: white;
 		border: 1px solid black;
 		justify-content: center;
 		align-items: center;
+		font-size: 12px;
 		display: flex;
 		cursor: pointer;
 	}
@@ -119,16 +123,35 @@ export const Container = styled.div`
 
 	}
 	.product-color-box{
-		width: 52px;
-		height: 52px;
+		width: 28px;
+		height: 28px;
 		background-color: white;
 		justify-content: center;
 		align-items: center;
 		display: flex;
 		cursor: pointer;
 	}
+	.product-cep{
+		display: flex;
+		flex-direction: column;
+		span{
+			font-weight: bold;
+			padding: 10px 0px;
+		}
+		input{
+			width: 50%;
+			padding: 10px ;
+			border: 1px solid black;
+		}
+		a{
+			color: #808080;
+			padding: 5px 0px;
+			text-decoration: none;
+			font-size: 12px;
+		}
+	}
 	.product-social-media{
-		padding: 50px 0px;
+		padding: 30px 0px;
 		padding-bottom: 0px;
 		line-height: 20px;
 		font-size:15px;

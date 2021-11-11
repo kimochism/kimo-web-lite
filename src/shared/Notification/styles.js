@@ -31,6 +31,7 @@ export const Container = styled.div`
             font-size: 14px;
         }
         .button-finish{
+            cursor: pointer;
             position: absolute;
             width: 120px;
             height: 25px;
