@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router';
-import { ProductService } from 'services/ProductService';
 import Footer from 'shared/Footer';
+import Notification from 'shared/Notification';
+import useFallback from 'hooks/useFallback';
 import Menu from 'shared/Menu';
 import { Container } from './styles';
-import Notification from 'shared/Notification';
 import { toast } from 'react-toastify';
+import { useHistory, useParams } from 'react-router';
+import { ProductService } from 'services/ProductService';
 import { CustomerBagService } from 'services/CustomerBagService';
-import useFallback from 'hooks/useFallback';
+import { FreightService } from 'services/FreightService';
 
 const Product = () => {
 
@@ -18,6 +19,7 @@ const Product = () => {
 
 	const productService = new ProductService();
 	const customerBagService = new CustomerBagService();
+	const freightService = new FreightService();
 
 	const [defaultProduct, setDefaultProduct] = useState();
 	const [product, setProduct] = useState();
@@ -32,6 +34,7 @@ const Product = () => {
 	});
 	const [quantity, setQuantity] = useState(1);
 	const [productAddedToCart, setProductAddedToCart] = useState(false);
+	const [freight, setFreight] = useState();
 
 	const sizesRef = useRef(null);
 	const colorsRef = useRef(null);
@@ -139,6 +142,30 @@ const Product = () => {
 		}
 	};
 
+	const calculateZipCode = async (e) => {
+		const data = {
+			sCepOrigem: '08150020',
+			sCepDestino: '08150080',
+			nVlPeso: '0.2',
+			nCdFormato: '1',
+			nVlComprimento: '15',
+			nVlAltura: '5',
+			nVlLargura: '15',
+			nCdServico: ['40010'],
+			nVlDiametro: '0',
+		};
+
+		if(e.target.value.length >= 8) {
+			const response = await freightService.store(data);
+
+			if(response[0].Valor) {
+				setFreight(response[0].Valor);
+			} else {
+				setFreight('---');
+			}
+		}
+	};
+
 	return (
 		<Container>
 			<Menu />
@@ -200,9 +227,9 @@ const Product = () => {
 						</div>
 						<div className="product-cep">
 							<span>Calcule o seu Frete</span>
-							<input placeholder="00000-000"/>
+							<input placeholder="00000-000" onChange={e => calculateZipCode(e)}/>
 							<a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="blank">Não sabe seu cep? Pesquise aqui &gt; </a>
-							<span>Taxa de entrega SEDEX: &nbsp; 7,90</span>
+							{ (freight && freight !== 0) && <span>Taxa de entrega SEDEX: &nbsp; {freight}</span> }
 						</div>
 						<div className="product-social-media">
 							<span>

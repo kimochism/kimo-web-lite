@@ -15,4 +15,6 @@ export const serviceURLs = {
 	CUSTOMER_BAGS: '/customerBags',
 	CUSTOMER_BAGS_ID: '/customerBags/{id}',
 	CUSTOMER_BAGS_EMAIL: '/customerBags/email/{email}',
+
+	FREIGHTS: '/freights',
 };
