@@ -33,9 +33,9 @@ const Catalog = () => {
 
 		setProducts(data);
 
-		if(options.total !== total) {
-			setOptions({...options, total });
-		} 
+		if (options.total !== total) {
+			setOptions({ ...options, total });
+		}
 
 		setAvailablePages(options.total / options.limit);
 
@@ -45,9 +45,29 @@ const Catalog = () => {
 	const buttonPages = () => {
 
 		let buttons = [];
-		let pages = (availablePages % 2) !== 0 ? parseInt(availablePages+1) : availablePages;
-		for(let i = 1; i <= pages; i++) {
-			buttons.push(<button onClick={() => setOptions({ ...options, offset: i-1 })}>{i}</button>);
+		let pages = (availablePages % 2) !== 0 ? parseInt(availablePages + 1) : availablePages;
+
+		for (let i = 1; i <= pages; i++) {
+			buttons.push(
+				<button
+					style={i === 1 ? { color: 'white', background: 'black' } : {}}
+					onClick={(e) => {
+
+						// removing style before adding in selected button
+						const allButtons = document.querySelector('.pages-buttons');
+
+						allButtons.childNodes.forEach(button => {
+							button.style.background = 'white';
+							button.style.color = 'black';
+						});
+
+						setOptions({ ...options, offset: (options.limit * (i - 1)) });
+						e.currentTarget.style.background = 'black';
+						e.currentTarget.style.color = 'white';
+					}}>
+					{i}
+				</button>
+			);
 		}
 
 		return buttons;
@@ -59,12 +79,12 @@ const Catalog = () => {
 			<Menu />
 			<div className="container-catalog">
 				<div className="container-catalog-left">
-					<Filter/>
+					<Filter />
 				</div>
 				<div className="aux-cont">
 					<div className="container-catalog-right">
 						{products && products.map(product => {
-							return(
+							return (
 								<Link to={`/product/${product._id}`} key={product._id} >
 									<Product product={product} />
 								</Link>
@@ -77,7 +97,7 @@ const Catalog = () => {
 				</div>
 			</div>
 
-			<Footer/>
+			<Footer />
 			{fallback}
 		</Container>
 	);

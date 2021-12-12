@@ -12,7 +12,7 @@ export const Container = styled.div`
         display: flex;
     }
     
-    /* righht */
+    /* right */
 
     .container-catalog-right{
         width: 1000px;
@@ -56,14 +56,13 @@ export const Container = styled.div`
         button{
             width: 40px;
             height: 40px;
-            /* border: 3px solid black; */
             font-size: 16px;
             border: 0px;
-    
             background-color: transparent;
             font-weight: 600;
             cursor: pointer;
             margin: 5px;
+            border: 1.5px solid black;
         }
     }
 `;
