@@ -14,6 +14,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const EditEmail = lazy(() => import('./pages/EditEmail'));
 const ConfirmEmail = lazy(() => import('./pages/ConfirmEmail'));
 const VerifyEmail = lazy(() => import('./pages/VerifyEmail'));
+const Payment = lazy(() => import('./pages/Payment'));
 
 const CustomRoute = ({ isPrivate, ...rest }) => {
 	const { loading, authenticated } = useContext(AuthContext);
@@ -44,6 +45,7 @@ export default function Routes() {
 				<Route exact path='/customerbag' component={() => <CustomerBag />} />
 				<Route exact path='/notfound' component={() => <NotFound />} />
 				<Route exact path='/editEmail' component={() => <EditEmail />} />
+				<Route exact path='/payment' component={() => <Payment />} />
 				<Route isPrivate exact path='/confirmEmail' component={() => <ConfirmEmail />} />
 				<Route isPrivate exact path='/verifyEmail/:id' component={() => <VerifyEmail />} />
 			</Suspense>
