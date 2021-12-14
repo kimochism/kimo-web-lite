@@ -18,5 +18,8 @@ export const serviceURLs = {
 
 	FREIGHTS: '/freights',
 
+	ORDERS: '/orders',
+	ORDERS_ID: '/orders/{id}',
+	
 	PAYMENTS: '/payments',
 };
