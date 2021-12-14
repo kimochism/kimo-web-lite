@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
-import { MapPinIcon, ArrowIcon, BarcodeIcon, PixIcon, MasterCardIcon, TruckIcon, BagIcon } from 'assets/icons';
+import { MapPinIcon, ArrowIcon, TruckIcon, BagIcon } from 'assets/icons';
+// BarcodeIcon, PixIcon, MasterCardIcon,
 import { CustomerBagService } from 'services/CustomerBagService';
 import useFallback from 'hooks/useFallback';
 import Menu from 'shared/Menu';
 import Footer from 'shared/Footer';
 import NoProducts from 'components/NoProducts';
+import Payment from 'components/Payment/index';
+// import CreditCard from 'components/Payment/CreditCard/index';
 
 const CustomerBag = () => {
 
@@ -102,19 +105,13 @@ const CustomerBag = () => {
 
 					<div className="customer-payment-options">
 						<span>Pagar com</span>
-						<div className="option-payment">
-							<img src={BarcodeIcon} />
-							<span>Boleto</span>
-						</div>
-						<div className="option-payment">
-							<img src={MasterCardIcon} />
-							<span>Cartão de Crédito / Débito</span>
-						</div>
-						<div className="option-payment">
-							<img src={PixIcon} />
-							<span>Pix</span>
+						<div>
+							{/* <CreditCard/> */}
+							<Payment/>
 						</div>
 					</div>
+
+
 					<div className="come-back">
 						<Link to="/catalog">
 							<img src={ArrowIcon} alt="Perfil" width="5px" />
@@ -171,7 +168,7 @@ const CustomerBag = () => {
 						<span>Frete:</span>
 						<span>R$ {freight.toFixed(2)}</span>
 					</div>
-					<button>Finalizar</button>
+					{/* <button>Finalizar</button> */}
 				</div>
 			</div>
 			{fallback}

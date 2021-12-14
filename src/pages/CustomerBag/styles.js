@@ -85,7 +85,6 @@ export const Container = styled.div`
         }
     }
     .come-back{
-        position: absolute;
         bottom: 80px;
         display: flex;
         a{
@@ -104,7 +103,9 @@ export const Container = styled.div`
     /* right */
 
     .customer-bag-right{
-        width: 800px;
+        position: fixed;
+        right: 0;
+        width: 550px;
         height: 100vh;
         background-color: black;
     }
@@ -121,7 +122,7 @@ export const Container = styled.div`
     }
     .list-products{
         background-color: #0f0f0f;
-        height: 450px;
+        height: 550px;
         padding: 30px 40px;
         padding-bottom: 0px;
         overflow: auto;

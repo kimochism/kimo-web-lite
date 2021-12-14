@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { PaidMarketService } from 'services/PaidMarketService';
 import { Container } from './styles';
 
-const Payment = () => {
+const CreditCard = () => {
 
 	const paidMarketService = new PaidMarketService();
 
@@ -63,7 +63,7 @@ const Payment = () => {
 						event.preventDefault();
 
 						const {
-							paymentMethodId: payment_method_id,
+							CreditCardMethodId: CreditCard_method_id,
 							issuerId: issuer_id,
 							cardholderEmail: email,
 							amount,
@@ -73,10 +73,10 @@ const Payment = () => {
 							identificationType,
 						} = cardForm.getCardFormData();
 
-						await paidMarketService.processPayment({ 
+						await paidMarketService.processCreditCard({ 
 							token,
 							issuer_id,
-							payment_method_id,
+							CreditCard_method_id,
 							transaction_amount: Number(amount),
 							installments: Number(installments),
 							description: 'Product description',
@@ -118,11 +118,10 @@ const Payment = () => {
 				<select name="identificationType" id="form-checkout__identificationType"></select>
 				<input type="text" name="identificationNumber" id="form-checkout__identificationNumber" />
 				<select name="installments" id="form-checkout__installments"></select>
-				<button type="submit" id="form-checkout__submit">Pagar</button>
-				<progress value="0" className="progress-bar">Carregando...</progress>
+				<button type="submit" id="form-checkout__submit">Finalizar compra</button>
 			</form>
 		</Container>
 	);
 };
 
-export default Payment;
+export default CreditCard;
