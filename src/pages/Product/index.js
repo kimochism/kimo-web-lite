@@ -180,7 +180,7 @@ const Product = () => {
 							<h4>{product.name}</h4>
 							<span><b>KIMOCHISM 気持ち</b></span>
 							<div className="product-price">
-								<span>R$ {product.price}</span>
+								<span>R$ {parseFloat(product.price).toFixed(2)}</span>
 								<span>Até 8x de {product.price / 8}</span>
 							</div>
 							<div className="product-size">
@@ -227,7 +227,7 @@ const Product = () => {
 						</div>
 						<div className="product-cep">
 							<span>Calcule o seu Frete</span>
-							<input placeholder="00000-000" onChange={e => calculateZipCode(e)}/>
+							<input placeholder="00000-000" onChange={e => calculateZipCode(e)} maxLength="8"/>
 							<a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="blank">Não sabe seu cep? Pesquise aqui &gt; </a>
 							{ (freight && freight !== 0) && <span>Taxa de entrega SEDEX: &nbsp; {freight}</span> }
 						</div>

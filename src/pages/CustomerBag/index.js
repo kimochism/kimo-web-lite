@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
-import { MapPinIcon, ArrowIcon, BarcodeIcon, PixIcon, MasterCardIcon, TruckIcon, BagIcon } from 'assets/icons';
+import { MapPinIcon, ArrowIcon, BagIcon } from 'assets/icons';
 import { CustomerBagService } from 'services/CustomerBagService';
 import useFallback from 'hooks/useFallback';
 import Menu from 'shared/Menu';
 import Footer from 'shared/Footer';
 import NoProducts from 'components/NoProducts';
+import Payment from 'components/Payment/index';
 
 const CustomerBag = () => {
 
 	const customerBagService = new CustomerBagService();
-	
+
 	const email = localStorage.getItem('email');
 
 	const [customerBags, setCustomerBags] = useState([]);
@@ -35,7 +36,7 @@ const CustomerBag = () => {
 		const data = await customerBagService.listByEmail(email);
 
 		setCustomerBags(data);
-		
+
 		setFreight(7.90);
 		setTotalAmount(productsAmount + freight);
 		setProductsAmount(data.reduce((accumulator, current) => {
@@ -47,10 +48,10 @@ const CustomerBag = () => {
 	};
 
 	const changeQuantity = async (id, quantity) => {
-		
+
 		showFallback();
 
-		if(quantity === 0) {
+		if (quantity === 0) {
 			await customerBagService.destroy(id);
 			getCustomerBags();
 			hideFallback();
@@ -63,17 +64,17 @@ const CustomerBag = () => {
 		hideFallback();
 	};
 
-	if(customerBags.length === 0 && !loading) return(
+	if (customerBags.length === 0 && !loading) return (
 		<>
-			<Menu/>
-			<NoProducts/>
-			<Footer/>
+			<Menu />
+			<NoProducts />
+			<Footer />
 		</>
 	);
-	
+
 	return (
 		<Container>
-			{ customerBags.length !== 0 && !loading && <>
+			{customerBags.length !== 0 && !loading && <>
 				<div className="customer-bag-left">
 					<div className="logo">
 						<Link to='/'>
@@ -95,29 +96,11 @@ const CustomerBag = () => {
 							</span>
 						</div>
 
-						<div className="customer-frete">
-							<span>
-								<img src={TruckIcon} alt="Perfil" width="18px" />
-								&nbsp;Frete [ Sedex ]
-							</span>
-							<span>R$ 8,90</span>
+						<div className="customer-payment-options">
+							<Payment orderAmount={totalAmount}/>
 						</div>
 
-						<div className="customer-payment-options">
-							<span>Pagar com</span>
-							<div className="option-payment">
-								<img src={BarcodeIcon} />
-								<span>Boleto</span>
-							</div>
-							<div className="option-payment">
-								<img src={MasterCardIcon} />
-								<span>Cartão de Crédito / Débito</span>
-							</div>
-							<div className="option-payment">
-								<img src={PixIcon} />
-								<span>Pix</span>
-							</div>
-						</div>
+
 						<div className="come-back">
 							<Link to="/catalog">
 								<img src={ArrowIcon} alt="Perfil" width="5px" />
@@ -174,7 +157,7 @@ const CustomerBag = () => {
 							<span>Frete:</span>
 							<span>R$ {freight.toFixed(2)}</span>
 						</div>
-						<button>Finalizar</button>
+						{/* <button>Finalizar</button> */}
 					</div>
 				</div>
 			</>
