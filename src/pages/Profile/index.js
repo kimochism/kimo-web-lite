@@ -128,6 +128,10 @@ const Profile = () => {
 									<span>Endereços</span>
 									<img src={ArrowIcon} />
 								</button>
+								<button>
+									<span>Pedidos</span>
+									<img src={ArrowIcon} />
+								</button>
 								{/* <button>
 									<span>Notificações</span>
 									<img src={ArrowIcon} />

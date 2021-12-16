@@ -7,8 +7,9 @@ import { Noproducts } from 'assets/images';
 const NoProducts = () => {
 	return(
 		<Container>
-			<img src={ Noproducts } alt="Personagem de Anime"/>
 			<p>Você ainda não tem produtos no carrinho</p>
+			<img src={ Noproducts } alt="Personagem de Anime"/>
+			
 			<div className="come-back">
 				<Link to="/catalog">
 					<img src={ArrowIcon} alt="Perfil" width="5px" />

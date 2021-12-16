@@ -5,13 +5,15 @@ export const Container = styled.div`
     justify-content: center;
     display: flex;
     width: auto;
-    height: 70vh;
+    height: 80vh;
 	img{
-        width: 500px;
-        margin: auto;
+        width: 350px;
+        margin: 0px auto;
     }
     p{
-        margin: 0 auto;
+        font-size: 30px;
+        margin: 10 auto;
+        font-weight: bold;
         text-align: center;
     }
     button{
@@ -26,7 +28,7 @@ export const Container = styled.div`
     }
     .come-back{
         bottom: 80px;
-        margin: 0 auto;
+        margin: 30px auto;
         flex-direction: row;
         justify-content: center;
         align-items: center;

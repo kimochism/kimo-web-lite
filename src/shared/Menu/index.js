@@ -37,7 +37,7 @@ const Menu = () => {
 				<Link to='/catalog'><span>Catálogo</span></Link>
 				<span>Coleções</span>
 				<span className="first-name" onClick={() => redirectToProfile()}>
-					<div>{authenticated && firstName}</div>
+					<div>{authenticated ? firstName:'Entre  ⠀ou⠀ cadastre-se ⠀'}</div>
 					<img src={UserIcon} alt="Perfil" />
 				</span>
 				<Link to='/customerbag'>
