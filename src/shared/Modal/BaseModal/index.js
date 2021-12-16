@@ -3,7 +3,7 @@ import { StyledModal } from './styles';
 import PropTypes from 'prop-types';
 import { CloseIcon } from 'assets/icons';
 
-const BaseModal = ({ isOpen, handleClose, children, withBorder, isTopScreen }) => {
+const BaseModal = ({ isOpen, handleClose, showClose, requestClose, children, withBorder, isTopScreen, isCenterScreen }) => {
 
 	const customStyle = {
 		overlay: {
@@ -24,14 +24,17 @@ const BaseModal = ({ isOpen, handleClose, children, withBorder, isTopScreen }) =
 			isOpen={isOpen}
 			withBorder={withBorder}
 			isTopScreen={isTopScreen}
+			isCenterScreen={isCenterScreen}
 			style={customStyle}
-			onRequestClose={() => handleClose()}
+			onRequestClose={ requestClose ? () => handleClose() : () => {}}
 		>
 			<div className="header">
 				<span>Kimochism 気持ち</span>
-				<span onClick={() => handleClose() } className="close">
-					<img src={CloseIcon} />
-				</span>
+				{ showClose && 
+					<span onClick={() => handleClose() } className="close">
+						<img src={CloseIcon} />
+					</span>
+				}
 			</div>
 			<div className="content">
 				{children}
@@ -43,9 +46,12 @@ const BaseModal = ({ isOpen, handleClose, children, withBorder, isTopScreen }) =
 BaseModal.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired,
+	showClose: PropTypes.bool,
+	requestClose: PropTypes.bool,
 	children: PropTypes.node,
 	withBorder: PropTypes.bool,
 	isTopScreen: PropTypes.bool,
+	isCenterScreen: PropTypes.bool,
 };
 
 export default BaseModal;
