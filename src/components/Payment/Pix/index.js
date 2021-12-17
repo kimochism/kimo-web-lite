@@ -7,6 +7,7 @@ import { AuthContext } from 'context/AuthContext';
 import { CustomerService } from 'services/CustomerService';
 import { PaidMarketService } from 'services/PaidMarketService';
 import { OrderService } from 'services/OrderService';
+import { io } from 'socket.io-client';
 
 const Pix = ({ isOpen, handleClose, amount }) => {
 
@@ -20,12 +21,19 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 	const [qrCode64, setQrCode64] = useState();
 	const [qrCodeCopyAndPaste, setQrCodeCopyAndPaste] = useState();
 
+	const socket = io('http://localhost:3333');
 
 	useEffect(() => {
 		if(isOpen) {
 			createPayment();
 		}
 	}, [isOpen]);
+
+  useEffect(() => {
+    socket.on('pixSucessfull', payload => {
+      console.log(payload);
+    });
+  }, []);
 
 	const createPayment = async () => {
 
@@ -53,7 +61,7 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 			}).then(async order => {
 
 				const payment_data = {
-					transaction_amount: Number(amount.toFixed(2)),
+					transaction_amount: Number(0.50),
 					description: 'Título do produto',
 					payment_method_id: 'pix',
 					payer: {
@@ -73,7 +81,7 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 							federal_unit: 'SP'
 						}
 					},
-					notification_url: '',
+					notification_url: 'https://kimo-api-lite.herokuapp.com/payments/notificationHook',
 					metadata: {
 						order_id: order._id
 					}

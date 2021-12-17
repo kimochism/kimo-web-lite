@@ -86,7 +86,7 @@ const Catalog = () => {
 						{products && products.map(product => {
 							return (
 								<Link to={`/product/${product._id}`} key={product._id} >
-									<Product product={product} />
+									<Product product={product}/>
 								</Link>
 							);
 						})}
