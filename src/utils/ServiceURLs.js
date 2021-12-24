@@ -22,4 +22,5 @@ export const serviceURLs = {
 	ORDERS_ID: '/orders/{id}',
 	
 	PAYMENTS: '/payments',
+	PAYMENTS_PAID_MARKET_ID: '/payments/paidMarket/{id}',
 };

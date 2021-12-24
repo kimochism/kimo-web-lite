@@ -1,27 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
-import BaseModal from 'shared/Modal/BaseModal';
 import { Container } from './styles';
-import PropTypes from 'prop-types';
 import { UserService } from 'services/UserService';
 import { AuthContext } from 'context/AuthContext';
 import { CustomerService } from 'services/CustomerService';
-import { PaidMarketService } from 'services/PaidMarketService';
 import { OrderService } from 'services/OrderService';
-import { io } from 'socket.io-client';
+import { PaymentService } from 'services/PaymentService';
+import { SocketContext } from 'context/SocketContext';
+import BaseModal from 'shared/Modal/BaseModal';
+import PropTypes from 'prop-types';
+// import useFallback from 'hooks/useFallback';
 
 const Pix = ({ isOpen, handleClose, amount }) => {
 
 	const userService = new UserService();
 	const customerService = new CustomerService();
-	const paidMarketService = new PaidMarketService();
+	const paymentService = new PaymentService();
 	const orderService = new OrderService();
 
+	const socket = useContext(SocketContext);
 	const { email } = useContext(AuthContext);
 
 	const [qrCode64, setQrCode64] = useState();
 	const [qrCodeCopyAndPaste, setQrCodeCopyAndPaste] = useState();
+	const [paymentId, setPaymentId] = useState();
+	const [paymentAccept, setPaymentAccept] = useState(false);
 
-	const socket = io('http://localhost:3333');
+	// const [fallback, showFallback, hideFallback] = useFallback();
 
 	useEffect(() => {
 		if(isOpen) {
@@ -30,13 +34,17 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 	}, [isOpen]);
 
   useEffect(() => {
-    socket.on('pixSucessfull', payload => {
-      console.log(payload);
+		console.log(socket);
+    socket && socket.on('receivedPix', payload => {
+      if(payload === 'pending') {
+				alert('Paga essa porra menó');
+			}
     });
-  }, []);
+  }, [socket]);
 
 	const createPayment = async () => {
 
+		// showFallback();
 		const user = await userService.showByEmail(email);
     
 		if(user) {
@@ -87,14 +95,36 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 					}
 				};
 
-				await paidMarketService.processPayment(payment_data).then(({ response } ) => {
+				await paymentService.createPayment(payment_data).then(({ response: { id, point_of_interaction: { transaction_data: { qr_code_base64, qr_code }}}}) => {
+					setPaymentId(id);
+					setQrCode64(qr_code_base64);
+					setQrCodeCopyAndPaste(qr_code);
+				}).catch(error => {console.log(error);  });
+				
+			}).catch(error => {console.log(error); });
+		}
 
-					console.log(response);
-					setQrCode64(response.point_of_interaction.transaction_data.qr_code_base64);
-					setQrCodeCopyAndPaste(response.point_of_interaction.transaction_data.qr_code);
-				}).catch(error => { console.log(error); });
+		// hideFallback();
+	};
 
-			}).catch(error => console.log(error));
+	const cancelPayment = async () => {
+		console.log(paymentId);
+		await paymentService.cancelPayment(paymentId);
+		await socket.close();
+		handleClose();
+	};
+
+	const showPaymentStatus = async () => {
+		const paymentStatus = await paymentService.showPaymentStatus(paymentId);
+
+		if(paymentStatus) {
+			const { body: { status } } = paymentStatus;
+
+			console.log(status);
+
+			if(status === 'approved') {
+				setPaymentAccept(true);
+			}
 		}
 	};
 
@@ -113,9 +143,14 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 				{ qrCodeCopyAndPaste &&
           <>
           	<label htmlFor="copyQrCode">Copiar Hash:</label>
-          	<input type="text" id="copyQrCode"  value={qrCodeCopyAndPaste}/>
+          	<input type="text" id="copyQrCode" value={qrCodeCopyAndPaste} onChange={() => {}}/>
           </>
 				}
+
+				{ paymentAccept }
+				<button onClick={() => showPaymentStatus()}>Confirmar pagamento</button>
+				<button onClick={() => cancelPayment()}>Cancelar</button>
+				{/* {fallback} */}
 			</Container>
 		</BaseModal>
 	);
