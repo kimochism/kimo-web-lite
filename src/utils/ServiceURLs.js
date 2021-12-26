@@ -23,4 +23,10 @@ export const serviceURLs = {
 	
 	PAYMENTS: '/payments',
 	PAYMENTS_PAID_MARKET_ID: '/payments/paidMarket/{id}',
+
+	ADDRESSES: '/addresses',
+	ADDRESSES_ID: '/addresses/{id}',
+	ADDRESSES_CUSTOMER_ID: '/addresses/customer/{id}',
+	
+	POSTMON: 'https://api.postmon.com.br/v1/cep/{cep}',
 };

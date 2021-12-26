@@ -20,7 +20,7 @@ const Profile = () => {
 		{ name: 'account', label: 'Conta', show: true },
 		{ name: 'address', label: 'Endereços', show: true },
 		{ name: 'orders', label: 'Pedidos', show: true },
-		{ name: 'create-address', label: 'Criando Endereço', show: false},
+		{ name: 'create-address', label: 'Criando Endereço', show: false },
 	];
 
 	const [currentOption, setCurrentOption] = useState(options[0].name);
@@ -78,11 +78,9 @@ const Profile = () => {
 					</div>
 					<div className="profile-right">
 						{ currentOption === options[0].name && <Account /> }
-						{ currentOption === options[1].name && <Address handleClick={()=>{
-							setCurrentOption(options[3].name);
-						}} /> }
+						{ currentOption === options[1].name && <Address handleClick={() => setCurrentOption(options[3].name)} /> }
 						{/* { currentOption === options[2].name && <Orders /> } */}
-						{ currentOption === options[3].name && <CreatingAddress /> }
+						{ currentOption === options[3].name && <CreatingAddress goBack={() => setCurrentOption(options[1].name)}/> }
 					</div>
 				</div>
 				<Footer />
