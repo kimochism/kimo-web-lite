@@ -36,7 +36,7 @@ CustomRoute.propTypes = {
 export default function Routes() {
 	return (
 		<Switch>
-			<Suspense fallback={() => { }}>
+			<Suspense fallback={<></>}>
 				<Route exact path='/' component={() => <Home />} />
 				<Route exact path='/product/:id' component={() => <Product />} />
 				<Route isPrivate exact path='/profile' component={() => <Profile />} />

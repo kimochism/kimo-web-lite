@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
 import { OrderService } from 'services/OrderService';
-import { PaidMarketService } from 'services/PaidMarketService';
+import { PaymentService } from 'services/PaymentService';
 import useFallback from 'hooks/useFallback';
 import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
 
 const CreditCard = ({ orderAmount }) => {
 
-	const paidMarketService = new PaidMarketService();
+	const paymentService = new PaymentService();
 	const orderService = new OrderService();
 
 	const [cardExpiration, setCardExpiration] = useState();
@@ -101,7 +101,7 @@ const CreditCard = ({ orderAmount }) => {
 						description: 'Product description'
 					}).then(async order => {
 
-						await paidMarketService.processPayment({
+						await paymentService.createPayment({
 							token,
 							issuer_id,
 							payment_method_id,

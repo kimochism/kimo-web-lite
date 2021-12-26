@@ -22,7 +22,6 @@ module.exports = {
 	},
 	plugins: ['react'],
 	rules: {
-		indent: ['error', 'tab'],
 		quotes: ['error', 'single'],
 		semi: ['error', 'always'],
 	},

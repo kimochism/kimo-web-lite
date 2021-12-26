@@ -5,8 +5,7 @@ import useAuth from 'hooks/useAuth';
 
 const AuthContext = createContext();
 
-
-function AuthProvider({ children }) {
+const AuthProvider = ({ children }) => {
 
 	const {
 		authenticated,
@@ -19,12 +18,12 @@ function AuthProvider({ children }) {
 		verifyEmail
 	} = useAuth();
 
-	return (
+	return(
 		<AuthContext.Provider value={{ loading, authenticated, firstName, email, emailVerified, handleLogin, handleLogout, verifyEmail }}>
 			{children}
 		</AuthContext.Provider>
 	);
-}
+};
 
 AuthProvider.propTypes = {
 	children: PropTypes.node
