@@ -4,6 +4,7 @@ import { colors } from 'variables';
 export const Container = styled.div`
     background-color: white;
     .container-profile{
+        min-height: 600px;
         padding: 80px;
         padding-bottom: 120px;
         justify-content: center;

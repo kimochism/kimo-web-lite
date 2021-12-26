@@ -8,6 +8,8 @@ import { AuthContext } from 'context/AuthContext';
 import { Redirect } from 'react-router';
 import useFallback from 'hooks/useFallback';
 import Account from './Account/index';
+import Address from './Address';
+import CreatingAddress from './Address/CreatingAddress';
 
 const Profile = () => {
 
@@ -15,9 +17,10 @@ const Profile = () => {
 	
 	const [fallback] = useFallback();
 	const options = [
-		{ name: 'account', label: 'Conta' },
-		{ name: 'address', label: 'Endereços' },
-		{ name: 'orders', label: 'Pedidos' },
+		{ name: 'account', label: 'Conta', show: true },
+		{ name: 'address', label: 'Endereços', show: true },
+		{ name: 'orders', label: 'Pedidos', show: true },
+		{ name: 'create-address', label: 'Criando Endereço', show: false},
 	];
 
 	const [currentOption, setCurrentOption] = useState(options[0].name);
@@ -34,10 +37,14 @@ const Profile = () => {
 					<div className="profile-left">
 						<div className="profile-btn-option">
 							{ options.map(option => {
-								return <button key={option.name} onClick={() => setCurrentOption(option.name)}>
-									<span>{option.label}</span>
-									<img src={ArrowIcon} alt={option.label}/>
-								</button>;
+								return<>
+									{
+										option.show && <button key={option.name} onClick={() => setCurrentOption(option.name)}>
+											<span>{option.label}</span>
+											<img src={ArrowIcon} alt={option.label}/>
+										</button>
+									}
+								</>;
 							})}
 							{/* <button>
 								<span>Conta</span>
@@ -71,6 +78,11 @@ const Profile = () => {
 					</div>
 					<div className="profile-right">
 						{ currentOption === options[0].name && <Account /> }
+						{ currentOption === options[1].name && <Address handleClick={()=>{
+							setCurrentOption(options[3].name);
+						}} /> }
+						{/* { currentOption === options[2].name && <Orders /> } */}
+						{ currentOption === options[3].name && <CreatingAddress /> }
 					</div>
 				</div>
 				<Footer />
