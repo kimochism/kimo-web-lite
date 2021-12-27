@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CustomerService } from 'services/CustomerService';
-import { UserService } from 'services/UserService';
+import api from 'api/index';
 
 export default function useAuth() {
 
@@ -8,9 +7,6 @@ export default function useAuth() {
 	const [email, setEmail] = useState('');
 	const [firstName, setFirstName] = useState('');
 	const [loading, setLoading] = useState(true);
-
-	const userService = new UserService();
-	const customerService = new CustomerService();
 
 	useEffect(() => {
 
@@ -29,20 +25,20 @@ export default function useAuth() {
 
 		localStorage.clear();
 
-		return await userService.auth({ email, password }).then(async response => {
+		return await api.users.auth({ email, password }).then(async response => {
 
 			localStorage.setItem('authorization', response.access_token);
 			localStorage.setItem('email', email);
 
 			setEmail(email);
 
-			const user = await userService.showByEmail(email);
+			const user = await api.users.showByEmail(email);
 
 			if (user.email_verified) {
 				localStorage.setItem('emailVerified', user.email_verified);
 			}
 
-			const customer = await customerService.showByUser(user._id);
+			const customer = await api.customers.showByUser(user._id);
 
 			localStorage.setItem('firstName', customer.full_name.split(' ')[0]);
 
@@ -73,21 +69,21 @@ export default function useAuth() {
 
 	const verifyEmail = async () => {
 		const email = localStorage.getItem('email');
-		const foundUser = await userService.showByEmail(email);
+		const foundUser = await api.users.showByEmail(email);
 
-		if(foundUser && foundUser.email_verified) {
+		if (foundUser && foundUser.email_verified) {
 			setAuthenticated(true);
 			localStorage.setItem('emailVerified', true);
 			return true;
 		}
-		
+
 		return false;
 	};
 
 	const emailIsVerified = async () => {
-		const confirmed = await userService.showByEmail(email);
+		const confirmed = await api.users.showByEmail(email);
 
-		if(confirmed) return true;
+		if (confirmed) return true;
 		return false;
 	};
 

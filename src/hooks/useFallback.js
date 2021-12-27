@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Fallback from 'shared/Fallback';
+import Fallback from 'shared/Fallback/Fallback';
 
 const useFallback = () => {
-	
+
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -10,7 +10,7 @@ const useFallback = () => {
 			setLoading(false);
 		};
 	}, []);
-	
+
 	return [
 		loading ? <Fallback /> : null,
 		() => setLoading(true),

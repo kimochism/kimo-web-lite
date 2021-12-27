@@ -6,7 +6,7 @@ const socket = socketio.connect('http://localhost:3333');
 const SocketContext = React.createContext();
 
 const SocketProvider = ({ children }) => {
-  return(
+  return (
     <SocketContext.Provider value={socket}>
       {children}
     </SocketContext.Provider>

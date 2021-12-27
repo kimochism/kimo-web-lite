@@ -1,6 +1,5 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
-
 import useAuth from 'hooks/useAuth';
 
 const AuthContext = createContext();
@@ -18,7 +17,7 @@ const AuthProvider = ({ children }) => {
 		verifyEmail
 	} = useAuth();
 
-	return(
+	return (
 		<AuthContext.Provider value={{ loading, authenticated, firstName, email, emailVerified, handleLogin, handleLogout, verifyEmail }}>
 			{children}
 		</AuthContext.Provider>

@@ -5,15 +5,15 @@ import PropTypes from 'prop-types';
 import { AuthContext } from './context/AuthContext';
 
 // import Fallback from 'shared/Fallback';
-const Home = lazy(() => import('./pages/Home'));
-const Profile = lazy(() => import('./pages/Profile'));
-const Product = lazy(() => import('./pages/Product'));
-const Catalog = lazy(() => import('./pages/Catalog'));
-const CustomerBag = lazy(() => import('./pages/CustomerBag'));
-const NotFound = lazy(() => import('./pages/NotFound'));
-const EditEmail = lazy(() => import('./pages/EditEmail'));
-const ConfirmEmail = lazy(() => import('./pages/ConfirmEmail'));
-const VerifyEmail = lazy(() => import('./pages/VerifyEmail'));
+const Home = lazy(() => import('./pages/Home/Home'));
+const Profile = lazy(() => import('./pages/Profile/Profile'));
+const Product = lazy(() => import('./pages/Product/Product'));
+const Catalog = lazy(() => import('./pages/Catalog/Catalog'));
+const CustomerBag = lazy(() => import('./pages/CustomerBag/CustomerBag'));
+const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
+const EditEmail = lazy(() => import('./pages/EditEmail/EditEmail'));
+const ConfirmEmail = lazy(() => import('./pages/ConfirmEmail/ConfirmEmail'));
+const VerifyEmail = lazy(() => import('./pages/VerifyEmail/VerifyEmail'));
 
 const CustomRoute = ({ isPrivate, ...rest }) => {
 	const { loading, authenticated } = useContext(AuthContext);
