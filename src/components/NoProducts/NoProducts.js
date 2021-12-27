@@ -13,7 +13,7 @@ const NoProducts = () => {
 			<div className="come-back">
 				<Link to="/catalog">
 					<img src={ArrowIcon} alt="Perfil" width="5px" />
-					<span>Continuar comprando</span>
+					<span>Ir ás compras</span>
 				</Link>
 			</div>
 		</Container>

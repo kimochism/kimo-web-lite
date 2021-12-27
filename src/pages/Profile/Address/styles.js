@@ -41,6 +41,9 @@ export const Container = styled.div`
             background-color: white;
             color: black;
         }
+        .action{
+            cursor: pointer;
+        }
     }
     .add-new-address{
         button{

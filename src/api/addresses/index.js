@@ -1,4 +1,4 @@
-import { get, post } from 'config/axios';
+import { del, get, post, put } from 'config/axios';
 import endpoints from 'config/endpoints';
 
 export default {
@@ -16,5 +16,11 @@ export default {
   },
   store: async data => {
     return await post(endpoints.ADDRESSES, data);
+  },
+  update: async (id, data) => {
+    return await put(endpoints.ADDRESSES_ID, data, [id]);
+  },
+  destroy: async id => {
+    return await del(endpoints.ADDRESSES_ID, [id]);
   }
 };

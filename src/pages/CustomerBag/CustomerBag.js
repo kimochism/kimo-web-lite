@@ -11,13 +11,13 @@ import api from 'api/index';
 
 const CustomerBag = () => {
 
-
 	const email = localStorage.getItem('email');
 
 	const [customerBags, setCustomerBags] = useState([]);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [productsAmount, setProductsAmount] = useState(0);
 	const [freight, setFreight] = useState(0);
+	const [mainAddress, setMainAddress] = useState();
 
 	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
@@ -26,18 +26,20 @@ const CustomerBag = () => {
 	}, []);
 
 	useEffect(() => {
-		setTotalAmount(productsAmount + freight);
+		setTotalAmount(parseFloat(productsAmount) + parseFloat(freight));
 	}, [customerBags, productsAmount, freight]);
 
 	const getCustomerBags = async () => {
-
+		
 		showFallback();
+
+		await getMainAddress();
+
 		const data = await api.customerBags.listByEmail(email);
 
 		setCustomerBags(data);
 
-		setFreight(7.90);
-		setTotalAmount(productsAmount + freight);
+		setTotalAmount(parseFloat(productsAmount) + parseFloat(freight));
 		setProductsAmount(data.reduce((accumulator, current) => {
 			accumulator += parseFloat(current.product.price) * current.quantity;
 			return accumulator;
@@ -63,6 +65,38 @@ const CustomerBag = () => {
 		hideFallback();
 	};
 
+	const getMainAddress = async () => {
+		await api.users.showByEmail(email).then(async user => {
+			await api.customers.showByUser(user._id).then(async customer => {
+				await api.addresses.listByCustomer(customer._id).then(addresses => {
+					setMainAddress(addresses[0]);
+					calculateZipCode(addresses[0].zip_code);
+				});
+			});
+		});
+	};
+
+	const calculateZipCode = async zipCode => {
+		
+		const data = {
+			sCepOrigem: '08150020',
+			sCepDestino: zipCode,
+			nVlPeso: '0.2',
+			nCdFormato: '1',
+			nVlComprimento: '15',
+			nVlAltura: '5',
+			nVlLargura: '15',
+			nCdServico: ['40010'],
+			nVlDiametro: '0',
+		};
+
+		const response = await api.freights.store(data);
+
+		if (response[0].Valor) {
+			setFreight(response[0].Valor);
+		}
+	};
+
 	if (customerBags.length === 0 && !loading) return (
 		<>
 			<Menu />
@@ -82,17 +116,22 @@ const CustomerBag = () => {
 					</div>
 					<div className="customer-bag-container-infos">
 						<div className="customer-endereco">
-							<span>
-								Entregar em
-							</span>
-							<span>
-								<img className="pin" src={MapPinIcon} alt="Perfil" width="18px" />
-								&nbsp;Rua Alfrejord Braumderson A23, Santo Grau - SP
-							</span>
-							<span>
-								Usar outro endereço &nbsp;
-								<img src={ArrowIcon} alt="Perfil" width="5px" />
-							</span>
+							{mainAddress &&
+								<>
+									<span>
+										Entregar em
+									</span>
+									<span>
+										<img className="pin" src={MapPinIcon} alt="Localização" width="18px" />
+										&nbsp;{mainAddress.street}, {mainAddress.number}, {mainAddress.city} - {mainAddress.state}
+									</span>
+									<span>
+										Usar outro endereço &nbsp;
+										<img src={ArrowIcon} alt="Perfil" width="5px" />
+									</span>
+								</>
+							}
+							{!mainAddress && <span>Criar endereço</span>}
 						</div>
 
 						<div className="customer-payment-options">
@@ -146,15 +185,15 @@ const CustomerBag = () => {
 					<div className="checkout-products">
 						<div>
 							<span>Total:</span>
-							<span>R$ {totalAmount.toFixed(2)}</span>
+							<span>R$ {parseFloat(totalAmount).toFixed(2)}</span>
 						</div>
 						<div>
 							<span>Produtos:</span>
-							<span>R$ {productsAmount.toFixed(2)}</span>
+							<span>R$ {parseFloat(productsAmount).toFixed(2)}</span>
 						</div>
 						<div>
 							<span>Frete:</span>
-							<span>R$ {freight.toFixed(2)}</span>
+							<span>R$ {parseFloat(freight).toFixed(2)}</span>
 						</div>
 						{/* <button>Finalizar</button> */}
 					</div>

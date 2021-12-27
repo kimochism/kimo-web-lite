@@ -8,7 +8,7 @@ import Menu from 'shared/Menu/Menu';
 import Footer from 'shared/Footer/Footer';
 import Account from './Account/Account';
 import Address from './Address/Address';
-import CreatingAddress from './Address/CreatingAddress/CreatingAddress';
+import AddressView from './Address/AddressView/AddressView';
 import useFallback from 'hooks/useFallback';
 
 const Profile = () => {
@@ -16,6 +16,7 @@ const Profile = () => {
 	const { authenticated, handleLogout } = useContext(AuthContext);
 
 	const [fallback] = useFallback();
+	
 	const options = [
 		{ name: 'account', label: 'Conta', show: true },
 		{ name: 'address', label: 'Endereços', show: true },
@@ -24,6 +25,7 @@ const Profile = () => {
 	];
 
 	const [currentOption, setCurrentOption] = useState(options[0].name);
+	const [addressToEdit, setAddressToEdit] = useState({});
 
 	const history = useHistory();
 
@@ -36,15 +38,11 @@ const Profile = () => {
 				<div className="container-profile">
 					<div className="profile-left">
 						<div className="profile-btn-option">
-							{options.map(option => {
-								return <>
-									{
-										option.show && <button key={option.name} onClick={() => setCurrentOption(option.name)}>
-											<span>{option.label}</span>
-											<img src={ArrowIcon} alt={option.label} />
-										</button>
-									}
-								</>;
+							{options.filter(option => option.show).map(option => {
+								return <button key={option.name} onClick={() => setCurrentOption(option.name)}>
+									<span>{option.label}</span>
+									<img src={ArrowIcon} alt={option.label} />
+								</button>;
 							})}
 							{/* <button>
 								<span>Conta</span>
@@ -78,9 +76,14 @@ const Profile = () => {
 					</div>
 					<div className="profile-right">
 						{currentOption === options[0].name && <Account />}
-						{currentOption === options[1].name && <Address handleClick={() => setCurrentOption(options[3].name)} />}
+						{currentOption === options[1].name && 
+							<Address
+								handleCreateAddress={() => setCurrentOption(options[3].name)}
+								handleEditAddress={address => {setCurrentOption(options[3].name); setAddressToEdit(address);}}
+							/>
+						}
 						{/* { currentOption === options[2].name && <Orders /> } */}
-						{currentOption === options[3].name && <CreatingAddress goBack={() => setCurrentOption(options[1].name)} />}
+						{currentOption === options[3].name && <AddressView goBack={() => setCurrentOption(options[1].name)} addressToEdit={addressToEdit}/>}
 					</div>
 				</div>
 				<Footer />

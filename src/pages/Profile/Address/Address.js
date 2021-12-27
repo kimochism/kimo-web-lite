@@ -7,7 +7,7 @@ import useFallback from 'hooks/useFallback';
 import { AuthContext } from 'context/AuthContext';
 import api from 'api/index';
 
-const Address = ({ handleClick }) => {
+const Address = ({ handleCreateAddress, handleEditAddress }) => {
 
 	const [addresses, setAddresses] = useState([]);
 
@@ -25,12 +25,18 @@ const Address = ({ handleClick }) => {
 
 		await api.users.showByEmail(email).then(async user => {
 			await api.customers.showByUser(user._id).then(async customer => {
-				await api.listByCustomer(customer._id).then(addresses => setAddresses(addresses));
+				await api.addresses.listByCustomer(customer._id).then(addresses => setAddresses(addresses));
 			});
 		});
 
 		hideFallback();
 	};
+
+	const deleteAddress = async id => {
+		await api.addresses.destroy(id).catch(error => console.log(error));
+		await getAddresses();
+	};
+
 	return (
 		<Container>
 			<div>
@@ -47,8 +53,8 @@ const Address = ({ handleClick }) => {
 								</p>
 							</div>
 							<div className='container-right-address-card'>
-								<div>X</div>
-								<div>
+								<div className='action' onClick={() => deleteAddress(address._id)}>X</div>
+								<div className='action' onClick={() => handleEditAddress(address)}>
 									<img src={EditIconBlack} />
 								</div>
 							</div>
@@ -58,7 +64,7 @@ const Address = ({ handleClick }) => {
 
 				{/* fim card endereço */}
 
-				<div className='add-new-address' onClick={() => handleClick()}>
+				<div className='add-new-address' onClick={() => handleCreateAddress()}>
 					<button>Adicionar novo endereço</button>
 				</div>
 			</div>
@@ -68,7 +74,8 @@ const Address = ({ handleClick }) => {
 };
 
 Address.propTypes = {
-	handleClick: PropTypes.func.isRequired
+	handleCreateAddress: PropTypes.func.isRequired,
+	handleEditAddress: PropTypes.func.isRequired
 };
 
 export default Address;
