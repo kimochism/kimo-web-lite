@@ -7,7 +7,7 @@ import { ArrowIcon } from 'assets/icons/index';
 import PropTypes from 'prop-types';
 import Pix from './Pix/Pix';
 
-const Payment = ({ orderAmount }) => {
+const Payment = ({ orderAmount, description }) => {
 
 	const options = {
 		default: 'padrão',
@@ -80,6 +80,7 @@ const Payment = ({ orderAmount }) => {
 					isOpen={pixModalIsOpen}
 					handleClose={() => setPixModalIsOpen(false)}
 					amount={orderAmount}
+					description={description}
 				/>
 			}
 		</Container>
@@ -87,7 +88,8 @@ const Payment = ({ orderAmount }) => {
 };
 
 Payment.propTypes = {
-	orderAmount: PropTypes.number.isRequired
+	orderAmount: PropTypes.number.isRequired,
+	description: PropTypes.string.isRequired,
 };
 
 export default Payment;

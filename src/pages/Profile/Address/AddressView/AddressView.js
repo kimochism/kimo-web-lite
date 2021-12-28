@@ -27,7 +27,7 @@ const AddressView = ({ goBack, addressToEdit }) => {
 	const { email } = useContext(AuthContext);
 
 	useEffect(() => {
-		if (addressToEdit) {
+		if (addressToEdit._id) {
 			setEditable(true);
 			setAddress({
 				id: addressToEdit._id,
@@ -125,7 +125,7 @@ const AddressView = ({ goBack, addressToEdit }) => {
 
 		showFallback();
 
-		if(!editable) {
+		if (!editable) {
 			await api.addresses.store(address)
 				.then(() => goBack())
 				.catch(error => {
@@ -134,7 +134,7 @@ const AddressView = ({ goBack, addressToEdit }) => {
 				});
 		}
 
-		if(editable) {
+		if (editable) {
 			await api.addresses.update(address.id, address);
 		}
 
@@ -145,7 +145,7 @@ const AddressView = ({ goBack, addressToEdit }) => {
 		<Container>
 			{console.log(address)}
 			<div>
-				<h1>Criando o endereço</h1>
+				<h1>{editable ? 'Editando o endereço' : 'Criando o endereço'}</h1>
 				<input placeholder="CEP" name="zip_code" value={address.zip_code} onChange={e => onChange(e)} />
 				<input placeholder="Logradouro" name="street" value={address.street} onChange={e => onChange(e)} />
 				<input placeholder="Número" name="number" value={address.number} onChange={e => onChange(e)} />

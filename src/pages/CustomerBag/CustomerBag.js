@@ -135,9 +135,8 @@ const CustomerBag = () => {
 						</div>
 
 						<div className="customer-payment-options">
-							<Payment orderAmount={totalAmount} />
+							<Payment orderAmount={totalAmount} description="Produtos"/>
 						</div>
-
 
 						<div className="come-back">
 							<Link to="/catalog">

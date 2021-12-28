@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import api from 'api/index';
 // import useFallback from 'hooks/useFallback';
 
-const Pix = ({ isOpen, handleClose, amount }) => {
+const Pix = ({ isOpen, handleClose, amount, description }) => {
 
 	const socket = useContext(SocketContext);
 	const { email } = useContext(AuthContext);
@@ -57,12 +57,12 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 				amount: Number(amount),
 				freight: 10,
 				total: amount + 10,
-				description: 'Product description'
+				description
 			}).then(async order => {
 
 				const payment_data = {
-					transaction_amount: Number(0.50),
-					description: 'Título do produto',
+					transaction_amount: Number(amount),
+					description,
 					payment_method_id: 'pix',
 					payer: {
 						email: user.email,
@@ -81,7 +81,7 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 							federal_unit: 'SP'
 						}
 					},
-					notification_url: 'https://kimo-api-lite.herokuapp.com/payments/notificationHook',
+					notification_url: 'https://kimo-api-lite.herokuapp.com/payments/paymentNotification',
 					metadata: {
 						order_id: order._id
 					}
@@ -92,7 +92,6 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 					setQrCode64(qr_code_base64);
 					setQrCodeCopyAndPaste(qr_code);
 				}).catch(error => { console.log(error); });
-
 			}).catch(error => { console.log(error); });
 		}
 
@@ -100,7 +99,6 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 	};
 
 	const cancelPayment = async () => {
-		console.log(paymentId);
 		await api.payments.cancelPayment(paymentId);
 		await socket.close();
 		handleClose();
@@ -111,8 +109,6 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 
 		if (paymentStatus) {
 			const { body: { status } } = paymentStatus;
-
-			console.log(status);
 
 			if (status === 'approved') {
 				setPaymentAccept(true);
@@ -150,8 +146,9 @@ const Pix = ({ isOpen, handleClose, amount }) => {
 
 Pix.propTypes = {
 	isOpen: PropTypes.bool.isRequired,
+	amount: PropTypes.number.isRequired,
+	description: PropTypes.string,
 	handleClose: PropTypes.func,
-	amount: PropTypes.number,
 };
 
 export default Pix;

@@ -49,6 +49,7 @@ const Catalog = () => {
 		for (let i = 1; i <= pages; i++) {
 			buttons.push(
 				<button
+					key={i}
 					style={i === 1 ? { color: 'white', background: 'black' } : {}}
 					onClick={(e) => {
 
@@ -61,6 +62,7 @@ const Catalog = () => {
 						});
 
 						setOptions({ ...options, offset: (options.limit * (i - 1)) });
+						
 						e.currentTarget.style.background = 'black';
 						e.currentTarget.style.color = 'white';
 					}}>

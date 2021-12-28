@@ -5,15 +5,20 @@ export const Container = styled.div`
         flex-direction: column;
         display: flex;
 
-        .input-with-icon {
-            input {
+        .input-with-icon{
+            position: relative;
+            width: 95%;
+            input{
+                text-align: left;
+                width: 100%;
             }
-            
+            img{
+                position:absolute;
+                bottom:25%;
+                right:-10px;
+                width:25px;
+            }
         }
-        .thumbnail {
-            width: 25px;
-        }
-        
         input{
             padding: 8px;
             margin: 5px;
@@ -27,7 +32,7 @@ export const Container = styled.div`
         button{
             padding: 12px;
             width: 98%;
-            margin: 0 auto;
+            margin: 20px auto;
             border: 2px solid black;
             background-color: black;
             color: white;

@@ -157,12 +157,14 @@ const CreditCard = ({ orderAmount }) => {
 	return (
 		<Container>
 			<form id="form-checkout">
-				<input
-					type="text"
-					name="cardNumber"
-					id="form-checkout__cardNumber"
-				/>
-				{thumbnail && <img src={thumbnail} className='thumbnail' />}
+				<div className="input-with-icon">
+					<input
+						type="text"
+						name="cardNumber"
+						id="form-checkout__cardNumber"
+					/>
+					{thumbnail && <img src={thumbnail} className='thumbnail' />}
+				</div>
 				<input
 					type="hidden"
 					name="cardExpirationMonth"

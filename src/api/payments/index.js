@@ -9,6 +9,6 @@ export default {
     return await post(endpoints.PAYMENTS, data);
   },
   cancelPayment: async id => {
-    return await put(endpoints.PAYMENTS_PAID_MARKET_ID, [id]);
+    return await put(endpoints.PAYMENTS_PAID_MARKET_ID, {}, [id]);
   }
 };

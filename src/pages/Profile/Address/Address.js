@@ -6,10 +6,13 @@ import PropTypes from 'prop-types';
 import useFallback from 'hooks/useFallback';
 import { AuthContext } from 'context/AuthContext';
 import api from 'api/index';
+import ConfirmModal from 'shared/Modal/ConfirmModal/ConfirmModal';
 
 const Address = ({ handleCreateAddress, handleEditAddress }) => {
 
 	const [addresses, setAddresses] = useState([]);
+	const [confirmModalIsOpen, setConfirmModalIsOpen] = useState(false);
+	const [addressToDelete, setAddressToDelete] = useState();
 
 	const { email } = useContext(AuthContext);
 
@@ -43,8 +46,8 @@ const Address = ({ handleCreateAddress, handleEditAddress }) => {
 				{/* card de endereço */}
 				{addresses && addresses.map(address => {
 					return (
-						<div className='container-address-card' key={address._id}>
-							<div className='container-left-address-card'>
+						<div className="container-address-card" key={address._id}>
+							<div className="container-left-address-card">
 								<p>
 									<span>{address.street}, {address.number}</span>
 									<span>{address.district}</span>
@@ -52,22 +55,29 @@ const Address = ({ handleCreateAddress, handleEditAddress }) => {
 									<span>{address.city} - {address.state}</span>
 								</p>
 							</div>
-							<div className='container-right-address-card'>
-								<div className='action' onClick={() => deleteAddress(address._id)}>X</div>
-								<div className='action' onClick={() => handleEditAddress(address)}>
+							<div className="container-right-address-card">
+								<div className="action" onClick={() => { setConfirmModalIsOpen(true); setAddressToDelete(address._id); }}>X</div>
+								<div className="action" onClick={() => handleEditAddress(address)}>
 									<img src={EditIconBlack} />
 								</div>
 							</div>
 						</div>
 					);
 				})}
-
 				{/* fim card endereço */}
 
-				<div className='add-new-address' onClick={() => handleCreateAddress()}>
+				<div className="add-new-address" onClick={() => handleCreateAddress()}>
 					<button>Adicionar novo endereço</button>
 				</div>
 			</div>
+
+			<ConfirmModal
+				isOpen={confirmModalIsOpen}
+				message="Tem certeza que deseja excluir esse endereço?"
+				handleClose={() => setConfirmModalIsOpen(false)}
+				handleConfirm={async () => { await deleteAddress(addressToDelete); setConfirmModalIsOpen(false);}}
+			/>
+			
 			{fallback}
 		</Container>
 	);

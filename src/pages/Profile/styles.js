@@ -118,7 +118,7 @@ export const Container = styled.div`
     .profile-input-is-not{
         flex-direction: column;
         .input-with-icon{
-            position:relative;
+            position: relative;
             width: 100%;
             direction: rtl;
             input{
