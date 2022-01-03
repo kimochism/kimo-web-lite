@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ArrowIcon } from 'assets/icons';
 import { Container } from './styles';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from 'context/AuthContext';
 import { Redirect } from 'react-router';
+import { useRouteMatch } from 'react-router-dom';
 import Menu from 'shared/Menu/Menu';
 import Footer from 'shared/Footer/Footer';
 import Account from './Account/Account';
@@ -16,7 +17,11 @@ const Profile = () => {
 	const { authenticated, handleLogout } = useContext(AuthContext);
 
 	const [fallback] = useFallback();
-	
+
+	const { params } = useRouteMatch();
+
+	const history = useHistory();
+
 	const options = [
 		{ name: 'account', label: 'Conta', show: true },
 		{ name: 'address', label: 'Endereços', show: true },
@@ -27,7 +32,13 @@ const Profile = () => {
 	const [currentOption, setCurrentOption] = useState(options[0].name);
 	const [addressToEdit, setAddressToEdit] = useState({});
 
-	const history = useHistory();
+	useEffect(() => {
+		options.map(opt => {
+			if(opt.name === params.option){
+				setCurrentOption(opt.name);
+			}
+		});
+	}, []);
 
 	if (!authenticated) return <Redirect to="/" />;
 
@@ -39,7 +50,7 @@ const Profile = () => {
 					<div className="profile-left">
 						<div className="profile-btn-option">
 							{options.filter(option => option.show).map(option => {
-								return <button key={option.name} onClick={() => setCurrentOption(option.name)}>
+								return <button key={option.name} onClick={() => {setCurrentOption(option.name); history.push(`/profile/${option.name}`);}}>
 									<span>{option.label}</span>
 									<img src={ArrowIcon} alt={option.label} />
 								</button>;

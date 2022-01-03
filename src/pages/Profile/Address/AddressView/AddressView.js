@@ -4,6 +4,7 @@ import { Container } from './styles';
 import useFallback from 'hooks/useFallback';
 import PropTypes from 'prop-types';
 import api from 'api/index';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 const AddressView = ({ goBack, addressToEdit }) => {
 
@@ -21,6 +22,10 @@ const AddressView = ({ goBack, addressToEdit }) => {
 		reference: '',
 		customer_id: '',
 	});
+
+	const { params } = useRouteMatch();
+
+	const history = useHistory();
 
 	const [fallback, showFallback, hideFallback] = useFallback();
 
@@ -66,24 +71,24 @@ const AddressView = ({ goBack, addressToEdit }) => {
 		setAddress({ ...address, [e.target.name]: e.target.value });
 		if (e.target.name === 'zip_code') {
 			if (e.target.value.length >= 8) {
-				// const response = await api.addresses.postmon(e.target.value);
+				const response = await api.addresses.postmon(e.target.value);
 
-				const response = {
-					'bairro': 'Parque Santa Rita',
-					'cidade': 'São Paulo',
-					'logradouro': 'Rua Otoniel Marques Teixeira',
-					'estado_info': {
-						'area_km2': '248.221,996',
-						'codigo_ibge': '35',
-						'nome': 'São Paulo'
-					},
-					'cep': '08150080',
-					'cidade_info': {
-						'area_km2': '1521,11',
-						'codigo_ibge': '3550308'
-					},
-					'estado': 'SP'
-				};
+				// const response = {
+				// 	'bairro': 'Parque Santa Rita',
+				// 	'cidade': 'São Paulo',
+				// 	'logradouro': 'Rua Otoniel Marques Teixeira',
+				// 	'estado_info': {
+				// 		'area_km2': '248.221,996',
+				// 		'codigo_ibge': '35',
+				// 		'nome': 'São Paulo'
+				// 	},
+				// 	'cep': '08150080',
+				// 	'cidade_info': {
+				// 		'area_km2': '1521,11',
+				// 		'codigo_ibge': '3550308'
+				// 	},
+				// 	'estado': 'SP'
+				// };
 
 				setAddress({
 					...address,
@@ -127,7 +132,7 @@ const AddressView = ({ goBack, addressToEdit }) => {
 
 		if (!editable) {
 			await api.addresses.store(address)
-				.then(() => goBack())
+				.then(() => params.return ? history.push('/customerbag') : goBack())
 				.catch(error => {
 					console.log(error);
 					setError('Ocorreu um erro, tente novamente mais tarde');
@@ -143,7 +148,6 @@ const AddressView = ({ goBack, addressToEdit }) => {
 
 	return (
 		<Container>
-			{console.log(address)}
 			<div>
 				<h1>{editable ? 'Editando o endereço' : 'Criando o endereço'}</h1>
 				<input placeholder="CEP" name="zip_code" value={address.zip_code} onChange={e => onChange(e)} />

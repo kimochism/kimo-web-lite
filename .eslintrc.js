@@ -24,5 +24,7 @@ module.exports = {
 	rules: {
 		quotes: ['error', 'single'],
 		semi: ['error', 'always'],
+		'react/jsx-uses-react': 'error',
+    'react/jsx-uses-vars': 'error',
 	},
 };

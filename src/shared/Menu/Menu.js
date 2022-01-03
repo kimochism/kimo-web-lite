@@ -21,7 +21,7 @@ const Menu = () => {
 		}
 
 		if (authenticated) {
-			history.push('/profile');
+			history.push('/profile/account');
 		}
 	};
 

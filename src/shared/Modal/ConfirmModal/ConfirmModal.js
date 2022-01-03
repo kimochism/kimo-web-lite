@@ -9,7 +9,7 @@ const ConfirmModal = ({ isOpen, message, handleClose, handleConfirm }) => {
 		<BaseModal
 			isOpen={isOpen}
 			handleClose={handleClose}
-			withBorder={true}
+			withBorder
 			isCenterScreen
 		>
 			<Container>

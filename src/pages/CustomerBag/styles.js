@@ -24,7 +24,7 @@ export const Container = styled.div`
         width: 600px;
         padding: 20px 140px;
     }
-    .customer-endereco{
+    .customer-address{
         flex-direction: column;
         display: flex;
         span{
@@ -45,9 +45,13 @@ export const Container = styled.div`
             justify-content: flex-end;
             align-items: center;
             display: flex;
+            cursor: pointer;
+        }
+        span:nth-child(3):hover{
+            text-decoration: underline;
         }
     }
-    .customer-frete{
+    .customer-freight{
         padding: 12px 0px;
         border-bottom: 1px solid #f0f0f0;
         justify-content: space-between;

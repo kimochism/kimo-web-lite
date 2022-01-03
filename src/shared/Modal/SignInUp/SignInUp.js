@@ -52,7 +52,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		showFallback();
 		const response = await handleLogin(login.email, login.password);
 
-		if (response && response.success) history.push('/profile');
+		if (response && response.success) history.push('/profile/account');
 
 		if (response && !response.success) {
 			setError(response.message);
@@ -188,7 +188,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 			const response = await handleLogin(register.email, register.password);
 
-			if (response && response.success) history.push('/profile');
+			if (response && response.success) history.push('/profile/account');
 			hideFallback();
 		}).catch(error => {
 

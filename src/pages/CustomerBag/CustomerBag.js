@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { MapPinIcon, ArrowIcon, BagIcon } from 'assets/icons';
 import Menu from 'shared/Menu/Menu';
 import Footer from 'shared/Footer/Footer';
@@ -8,16 +8,21 @@ import NoProducts from 'components/NoProducts/NoProducts';
 import Payment from 'components/Payment/Payment';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
+import AddressSelector from 'shared/Modal/AddressSelector/AddressSelector';
 
 const CustomerBag = () => {
 
 	const email = localStorage.getItem('email');
+
+	const history = useHistory();
 
 	const [customerBags, setCustomerBags] = useState([]);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [productsAmount, setProductsAmount] = useState(0);
 	const [freight, setFreight] = useState(0);
 	const [mainAddress, setMainAddress] = useState();
+	const [addressSelectorIsOpen, setAddressSelectorIsOpen] = useState(false);
+	const [selectedAddress, setSelectedAddres] = useState();
 
 	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
@@ -69,8 +74,11 @@ const CustomerBag = () => {
 		await api.users.showByEmail(email).then(async user => {
 			await api.customers.showByUser(user._id).then(async customer => {
 				await api.addresses.listByCustomer(customer._id).then(addresses => {
-					setMainAddress(addresses[0]);
-					calculateZipCode(addresses[0].zip_code);
+
+					if(addresses && addresses.length > 0) {
+						setMainAddress(addresses[0]);
+						calculateZipCode(addresses[0].zip_code);
+					}
 				});
 			});
 		});
@@ -115,7 +123,7 @@ const CustomerBag = () => {
 						</Link>
 					</div>
 					<div className="customer-bag-container-infos">
-						<div className="customer-endereco">
+						<div className="customer-address">
 							{mainAddress &&
 								<>
 									<span>
@@ -125,13 +133,28 @@ const CustomerBag = () => {
 										<img className="pin" src={MapPinIcon} alt="Localização" width="18px" />
 										&nbsp;{mainAddress.street}, {mainAddress.number}, {mainAddress.city} - {mainAddress.state}
 									</span>
-									<span>
+									<span onClick={() => setAddressSelectorIsOpen(true)}>
 										Usar outro endereço &nbsp;
 										<img src={ArrowIcon} alt="Perfil" width="5px" />
 									</span>
 								</>
 							}
-							{!mainAddress && <span>Criar endereço</span>}
+							{selectedAddress &&
+								<>
+									<span>
+										Entregar em
+									</span>
+									<span>
+										<img className="pin" src={MapPinIcon} alt="Localização" width="18px" />
+										&nbsp;{selectedAddress.street}, {selectedAddress.number}, {selectedAddress.city} - {selectedAddress.state}
+									</span>
+									<span onClick={() => setAddressSelectorIsOpen(true)}>
+										Usar outro endereço &nbsp;
+										<img src={ArrowIcon} alt="Perfil" width="5px" />
+									</span>
+								</>
+							}
+							{!mainAddress && !selectedAddress && <span onClick={() => history.push('profile/create-address/return')}>Criar endereço</span>}
 						</div>
 
 						<div className="customer-payment-options">
@@ -199,6 +222,10 @@ const CustomerBag = () => {
 				</div>
 			</>
 			}
+			<AddressSelector
+				isOpen={addressSelectorIsOpen}
+				handleClose={() => setAddressSelectorIsOpen(false)}
+				onSelected={address => {setSelectedAddres(address); setMainAddress(undefined); calculateZipCode(address.zip_code);}}/>
 			{fallback}
 		</Container>
 	);

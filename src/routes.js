@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import { AuthContext } from './context/AuthContext';
+import Fallback from 'shared/Fallback/Fallback';
 
 // import Fallback from 'shared/Fallback';
 const Home = lazy(() => import('./pages/Home/Home'));
@@ -36,16 +37,18 @@ CustomRoute.propTypes = {
 export default function Routes() {
 	return (
 		<Switch>
-			<Suspense fallback={<></>}>
-				<Route exact path='/' component={() => <Home />} />
-				<Route exact path='/product/:id' component={() => <Product />} />
-				<Route isPrivate exact path='/profile' component={() => <Profile />} />
-				<Route exact path='/catalog' component={() => <Catalog />} />
-				<Route exact path='/customerbag' component={() => <CustomerBag />} />
-				<Route exact path='/notfound' component={() => <NotFound />} />
-				<Route exact path='/editEmail' component={() => <EditEmail />} />
-				<Route isPrivate exact path='/confirmEmail' component={() => <ConfirmEmail />} />
-				<Route isPrivate exact path='/verifyEmail/:id' component={() => <VerifyEmail />} />
+			<Suspense fallback={Fallback}>
+				<CustomRoute exact path='/' component={() => <Home />} />
+				<CustomRoute exact path='/product/:id' component={() => <Product />} />
+				<CustomRoute exact path='/profile' component={() => <Redirect to="/profile/account" />} />
+				<CustomRoute isPrivate exact path='/profile/:option' component={() => <Profile />} />
+				<CustomRoute isPrivate exact path='/profile/:option/:return' component={() => <Profile />} />
+				<CustomRoute exact path='/catalog' component={() => <Catalog />} />
+				<CustomRoute exact path='/customerbag' component={() => <CustomerBag />} />
+				<CustomRoute exact path='/notfound' component={() => <NotFound />} />
+				<CustomRoute exact path='/editEmail' component={() => <EditEmail />} />
+				<CustomRoute isPrivate exact path='/confirmEmail' component={() => <ConfirmEmail />} />
+				<CustomRoute isPrivate exact path='/verifyEmail/:id' component={() => <VerifyEmail />} />
 			</Suspense>
 		</Switch>
 	);
