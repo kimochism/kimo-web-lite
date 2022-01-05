@@ -71,32 +71,21 @@ const AddressView = ({ goBack, addressToEdit }) => {
 		setAddress({ ...address, [e.target.name]: e.target.value });
 		if (e.target.name === 'zip_code') {
 			if (e.target.value.length >= 8) {
-				const response = await api.addresses.postmon(e.target.value);
-
-				// const response = {
-				// 	'bairro': 'Parque Santa Rita',
-				// 	'cidade': 'São Paulo',
-				// 	'logradouro': 'Rua Otoniel Marques Teixeira',
-				// 	'estado_info': {
-				// 		'area_km2': '248.221,996',
-				// 		'codigo_ibge': '35',
-				// 		'nome': 'São Paulo'
-				// 	},
-				// 	'cep': '08150080',
-				// 	'cidade_info': {
-				// 		'area_km2': '1521,11',
-				// 		'codigo_ibge': '3550308'
-				// 	},
-				// 	'estado': 'SP'
-				// };
+				const {
+					code: zip_code,
+					address: street,
+					district,
+					city,
+					state
+				} = await api.addresses.postmon(e.target.value);
 
 				setAddress({
 					...address,
-					zip_code: response.cep,
-					street: response.logradouro,
-					district: response.bairro,
-					city: response.cidade,
-					state: response.estado
+					zip_code,
+					street,
+					district,
+					city,
+					state
 				});
 			}
 		}

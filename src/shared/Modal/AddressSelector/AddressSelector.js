@@ -40,8 +40,6 @@ const AddressSelector = ({ isOpen, handleClose, onSelected }) => {
       child.style.background = 'white';
       child.style.color = 'black';
     });
-    
-    console.log(event.target);
 
     event.target.style.background = 'black';
     event.target.style.color = 'white';

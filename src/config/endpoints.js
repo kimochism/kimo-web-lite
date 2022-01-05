@@ -28,5 +28,5 @@ export default {
 	ADDRESSES_ID: '/addresses/{id}',
 	ADDRESSES_CUSTOMER_ID: '/addresses/customer/{id}',
 
-	POSTMON: 'https://api.postmon.com.br/v1/cep/{cep}',
+	POSTMON: 'https://ws.apicep.com/cep/{cep}.json',
 };
