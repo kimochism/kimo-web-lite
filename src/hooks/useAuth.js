@@ -66,26 +66,5 @@ export default function useAuth() {
 		setAuthenticated(false);
 		localStorage.clear();
 	};
-
-	const verifyEmail = async () => {
-		const email = localStorage.getItem('email');
-		const foundUser = await api.users.showByEmail(email);
-
-		if (foundUser && foundUser.email_verified) {
-			setAuthenticated(true);
-			localStorage.setItem('emailVerified', true);
-			return true;
-		}
-
-		return false;
-	};
-
-	const emailIsVerified = async () => {
-		const confirmed = await api.users.showByEmail(email);
-
-		if (confirmed) return true;
-		return false;
-	};
-
-	return { authenticated, loading, firstName, email, handleLogin, handleLogout, verifyEmail, emailIsVerified };
+	return { authenticated, loading, firstName, email, handleLogin, handleLogout };
 }

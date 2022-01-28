@@ -14,7 +14,7 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 
 	const [qrCode64, setQrCode64] = useState();
 	const [qrCodeCopyAndPaste, setQrCodeCopyAndPaste] = useState();
-	const [paymentId, setPaymentId] = useState();
+	const [paymentId, setPaymentId] = useState(0);
 	const [paymentAccept, setPaymentAccept] = useState(false);
 
 	// const [fallback, showFallback, hideFallback] = useFallback();
@@ -26,13 +26,12 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 	}, [isOpen]);
 
 	useEffect(() => {
-		console.log(socket);
 		socket && socket.on('receivedPix', payload => {
-			if (payload === 'pending') {
+			if (payload.status === 'PENDING' && payload.id === paymentId) {
 				alert('Paga essa porra menó');
 			}
 		});
-	}, [socket]);
+	}, [socket, paymentId]);
 
 	const createPayment = async () => {
 
@@ -45,9 +44,7 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 
 			const nameSplitted = customer.full_name.split(' ');
 
-			let document = customer.document.replace('.', '');
-			document = document.replace('-', '');
-			document = document.replace('.', '');
+			let document = customer.document.replace(/[^\w\s]/gi, '');
 
 			const firstName = nameSplitted[0];
 			const lastName = nameSplitted[nameSplitted.length - 1];
@@ -87,10 +84,21 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 					}
 				};
 
-				await api.payments.createPayment(payment_data).then(({ response: { id, point_of_interaction: { transaction_data: { qr_code_base64, qr_code } } } }) => {
-					setPaymentId(id);
+				await api.payments.createPayment(payment_data).then(({
+					response: {
+						id,
+						point_of_interaction: {
+							transaction_data: {
+								qr_code_base64,
+								qr_code
+							}
+						}
+					}
+				}) => {
 					setQrCode64(qr_code_base64);
 					setQrCodeCopyAndPaste(qr_code);
+					console.log(id);
+					setPaymentId(id);
 				}).catch(error => { console.log(error); });
 			}).catch(error => { console.log(error); });
 		}
@@ -127,7 +135,7 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 		>
 			<Container>
 				{qrCode64 && <img src={`data:image/jpeg;base64,${qrCode64}`} style={{ width: '200px' }} />}
-
+				{paymentId}
 				{qrCodeCopyAndPaste &&
 					<>
 						<label htmlFor="copyQrCode">Copiar Hash:</label>

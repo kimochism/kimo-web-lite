@@ -206,6 +206,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			handleClose={handleClose}
 			withBorder={true}
 			isTopScreen={isTopScreen}
+			requestClose={handleClose}
 		>
 			<Container error={error} isSignIn={isSignIn}>
 				{isSignIn &&
