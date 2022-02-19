@@ -204,9 +204,9 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		<BaseModal
 			isOpen={isOpen}
 			handleClose={handleClose}
-			withBorder={true}
+			withBorder
 			isTopScreen={isTopScreen}
-			requestClose={handleClose}
+			requestClose
 		>
 			<Container error={error} isSignIn={isSignIn}>
 				{isSignIn &&
