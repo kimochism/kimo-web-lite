@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container } from './styles';
 import { Link, useHistory } from 'react-router-dom';
 import { MapPinIcon, ArrowIcon, BagIcon } from 'assets/icons';
@@ -9,10 +9,13 @@ import Payment from 'components/Payment/Payment';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
 import AddressSelector from 'shared/Modal/AddressSelector/AddressSelector';
+import { AuthContext } from 'context/AuthContext';
 
 const CustomerBag = () => {
 
 	const email = localStorage.getItem('email');
+
+	const { authenticated } = useContext(AuthContext);
 
 	const history = useHistory();
 
@@ -27,7 +30,7 @@ const CustomerBag = () => {
 	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
 	useEffect(() => {
-		getCustomerBags();
+		if(authenticated) getCustomerBags();
 	}, []);
 
 	useEffect(() => {

@@ -1,29 +1,24 @@
-import { AuthContext } from 'context/AuthContext';
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import Footer from 'shared/Footer/Footer';
 import Menu from 'shared/Menu/Menu';
 import Warning from 'components/Warning/Warning';
 import { Container } from './styles';
+import { SocketContext } from 'context/SocketContext';
 
 const ConfirmEmail = () => {
 
-	const { verifyEmail } = useContext(AuthContext);
+	const socket = useContext(SocketContext);
 	const history = useHistory();
 
 	useEffect(() => {
-		const interval = setInterval(async () => {
-			const isVerified = await verifyEmail();
-
-			if (isVerified) {
+		socket && socket.on('emailVerified', payload => {
+			console.log(payload);
+			if (payload.verified) {
 				history.push('/');
 			}
-		}, 1500);
-
-		return () => {
-			clearInterval(interval);
-		};
-	}, []);
+		});
+	}, [socket]);
 
 	return (
 		<Container>

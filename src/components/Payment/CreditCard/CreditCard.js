@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Container } from './styles';
+import { toast } from 'react-toastify';
+import { AuthContext } from 'context/AuthContext';
 import useFallback from 'hooks/useFallback';
 import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
 import api from 'api/index';
+import NotificationError from 'shared/NotificationError/NotificationError';
 
 const CreditCard = ({ orderAmount }) => {
 
 	const [cardExpiration, setCardExpiration] = useState();
-	const [identificationType, setIdentificationType] = useState();
 	const [fallback, showFallback, hideFallback] = useFallback();
 	const [thumbnail, setThumbnail] = useState();
-
+	const { email } = useContext(AuthContext);
 
 	useEffect(() => {
 		showFallback();
@@ -23,7 +25,7 @@ const CreditCard = ({ orderAmount }) => {
 				id: 'form-checkout',
 				cardholderName: {
 					id: 'form-checkout__cardholderName',
-					placeholder: 'Titular do cartão',
+					placeholder: 'Nome impresso no cartão',
 				},
 				cardholderEmail: {
 					id: 'form-checkout__cardholderEmail',
@@ -47,7 +49,7 @@ const CreditCard = ({ orderAmount }) => {
 				},
 				installments: {
 					id: 'form-checkout__installments',
-					placeholder: 'Parcelas',
+					placeholder: 'Em quantas vezes quer pagar?',
 				},
 				identificationType: {
 					id: 'form-checkout__identificationType',
@@ -65,6 +67,7 @@ const CreditCard = ({ orderAmount }) => {
 			callbacks: {
 				onFormMounted: error => {
 					if (error) return console.warn('Form Mounted handling error: ', error);
+					setDocumentAndEmailValues();
 					console.log('Form mounted');
 				},
 				onFormUnmounted: error => {
@@ -123,16 +126,48 @@ const CreditCard = ({ orderAmount }) => {
 				},
 				onCardTokenReceived: (error, token) => {
 					if (error) {
-						alert('Houve um problema, tente novamente mais tarde');
+
+						for(const err of error){
+							const { code } = err;
+
+							// card number invalid
+							if (code === 'E301') { errorMessage('Numéro do cartão inválido.'); break; }
+							// card expirationinvalid
+							if (code === '325' || code === '326') { errorMessage('Vencimento do cartão inválido.'); break; }
+							// security code invalid
+							if (code === 'E302') { errorMessage('Código de segurança inválido.'); break; }
+							// cardholder name invalid
+							if (code === '316') { errorMessage('Nome impresso no cartão inválido.'); break; }
+
+							// card number empty
+							if (code === '205') { errorMessage('Número do cartão não pode ser vazio.'); break; }
+							
+							// card expiration empty
+							if (code === '208' || code === '209') { errorMessage('Vencimento não pode ser vazio.'); break; }
+							
+							// security code empty
+							if (code === '224') { errorMessage('Código de segurança não pode ser vazio.'); break; }
+							
+							// // cardholder name empty
+							if (code === '221') { errorMessage('Nome impresso no cartão não pode ser vazio.'); break; }
+
+							// // document type empty
+							// if (code === '212' || code === '213') { console.log(); }
+							// // document number empty
+							// if (code === '214') { console.log(); }
+							// // document type invalid
+							// if (code === '322' || code === '323') { console.log(); }
+							// // document number invalid
+							// if (code === '324') { console.log(); }
+						}
+
 						return console.warn('Token handling error: ', error);
 					}
 
 					console.log('Token available: ', token);
-
 				},
-				onIdentificationTypesReceived: (error, identificationTypes) => {
+				onIdentificationTypesReceived: (error) => {
 					if (error) return console.warn('identificationTypes handling error: ', error);
-					setIdentificationType(identificationTypes[0].id);
 				},
 			},
 		});
@@ -152,6 +187,31 @@ const CreditCard = ({ orderAmount }) => {
 			cardExpirationMonth.value = cardExpiration.split('/')[0];
 			cardExpirationYear.value = cardExpiration.split('/')[1];
 		}
+	};
+
+	const setDocumentAndEmailValues = async () => {
+
+		const emailField = document.getElementById('form-checkout__cardholderEmail');
+		emailField.value = email;
+
+		const identificationType = document.getElementById('form-checkout__identificationType');
+		identificationType.value = 'CPF';
+
+		showFallback();
+		await api.users.showByEmail(email).then(async ({_id}) => {
+			await api.customers.showByUser(_id).then(customer => {
+				const identificationNumber = document.getElementById('form-checkout__identificationNumber');
+				identificationNumber.value = customer.document.replace(/[^\w\s]/gi, '');
+			});
+		});
+		hideFallback();
+	};
+
+	const errorMessage = message => {
+		toast(<NotificationError errorMessage={message} />, {
+			hideProgressBar: true,
+			position: toast.POSITION.BOTTOM_LEFT,
+		});
 	};
 
 	return (
@@ -180,48 +240,50 @@ const CreditCard = ({ orderAmount }) => {
 					name="cardholderName"
 					id="form-checkout__cardholderName"
 				/>
-				<InputMask
-					type="text"
-					name="cardExpiration"
-					id="form-checkout__cardExpiration"
-					mask="99/99"
-					placeholder="Validade"
-					maskChar={null}
-					onChange={(e) => {
-						setCardExpiration(e.target.value);
-					}}
-					onBlur={() => setExpirationValues()}
-				/>
+				<div className="group-inputs">
+					<InputMask
+						type="text"
+						name="cardExpiration"
+						id="form-checkout__cardExpiration"
+						mask="99/99"
+						placeholder="Vencimento (mês/ano)"
+						maskChar={null}
+						onChange={(e) => {
+							setCardExpiration(e.target.value);
+						}}
+						onBlur={() => setExpirationValues()}
+					/>
+					<input
+						type="text"
+						name="securityCode"
+						id="form-checkout__securityCode"
+						maxLength={3}
+					/>
+				</div>
+				<select
+					name="installments"
+					id="form-checkout__installments">
+				</select>
 				<input
-					type="text"
-					name="securityCode"
-					id="form-checkout__securityCode"
-					maxLength={3}
-				/>
-				<input
-					type="email"
+					type="hidden"
 					name="cardholderEmail"
 					id="form-checkout__cardholderEmail"
 				/>
 				<select
 					name="issuer"
+					style={{ display: 'none' }}
 					id="form-checkout__issuer">
 				</select>
 				<select
 					name="identificationType"
-					id="form-checkout__identificationType"
-					onChange={e => setIdentificationType(e.target.value)}>
+					style={{ display: 'none' }}
+					id="form-checkout__identificationType">
 				</select>
 				<input
-					type="text"
+					type="hidden"
 					name="identificationNumber"
 					id="form-checkout__identificationNumber"
-					maxLength={identificationType === 'CPF' ? 11 : 14}
 				/>
-				<select
-					name="installments"
-					id="form-checkout__installments">
-				</select>
 				<button
 					type="submit"
 					id="form-checkout__submit">

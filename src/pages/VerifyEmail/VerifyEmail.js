@@ -1,35 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Footer from 'shared/Footer/Footer';
 import Menu from 'shared/Menu/Menu';
 import Warning from 'components/Warning/Warning';
 import { Container } from './styles';
 import { useHistory, useParams } from 'react-router';
-import useAuth from 'hooks/useAuth';
 import api from 'api/index';
+import { SocketContext } from 'context/SocketContext';
 
 const VerifyEmail = () => {
 
 	const { id } = useParams();
+	const socket = useContext(SocketContext);
 	const history = useHistory();
 	const [loading, setLoading] = useState(false);
 	const [message, setMessage] = useState('');
 
-	const { verifyEmail } = useAuth();
+	
+	useEffect(() => {
+		socket && socket.on('emailVerified', payload => {
+			console.log(payload);
+			if (payload.verified) {
+				history.push('/');
+			} else {
+				setMessage('Não foi possível realizar a confirmação, token inválido.');
+			}
+		});
+	}, [socket]);
 
 	useEffect(() => {
 		setLoading(true);
 
 		setTimeout(async () => {
 
-			const confirmed = await api.users.confirmEmail(id);
-
-			if (confirmed) {
-				localStorage.setItem('emailVerified', true);
-				await verifyEmail();
-				return history.push('/');
-			}
-
-			setMessage('Não foi possível realizar a confirmação, token inválido.');
+			await api.users.confirmEmail(id);
 			setLoading(false);
 
 		}, 3000);

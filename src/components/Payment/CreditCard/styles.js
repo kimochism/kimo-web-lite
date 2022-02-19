@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { fontSize } from 'variables';
 
 export const Container = styled.div`
     #form-checkout{
@@ -21,14 +22,47 @@ export const Container = styled.div`
         }
         input{
             padding: 8px;
+            height: 20px;
             margin: 5px;
             border: 2px solid black;
         }
         select{
-            padding: 8px;
+            padding: 5px;
             margin: 5px;
             border: 2px solid black;
+            height: 40px;
         }
+        .error{
+            margin-left: 10px;
+            color: red;
+            font-size: ${fontSize.default};
+        }
+
+        .group-inputs{
+            display: flex;
+            justify-content: space-between;
+            input {
+                width: 50%;
+            }
+        }
+
+        .group-inputs-error{
+            display: flex;
+            justify-content: space-between;
+
+            .error {
+                margin-left: 10px;
+                color: red;
+                font-size: ${fontSize.default};
+            }
+            span{
+                width: 20%;
+            }
+            span:nth-child(3){
+                width: 60%;
+            }
+        }
+
         button{
             padding: 12px;
             width: 98%;
