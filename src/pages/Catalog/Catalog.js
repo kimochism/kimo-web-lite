@@ -53,6 +53,11 @@ const Catalog = () => {
 					style={i === 1 ? { color: 'white', background: 'black' } : {}}
 					onClick={(e) => {
 
+						window.scrollTo({
+							top: 0,
+							behavior: 'smooth'
+						});
+						
 						// removing style before adding in selected button
 						const allButtons = document.querySelector('.pages-buttons');
 
