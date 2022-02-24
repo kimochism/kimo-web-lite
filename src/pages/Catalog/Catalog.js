@@ -20,6 +20,7 @@ const Catalog = () => {
 		total: 0
 	});
 	const [availablePages, setAvailablePages] = useState(0);
+	const [filters, setFilters] = useState({});
 
 	useEffect(() => {
 		getProducts();
@@ -39,6 +40,16 @@ const Catalog = () => {
 		setAvailablePages(options.total / options.limit);
 
 		hideFallback();
+	};
+
+	useEffect(() => {
+		if(Object.keys(filters).length) {
+			console.log(filters);
+		}
+	}, [filters]);
+
+	const getFilters = async filters => {
+		setFilters(filters);
 	};
 
 	const buttonPages = () => {
@@ -85,7 +96,7 @@ const Catalog = () => {
 			<Menu />
 			<div className="container-catalog">
 				<div className="container-catalog-left">
-					<Filter />
+					<Filter handleGetFilters={filters => getFilters(filters) }/>
 				</div>
 				<div className="aux-cont">
 					<div className="container-catalog-right">
