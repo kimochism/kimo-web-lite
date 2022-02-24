@@ -12,9 +12,9 @@ const Product = lazy(() => import('./pages/Product/Product'));
 const Catalog = lazy(() => import('./pages/Catalog/Catalog'));
 const CustomerBag = lazy(() => import('./pages/CustomerBag/CustomerBag'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
-const EditEmail = lazy(() => import('./pages/EditEmail/EditEmail'));
-const ConfirmEmail = lazy(() => import('./pages/ConfirmEmail/ConfirmEmail'));
-const VerifyEmail = lazy(() => import('./pages/VerifyEmail/VerifyEmail'));
+const EditEmail = lazy(() => import('./pages/Email/EditEmail/EditEmail'));
+const ConfirmEmail = lazy(() => import('./pages/Email/ConfirmEmail/ConfirmEmail'));
+const VerifyEmail = lazy(() => import('./pages/Email/VerifyEmail/VerifyEmail'));
 
 const CustomRoute = ({ isPrivate, ...rest }) => {
 	const { loading, authenticated } = useContext(AuthContext);
@@ -37,7 +37,7 @@ CustomRoute.propTypes = {
 export default function Routes() {
 	return (
 		<Switch>
-			<Suspense fallback={Fallback}>
+			<Suspense fallback={<Fallback />}>
 				<CustomRoute exact path='/' component={() => <Home />} />
 				<CustomRoute exact path='/product/:id' component={() => <Product />} />
 				<CustomRoute exact path='/profile' component={() => <Redirect to="/profile/account" />} />
@@ -46,9 +46,9 @@ export default function Routes() {
 				<CustomRoute exact path='/catalog' component={() => <Catalog />} />
 				<CustomRoute exact path='/customerbag' component={() => <CustomerBag />} />
 				<CustomRoute exact path='/notfound' component={() => <NotFound />} />
-				<CustomRoute exact path='/editEmail' component={() => <EditEmail />} />
-				<CustomRoute isPrivate exact path='/confirmEmail' component={() => <ConfirmEmail />} />
-				<CustomRoute isPrivate exact path='/verifyEmail/:id' component={() => <VerifyEmail />} />
+				<CustomRoute exact path='/email/edit' component={() => <EditEmail />} />
+				<CustomRoute isPrivate exact path='/email/confirm' component={() => <ConfirmEmail />} />
+				<CustomRoute isPrivate exact path='/email/verify/:id' component={() => <VerifyEmail />} />
 			</Suspense>
 		</Switch>
 	);
