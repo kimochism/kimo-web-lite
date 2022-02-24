@@ -18,7 +18,6 @@ const VerifyEmail = () => {
 	
 	useEffect(() => {
 		socket && socket.on('emailVerified', payload => {
-			console.log(payload);
 			if (payload.verified) {
 				history.push('/');
 			} else {

@@ -37,7 +37,7 @@ CustomRoute.propTypes = {
 export default function Routes() {
 	return (
 		<Switch>
-			<Suspense fallback={Fallback}>
+			<Suspense fallback={<Fallback />}>
 				<CustomRoute exact path='/' component={() => <Home />} />
 				<CustomRoute exact path='/product/:id' component={() => <Product />} />
 				<CustomRoute exact path='/profile' component={() => <Redirect to="/profile/account" />} />

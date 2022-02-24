@@ -2,6 +2,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Container } from './styles';
 import { Link, useHistory } from 'react-router-dom';
 import { MapPinIcon, ArrowIcon, BagIcon } from 'assets/icons';
+import { AuthContext } from 'context/AuthContext';
+import { LS_KEY_PRODUCT } from 'constants/all';
+import * as ls from 'utils/localStorage';
 import Menu from 'shared/Menu/Menu';
 import Footer from 'shared/Footer/Footer';
 import NoProducts from 'components/NoProducts/NoProducts';
@@ -9,7 +12,6 @@ import Payment from 'components/Payment/Payment';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
 import AddressSelector from 'shared/Modal/AddressSelector/AddressSelector';
-import { AuthContext } from 'context/AuthContext';
 
 const CustomerBag = () => {
 
@@ -19,33 +21,73 @@ const CustomerBag = () => {
 
 	const history = useHistory();
 
-	const [customerBags, setCustomerBags] = useState([]);
+	// const [customerBags, setCustomerBags] = useState([]);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [productsAmount, setProductsAmount] = useState(0);
 	const [freight, setFreight] = useState(0);
 	const [mainAddress, setMainAddress] = useState();
 	const [addressSelectorIsOpen, setAddressSelectorIsOpen] = useState(false);
 	const [selectedAddress, setSelectedAddres] = useState();
+	const [products, setProducts] = useState([]);
+	const [productsStoraged, ] = useState(ls.getItem(LS_KEY_PRODUCT, 'products') || []);
 
 	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
 	useEffect(() => {
-		if(authenticated) getCustomerBags();
+		authenticated ? getCustomerBags() : getProducts();
 	}, []);
 
 	useEffect(() => {
+		if (productsStoraged.products) {
+			ls.storeItem(LS_KEY_PRODUCT, productsStoraged);
+		}
+	}, [productsStoraged]);
+
+	useEffect(() => {
 		setTotalAmount(parseFloat(productsAmount) + parseFloat(freight));
-	}, [customerBags, productsAmount, freight]);
+	}, [products, productsAmount, freight]);
+
+	const getProducts = async () => {
+		showFallback();
+		
+		// productsStoraged.map(async ({ id, options, quantity }) => {
+
+		// 	const { name, images, price } = await api.products.show(id);
+
+		// 	setProducts(products.push({
+		// 		id,
+		// 		options,
+		// 		quantity,
+		// 		name,
+		// 		firstImage: images[0].url,
+		// 		price
+		// 	}));
+		// });
+
+		hideFallback();
+	};
 
 	const getCustomerBags = async () => {
-		
+
+		console.log('tá chando essa discgraça');
 		showFallback();
 
 		await getMainAddress();
 
 		const data = await api.customerBags.listByEmail(email);
 
-		setCustomerBags(data);
+		setProducts(data.map(({ _id: id, options, quantity, product: { name, images, price} }) => ({
+			id,
+			options,
+			quantity,
+			product: {
+				name,
+				firstImage: images[0].url,
+				price
+			}
+		})));
+
+		// setCustomerBags(data);
 
 		setTotalAmount(parseFloat(productsAmount) + parseFloat(freight));
 		setProductsAmount(data.reduce((accumulator, current) => {
@@ -78,7 +120,7 @@ const CustomerBag = () => {
 			await api.customers.showByUser(user._id).then(async customer => {
 				await api.addresses.listByCustomer(customer._id).then(addresses => {
 
-					if(addresses && addresses.length > 0) {
+					if (addresses && addresses.length > 0) {
 						setMainAddress(addresses[0]);
 						calculateZipCode(addresses[0].zip_code);
 					}
@@ -88,7 +130,7 @@ const CustomerBag = () => {
 	};
 
 	const calculateZipCode = async zipCode => {
-		
+
 		const data = {
 			sCepOrigem: '08150020',
 			sCepDestino: zipCode,
@@ -108,7 +150,7 @@ const CustomerBag = () => {
 		}
 	};
 
-	if (customerBags.length === 0 && !loading) return (
+	if (productsStoraged.length === 0 && products.length === 0 && !loading) return (
 		<>
 			<Menu />
 			<NoProducts />
@@ -118,7 +160,7 @@ const CustomerBag = () => {
 
 	return (
 		<Container>
-			{customerBags.length !== 0 && !loading && <>
+			{((productsStoraged.length !== 0 || products.length !== 0) && !loading) && <>
 				<div className="customer-bag-left">
 					<div className="logo">
 						<Link to='/'>
@@ -161,7 +203,7 @@ const CustomerBag = () => {
 						</div>
 
 						<div className="customer-payment-options">
-							<Payment orderAmount={totalAmount} description="Produtos"/>
+							<Payment orderAmount={totalAmount} description="Produtos" />
 						</div>
 
 						<div className="come-back">
@@ -181,25 +223,26 @@ const CustomerBag = () => {
 
 					{/* lista de produtos */}
 					<div className="list-products">
-						{customerBags && customerBags.map(customerBag => {
+						{console.log(products)}
+						{products && products.map(product => {
 							return (
-								<div className="product-item" key={customerBag._id}>
-									<img src={customerBag.product.images[0].url} />
+								<div className="product-item" key={product.id}>
+									<img src={product.firstImage} />
 									<div className="product-info">
-										<span>{customerBag.product.name}</span>
-										<span>Tamanho: {customerBag.options.size}</span>
-										<span>Cor: {customerBag.options.color.label}</span>
+										<span>{product.name}</span>
+										<span>Tamanho: {product.options.size}</span>
+										<span>Cor: {product.options.color.label}</span>
 										<div className="quantity-products">
 											<div>
-												<span>Quantidade: {customerBag.quantity}</span>
+												<span>Quantidade: {product.quantity}</span>
 											</div>
 											<div className="quantity-buttons">
-												<button onClick={() => changeQuantity(customerBag._id, customerBag.quantity - 1)}> - </button>
-												<label> {customerBag.quantity} </label>
-												<button onClick={() => changeQuantity(customerBag._id, customerBag.quantity + 1)}> + </button>
+												<button onClick={() => authenticated ? changeQuantity(product.id, product.quantity - 1) : {}}> - </button>
+												<label> {product.quantity} </label>
+												<button onClick={() => authenticated ? changeQuantity(product.id, product.quantity + 1) : {}}> + </button>
 											</div>
 										</div>
-										<span>Preço Unidade: R$ {parseFloat(customerBag.product.price).toFixed(2)}</span>
+										<span>Preço Unidade: R$ {parseFloat(product.price).toFixed(2)}</span>
 									</div>
 								</div>
 							);
@@ -223,12 +266,12 @@ const CustomerBag = () => {
 						{/* <button>Finalizar</button> */}
 					</div>
 				</div>
+				<AddressSelector
+					isOpen={addressSelectorIsOpen}
+					handleClose={() => setAddressSelectorIsOpen(false)}
+					onSelected={address => { setSelectedAddres(address); setMainAddress(undefined); calculateZipCode(address.zip_code); }} />
 			</>
 			}
-			<AddressSelector
-				isOpen={addressSelectorIsOpen}
-				handleClose={() => setAddressSelectorIsOpen(false)}
-				onSelected={address => {setSelectedAddres(address); setMainAddress(undefined); calculateZipCode(address.zip_code);}}/>
 			{fallback}
 		</Container>
 	);
