@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from 'variables';
 
 export const Container = styled.div`
     background-color: white;
@@ -23,6 +24,15 @@ export const Container = styled.div`
     .customer-bag-container-infos{
         width: 600px;
         padding: 20px 140px;
+    }
+    .create-address{
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+        width: 40%;
+        background: ${colors.black};
+        color: ${colors.white};
+        margin-bottom: 20px;
     }
     .customer-address{
         flex-direction: column;

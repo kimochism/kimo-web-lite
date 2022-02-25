@@ -12,71 +12,75 @@ import Payment from 'components/Payment/Payment';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
 import AddressSelector from 'shared/Modal/AddressSelector/AddressSelector';
+import SignInUp from 'shared/Modal/SignInUp/SignInUp';
 
 const CustomerBag = () => {
 
 	const email = localStorage.getItem('email');
 
 	const { authenticated } = useContext(AuthContext);
+	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
 	const history = useHistory();
 
-	// const [customerBags, setCustomerBags] = useState([]);
+	const [customerBags, setCustomerBags] = useState([]);
+	const [productsStoraged,] = useState(ls.getItem(LS_KEY_PRODUCT, 'products') || []);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [productsAmount, setProductsAmount] = useState(0);
 	const [freight, setFreight] = useState(0);
 	const [mainAddress, setMainAddress] = useState();
 	const [addressSelectorIsOpen, setAddressSelectorIsOpen] = useState(false);
 	const [selectedAddress, setSelectedAddres] = useState();
-	const [products, setProducts] = useState([]);
-	const [productsStoraged, ] = useState(ls.getItem(LS_KEY_PRODUCT, 'products') || []);
 
-	const [fallback, showFallback, hideFallback, loading] = useFallback();
+	const [showSignInUp, setShowSignInUp] = useState(false);
 
 	useEffect(() => {
 		authenticated ? getCustomerBags() : getProducts();
 	}, []);
 
-	useEffect(() => {
-		if (productsStoraged.products) {
-			ls.storeItem(LS_KEY_PRODUCT, productsStoraged);
-		}
-	}, [productsStoraged]);
+	// useEffect(() => {
+	// 	if (productsStoraged.products) {
+	// 		ls.storeItem(LS_KEY_PRODUCT, productsStoraged);
+	// 	}
+	// }, [productsStoraged]);
 
 	useEffect(() => {
 		setTotalAmount(parseFloat(productsAmount) + parseFloat(freight));
-	}, [products, productsAmount, freight]);
+		calculateProductsAmount(customerBags);
+	}, [customerBags, productsAmount, freight]);
 
 	const getProducts = async () => {
 		showFallback();
-		
-		// productsStoraged.map(async ({ id, options, quantity }) => {
 
-		// 	const { name, images, price } = await api.products.show(id);
+		productsStoraged.map(async ({ id, options, quantity }) => {
+			const { name, images, price } = await api.products.show(id);
 
-		// 	setProducts(products.push({
-		// 		id,
-		// 		options,
-		// 		quantity,
-		// 		name,
-		// 		firstImage: images[0].url,
-		// 		price
-		// 	}));
-		// });
+			const customerBagToAdd = {
+				id,
+				options,
+				quantity,
+				product: {
+					name,
+					firstImage: images[0].url,
+					price
+				}
+			};
+
+			setCustomerBags(customerBags => [...customerBags, customerBagToAdd]);
+		});
 
 		hideFallback();
 	};
 
 	const getCustomerBags = async () => {
 
-		console.log('tá chando essa discgraça');
 		showFallback();
 
 		await getMainAddress();
 
 		const data = await api.customerBags.listByEmail(email);
 
-		setProducts(data.map(({ _id: id, options, quantity, product: { name, images, price} }) => ({
+		setCustomerBags(data.map(({ _id: id, options, quantity, product: { name, images, price } }) => ({
 			id,
 			options,
 			quantity,
@@ -87,20 +91,28 @@ const CustomerBag = () => {
 			}
 		})));
 
-		// setCustomerBags(data);
+		calculateProductsAmount(customerBags);
+
+		hideFallback();
+	};
+
+	const calculateProductsAmount = (customerBags) => {
 
 		setTotalAmount(parseFloat(productsAmount) + parseFloat(freight));
-		setProductsAmount(data.reduce((accumulator, current) => {
+		setProductsAmount(customerBags.reduce((accumulator, current) => {
 			accumulator += parseFloat(current.product.price) * current.quantity;
 			return accumulator;
 		}, 0));
-
-		hideFallback();
 	};
 
 	const changeQuantity = async (id, quantity) => {
 
 		showFallback();
+
+		if(!authenticated) {
+			setCustomerBags(customerBags => [...customerBags, customerBags.map(customerBag => customerBag.id === id ? {...customerBag, quantity } : customerBag )]);
+			return;
+		}
 
 		if (quantity === 0) {
 			await api.customerBags.destroy(id);
@@ -150,7 +162,7 @@ const CustomerBag = () => {
 		}
 	};
 
-	if (productsStoraged.length === 0 && products.length === 0 && !loading) return (
+	if (productsStoraged.length === 0 && customerBags.length === 0 && !loading) return (
 		<>
 			<Menu />
 			<NoProducts />
@@ -160,7 +172,7 @@ const CustomerBag = () => {
 
 	return (
 		<Container>
-			{((productsStoraged.length !== 0 || products.length !== 0) && !loading) && <>
+			{((productsStoraged.length || customerBags.length) && !loading) && <>
 				<div className="customer-bag-left">
 					<div className="logo">
 						<Link to='/'>
@@ -199,7 +211,13 @@ const CustomerBag = () => {
 									</span>
 								</>
 							}
-							{!mainAddress && !selectedAddress && <span onClick={() => history.push('profile/create-address/return')}>Criar endereço</span>}
+							{!mainAddress && !selectedAddress &&
+								<span
+									className="create-address"
+									onClick={() => !authenticated ? setShowSignInUp(true) : history.push('profile/create-address/return')}>
+									Criar endereço
+								</span>
+							}
 						</div>
 
 						<div className="customer-payment-options">
@@ -223,26 +241,25 @@ const CustomerBag = () => {
 
 					{/* lista de produtos */}
 					<div className="list-products">
-						{console.log(products)}
-						{products && products.map(product => {
+						{customerBags && customerBags.map(customerBag => {
 							return (
-								<div className="product-item" key={product.id}>
-									<img src={product.firstImage} />
+								<div className="product-item" key={customerBag.id}>
+									<img src={customerBag.product.firstImage} />
 									<div className="product-info">
-										<span>{product.name}</span>
-										<span>Tamanho: {product.options.size}</span>
-										<span>Cor: {product.options.color.label}</span>
+										<span>{customerBag.product.name}</span>
+										<span>Tamanho: {customerBag.options.size}</span>
+										<span>Cor: {customerBag.options.color.label}</span>
 										<div className="quantity-products">
 											<div>
-												<span>Quantidade: {product.quantity}</span>
+												<span>Quantidade: {customerBag.quantity}</span>
 											</div>
 											<div className="quantity-buttons">
-												<button onClick={() => authenticated ? changeQuantity(product.id, product.quantity - 1) : {}}> - </button>
-												<label> {product.quantity} </label>
-												<button onClick={() => authenticated ? changeQuantity(product.id, product.quantity + 1) : {}}> + </button>
+												<button onClick={() => authenticated ? changeQuantity(customerBag.id, customerBag.quantity - 1) : {}}> - </button>
+												<label> {customerBag.quantity} </label>
+												<button onClick={() => authenticated ? changeQuantity(customerBag.id, customerBag.quantity + 1) : {}}> + </button>
 											</div>
 										</div>
-										<span>Preço Unidade: R$ {parseFloat(product.price).toFixed(2)}</span>
+										<span>Preço Unidade: R$ {parseFloat(customerBag.product.price).toFixed(2)}</span>
 									</div>
 								</div>
 							);
@@ -266,11 +283,19 @@ const CustomerBag = () => {
 						{/* <button>Finalizar</button> */}
 					</div>
 				</div>
-				<AddressSelector
-					isOpen={addressSelectorIsOpen}
-					handleClose={() => setAddressSelectorIsOpen(false)}
-					onSelected={address => { setSelectedAddres(address); setMainAddress(undefined); calculateZipCode(address.zip_code); }} />
+				{authenticated &&
+					<AddressSelector
+						isOpen={addressSelectorIsOpen}
+						handleClose={() => setAddressSelectorIsOpen(false)}
+						onSelected={address => { setSelectedAddres(address); setMainAddress(undefined); calculateZipCode(address.zip_code); }}
+					/>
+				}
 			</>
+			}
+			{<SignInUp
+				isOpen={showSignInUp}
+				handleClose={() => setShowSignInUp(false)}
+				defaultIsSignIn />
 			}
 			{fallback}
 		</Container>
