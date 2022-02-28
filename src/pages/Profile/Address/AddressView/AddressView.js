@@ -136,20 +136,28 @@ const AddressView = ({ goBack, addressToEdit }) => {
 
 	return (
 		<Container>
-			<div>
-				<h1>{editable ? 'Editando o endereço' : 'Criando o endereço'}</h1>
+			<h1>{editable ? 'Editando o endereço' : 'Criando o endereço'}</h1>
+			<div className='address-attention'>
+				<label>Ajude-nos a enviar sua encomenda pro lugar certo!</label>
+				<label>Verifique todos os campos antes de finalizar.</label>
+			</div>
+			<div className='address-form'>
 				<input placeholder="CEP" name="zip_code" value={address.zip_code} onChange={e => onChange(e)} />
-				<input placeholder="Logradouro" name="street" value={address.street} onChange={e => onChange(e)} />
 				<input placeholder="Número" name="number" value={address.number} onChange={e => onChange(e)} />
+				<input className='address-input-long' placeholder="Logradouro" name="street" value={address.street} onChange={e => onChange(e)} />
+				
 				<input placeholder="Complemento" name="complement" value={address.complement} onChange={e => onChange(e)} />
 				<input placeholder="Bairro" name="district" value={address.district} onChange={e => onChange(e)} />
-				<input placeholder="Ponto de refeência" name="reference" value={address.reference} onChange={e => onChange(e)} />
+				<input placeholder="Ponto de referência" name="reference" value={address.reference} onChange={e => onChange(e)} />
 				<input placeholder="Cidade" name="city" value={address.city} onChange={e => onChange(e)} />
 				<input placeholder="Estado" name="state" value={address.state} onChange={e => onChange(e)} />
+			</div>
+			<div className='address-actions'>
+				<button onClick={() => goBack()}>Voltar</button>
 				<button onClick={() => onSubmit()}>{editable ? 'Editar endereço' : 'Criar endereço'}</button>
 				{error}
 				{fallback}
-				<span onClick={() => goBack()}>Voltar</span>
+				
 			</div>
 		</Container>
 	);
