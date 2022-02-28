@@ -44,7 +44,7 @@ const Catalog = () => {
 
 	useEffect(() => {
 		if(Object.keys(filters).length) {
-			console.log(filters);
+			// console.log(filters);
 		}
 	}, [filters]);
 
