@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import { Container } from './styles';
 import { Link, useHistory } from 'react-router-dom';
 import { MapPinIcon, ArrowIcon, BagIcon } from 'assets/icons';
 import { AuthContext } from 'context/AuthContext';
-import { LS_KEY_PRODUCT } from 'constants/all';
+import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
+import { UPDATE_CUSTOMER_BAGS, ADD_CUSTOMER_BAG, SET_CUSTOMER_BAGS_STORED, REMOVE_CUSTOMER_BAG, SET_CUSTOMER_BAGS } from 'constants/types';
 import * as ls from 'utils/localStorage';
 import Menu from 'shared/Menu/Menu';
 import Footer from 'shared/Footer/Footer';
@@ -14,84 +15,121 @@ import api from 'api/index';
 import AddressSelector from 'shared/Modal/AddressSelector/AddressSelector';
 import SignInUp from 'shared/Modal/SignInUp/SignInUp';
 
-const CustomerBag = () => {
+const initialState = {
+	customerBags: [],
+	customerBagsStored: [],
+};
 
-	const email = localStorage.getItem('email');
+const reducer = (state, { type, payload }) => {
+	switch (type) {
+		case ADD_CUSTOMER_BAG:
+			return { ...state, customerBags: [...state.customerBags, payload] };
+		case REMOVE_CUSTOMER_BAG:
+			return { ...state, customerBags: payload };
+		case UPDATE_CUSTOMER_BAGS:
+			return { ...state, customerBags: payload };
+		case SET_CUSTOMER_BAGS:
+			return { ...state, customerBags: payload };
+		case SET_CUSTOMER_BAGS_STORED:
+			return { ...state, customerBagsStored: payload };
+		default:
+			return state;
+	}
+};
+
+const CustomerBag = () => {
+	
+	const email = ls.getItem(LS_KEY_USER, 'email');
 
 	const { authenticated } = useContext(AuthContext);
 	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
 	const history = useHistory();
 
-	const [customerBags, setCustomerBags] = useState([]);
-	const [productsStoraged,] = useState(ls.getItem(LS_KEY_PRODUCT, 'products') || []);
+	const [state, dispatch] = useReducer(reducer, initialState);
+
+	const [allowUpdate, setAllowUpdate] = useState(true);
+	const [customerBagsStoraged,] = useState(ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || []);
 	const [totalAmount, setTotalAmount] = useState(0);
 	const [productsAmount, setProductsAmount] = useState(0);
 	const [freight, setFreight] = useState(0);
 	const [mainAddress, setMainAddress] = useState();
 	const [addressSelectorIsOpen, setAddressSelectorIsOpen] = useState(false);
 	const [selectedAddress, setSelectedAddres] = useState();
-
 	const [showSignInUp, setShowSignInUp] = useState(false);
 
+	const {
+		customerBags,
+		customerBagsStored
+	} = state;
+
 	useEffect(() => {
-		authenticated ? getCustomerBags() : getProducts();
+		const customerBagsStored = ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || [];
+		dispatch({ type: SET_CUSTOMER_BAGS_STORED, payload: customerBagsStored });
 	}, []);
 
-	// useEffect(() => {
-	// 	if (productsStoraged.products) {
-	// 		ls.storeItem(LS_KEY_PRODUCT, productsStoraged);
-	// 	}
-	// }, [productsStoraged]);
+	useEffect(() => {
+		if (authenticated) return getCustomerBags();
+	}, []);
+
+	useEffect(() => {
+		if (customerBagsStored.length && !authenticated) return getCustomerBagsStored();
+	}, [customerBagsStored]);
+
+	useEffect(() => {
+		if (customerBagsStoraged) {
+			ls.storeItem(LS_KEY_CUSTOMER_BAG, { customerBags: customerBagsStored });
+		}
+	}, [customerBagsStored]);
 
 	useEffect(() => {
 		setTotalAmount(parseFloat(productsAmount) + parseFloat(freight));
 		calculateProductsAmount(customerBags);
 	}, [customerBags, productsAmount, freight]);
 
-	const getProducts = async () => {
-		showFallback();
+	const getCustomerBagsStored = async () => {
+		if (allowUpdate) {
+			customerBagsStored.map(async ({ id, options, quantity, productId }) => {
 
-		productsStoraged.map(async ({ id, options, quantity }) => {
-			const { name, images, price } = await api.products.show(id);
+				const { name, images, price } = await api.products.show(productId);
 
-			const customerBagToAdd = {
-				id,
-				options,
-				quantity,
-				product: {
-					name,
-					firstImage: images[0].url,
-					price
-				}
-			};
+				const customerBagToAdd = {
+					id,
+					options,
+					quantity,
+					product: {
+						id: productId,
+						name,
+						firstImage: images[0].url,
+						price
+					}
+				};
 
-			setCustomerBags(customerBags => [...customerBags, customerBagToAdd]);
-		});
-
-		hideFallback();
+				dispatch({ type: ADD_CUSTOMER_BAG, payload: customerBagToAdd });
+			});
+		}
 	};
 
 	const getCustomerBags = async () => {
-
 		showFallback();
-
 		await getMainAddress();
 
-		const data = await api.customerBags.listByEmail(email);
+		const customerBags = await api.customerBags.listByEmail(email);
 
-		setCustomerBags(data.map(({ _id: id, options, quantity, product: { name, images, price } }) => ({
+		const customerBagsMap = customerBags.map(({ _id: id, options, quantity, product: { _id: productId, name, images, price } }) => ({
 			id,
 			options,
 			quantity,
 			product: {
+				id: productId,
 				name,
 				firstImage: images[0].url,
 				price
 			}
-		})));
+		}));
 
-		calculateProductsAmount(customerBags);
+		dispatch({ type: SET_CUSTOMER_BAGS, payload: customerBagsMap });
+		calculateProductsAmount(customerBagsMap);
 
 		hideFallback();
 	};
@@ -105,24 +143,39 @@ const CustomerBag = () => {
 		}, 0));
 	};
 
+	const changeQuantityStored = async (id, quantity) => {
+		const customerBagsStoredMap = customerBags => customerBags.map(({ id, quantity, options, product }) => ({ id, quantity, options, productId: product.id }));
+
+		setAllowUpdate(false);
+
+		if (!quantity) {
+			const filteredCustomerBags = customerBags.filter(customerBag => customerBag.id !== id);
+
+			dispatch({ type: REMOVE_CUSTOMER_BAG, payload: filteredCustomerBags });
+			dispatch({ type: SET_CUSTOMER_BAGS_STORED, payload: customerBagsStoredMap(filteredCustomerBags) });
+
+			return;
+		}
+
+		const customerBagUpdated = customerBags.map(customerBag => customerBag.id === id ? { ...customerBag, quantity } : customerBag);
+
+		dispatch({ type: UPDATE_CUSTOMER_BAGS, payload: customerBagUpdated });
+		dispatch({ type: SET_CUSTOMER_BAGS_STORED, payload: customerBagsStoredMap(customerBagUpdated) });
+	};
+
 	const changeQuantity = async (id, quantity) => {
 
 		showFallback();
 
-		if(!authenticated) {
-			setCustomerBags(customerBags => [...customerBags, customerBags.map(customerBag => customerBag.id === id ? {...customerBag, quantity } : customerBag )]);
-			return;
-		}
-
-		if (quantity === 0) {
+		if (!quantity) {
 			await api.customerBags.destroy(id);
-			getCustomerBags();
+			await getCustomerBags();
 			hideFallback();
 			return;
 		}
 
 		await api.customerBags.update(id, { quantity });
-		getCustomerBags();
+		await getCustomerBags();
 
 		hideFallback();
 	};
@@ -131,8 +184,7 @@ const CustomerBag = () => {
 		await api.users.showByEmail(email).then(async user => {
 			await api.customers.showByUser(user._id).then(async customer => {
 				await api.addresses.listByCustomer(customer._id).then(addresses => {
-
-					if (addresses && addresses.length > 0) {
+					if (addresses && addresses.length) {
 						setMainAddress(addresses[0]);
 						calculateZipCode(addresses[0].zip_code);
 					}
@@ -162,7 +214,7 @@ const CustomerBag = () => {
 		}
 	};
 
-	if (productsStoraged.length === 0 && customerBags.length === 0 && !loading) return (
+	if (!customerBagsStored.length && !customerBags.length && !loading) return (
 		<>
 			<Menu />
 			<NoProducts />
@@ -172,7 +224,7 @@ const CustomerBag = () => {
 
 	return (
 		<Container>
-			{((productsStoraged.length || customerBags.length) && !loading) && <>
+			{(customerBags.length && !loading) && <>
 				<div className="customer-bag-left">
 					<div className="logo">
 						<Link to='/'>
@@ -254,9 +306,15 @@ const CustomerBag = () => {
 												<span>Quantidade: {customerBag.quantity}</span>
 											</div>
 											<div className="quantity-buttons">
-												<button onClick={() => authenticated ? changeQuantity(customerBag.id, customerBag.quantity - 1) : {}}> - </button>
+												<button onClick={() => {
+													if (!authenticated) return changeQuantityStored(customerBag.id, customerBag.quantity - 1);
+													return changeQuantity(customerBag.id, customerBag.quantity - 1);
+												}}> - </button>
 												<label> {customerBag.quantity} </label>
-												<button onClick={() => authenticated ? changeQuantity(customerBag.id, customerBag.quantity + 1) : {}}> + </button>
+												<button onClick={() => {
+													if (!authenticated) return changeQuantityStored(customerBag.id, customerBag.quantity + 1);
+													return changeQuantity(customerBag.id, customerBag.quantity + 1);
+												}}> + </button>
 											</div>
 										</div>
 										<span>Preço Unidade: R$ {parseFloat(customerBag.product.price).toFixed(2)}</span>

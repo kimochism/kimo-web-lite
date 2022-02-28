@@ -13,13 +13,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from 'context/AuthContext';
 import { SocketProvider } from 'context/SocketContext';
 
-import { UseEffectScroll } from 'react-use-smooth-scroll';
+// import { UseEffectScroll } from 'react-use-smooth-scroll';
 
 const App = () => {
 	return (
 		<AuthProvider>
 			<SocketProvider>
-				<UseEffectScroll>
+				{/* <UseEffectScroll> */}
 					<Router>
 						<Routes />
 						{/* <MessengerCustomerChat
@@ -28,7 +28,7 @@ const App = () => {
 						/> */}
 						<ToastContainer autoClose={5000} style={{ padding: '0px', width: '500px' }} />
 					</Router>
-				</UseEffectScroll>
+				{/* </UseEffectScroll> */}
 			</SocketProvider>
 		</AuthProvider>
 	);

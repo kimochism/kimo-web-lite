@@ -9,7 +9,8 @@ import Menu from 'shared/Menu/Menu';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
 import * as ls from 'utils/localStorage';
-import { LS_KEY_PRODUCT } from 'constants/all';
+import { v4 as uuidv4 } from 'uuid';
+import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
 
 const Product = () => {
 
@@ -37,13 +38,13 @@ const Product = () => {
 	const sizesRef = useRef(null);
 	const colorsRef = useRef(null);
 
-	const [productsStoraged, setProductsStoraged] = useState(ls.getItem(LS_KEY_PRODUCT, 'products') || []);
+	const [customerBagsStoraged, setCustomerBagsStoraged] = useState(ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || []);
 
 	useEffect(() => {
-		if (productsStoraged.products) {
-			ls.storeItem(LS_KEY_PRODUCT, productsStoraged);
+		if (customerBagsStoraged.customerBags) {
+			ls.storeItem(LS_KEY_CUSTOMER_BAG, customerBagsStoraged);
 		}
-	}, [productsStoraged]);
+	}, [customerBagsStoraged]);
 
 	useEffect(() => {
 		getProduct();
@@ -99,26 +100,34 @@ const Product = () => {
 		e.currentTarget.classList.add('selected-color');
 	};
 
-	const addProductToBagStorage = () => {
-		if (productsStoraged.length <= 0) {
-			setProductsStoraged({ products: [{ id: product._id, quantity, options }] });
+	const addCustomerBagToStoraged = () => {
+		if (customerBagsStoraged.length <= 0) {
+			setCustomerBagsStoraged({ customerBags: [{ id: uuidv4(), quantity, options, productId: product._id }] });
 			return;
 		}
 
-		const allProductsStoraged = productsStoraged.products || productsStoraged;
+		const allCustomerBagsStoraged = customerBagsStoraged.customerBags || customerBagsStoraged;
 
-		const productExistsInStorageIndex = allProductsStoraged.findIndex((productStoraged) => {
-			return productStoraged.id === product._id &&
-				productStoraged.options.color.name == options.color.name &&
-				productStoraged.options.size == options.size;
+		const customerBagExistsInStorageIndex = allCustomerBagsStoraged.findIndex((customerBagStoraged) => {
+			return customerBagStoraged.productId === product._id &&
+				customerBagStoraged.options.color.name === options.color.name &&
+				customerBagStoraged.options.size === options.size;
 		});
 
-		if (productExistsInStorageIndex !== -1) {
-			allProductsStoraged[productExistsInStorageIndex].quantity = allProductsStoraged[productExistsInStorageIndex].quantity + quantity;
-			setProductsStoraged({ products: allProductsStoraged });
+		if (customerBagExistsInStorageIndex !== -1) {
+			allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity = allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity + quantity;
+			setCustomerBagsStoraged({ customerBags: allCustomerBagsStoraged });
+			return;
 		}
 
-		if (productExistsInStorageIndex === -1) setProductsStoraged({ products: allProductsStoraged.concat({ id: product._id, quantity, options }) });
+		setCustomerBagsStoraged({
+			customerBags: allCustomerBagsStoraged.concat({
+				id: uuidv4(),
+				quantity,
+				options,
+				productId: product._id
+			})
+		});
 	};
 
 	const addProductToBag = () => {
@@ -142,16 +151,22 @@ const Product = () => {
 		}
 
 		if (!authenticated) {
-			addProductToBagStorage();
+			addCustomerBagToStoraged();
+			toast(<Notification history={history} options={options} />, {
+				hideProgressBar: true,
+				position: toast.POSITION.TOP_RIGHT,
+			});
 			productAddedToCartDelay();
 			return;
 		}
+
+		const email = ls.getItem(LS_KEY_USER, 'email');
 
 		const response = api.customerBags.store({
 			product: product._id,
 			quantity,
 			options,
-			email: localStorage.getItem('email')
+			email
 		});
 
 		if (response) {
