@@ -61,7 +61,6 @@ const AddressView = ({ goBack, addressToEdit }) => {
 
 		await api.users.showByEmail(email).then(async user => {
 			await api.customers.showByUser(user._id).then(customer => {
-				console.log(customer);
 				setAddress(prevAddress => ({ ...prevAddress, customer_id: customer._id }));
 			});
 		});

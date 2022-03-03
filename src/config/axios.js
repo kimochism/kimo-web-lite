@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { LS_KEY_AUTHORIZATION } from 'constants/all';
+import * as ls from 'utils/localStorage';
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -6,7 +8,7 @@ export const enviroment = {
   api_production: 'https://kimo-api-lite.herokuapp.com'
 };
 
-const authorization = localStorage.getItem('authorization');
+const authorization = ls.getItem(LS_KEY_AUTHORIZATION, 'access_token');
 
 const http = axios.create({
   baseURL: REACT_APP_API_URL ? REACT_APP_API_URL : enviroment.api_production,

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from 'api/index';
+import * as ls from 'utils/localStorage';
+import { LS_KEY_AUTHORIZATION, LS_KEY_USER } from 'constants/all';
 
 export default function useAuth() {
 
@@ -10,61 +12,59 @@ export default function useAuth() {
 
 	useEffect(() => {
 
-		const authentication = localStorage.getItem('authorization');
-		const email = localStorage.getItem('email');
-		const firstName = localStorage.getItem('firstName');
+		const authorizationStored = ls.getItem(LS_KEY_AUTHORIZATION, 'access_token');
+		const firstNameStored = ls.getItem(LS_KEY_USER, 'firstName');
+		const emailStored = ls.getItem(LS_KEY_USER, 'email');
 
-		if (authentication) setAuthenticated(true);
-		if (firstName) setFirstName(firstName);
-		if (email) setEmail(email);
+		if (authorizationStored) setAuthenticated(true);
+		if (firstNameStored) setFirstName(firstNameStored);
+		if (emailStored) setEmail(emailStored);
 
 		setLoading(false);
 	}, []);
 
 	const handleLogin = async (email, password) => {
 
-		localStorage.clear();
-
 		return await api.users.auth({ email, password }).then(async response => {
 
-			localStorage.setItem('authorization', response.access_token);
-			localStorage.setItem('email', email);
+			ls.storeItem(LS_KEY_AUTHORIZATION, { 'access_token': response.access_token });
+			ls.storeItem(LS_KEY_USER, { email });
 
 			setEmail(email);
 
 			const user = await api.users.showByEmail(email);
 
 			if (user.email_verified) {
-				localStorage.setItem('emailVerified', user.email_verified);
+				ls.storeItem(LS_KEY_USER, { emailVerified: user.email_verified });
 			}
 
 			const customer = await api.customers.showByUser(user._id);
-
-			localStorage.setItem('firstName', customer.full_name.split(' ')[0]);
+			
+			ls.storeItem(LS_KEY_USER, { firstName: customer.full_name.split(' ')[0] });
 
 			setAuthenticated(true);
 
 			if (!user.email_verified) {
-				window.location.href = '/confirmEmail';
+				window.location.href = '/email/confirm';
 				return { success: false, message: 'confirmar email' };
 			}
 
 			return { success: true, message: 'success' };
 
 		}).catch(error => {
-
 			console.log(error);
 
 			if (error.response && error.response.status === 401) {
 				return { success: false, message: 'Email e/ou senha inválido' };
 			}
+
 			return { success: false, message: 'Serviço indisponível, entre em contato com o suporte.' };
 		});
 	};
 
 	const handleLogout = () => {
 		setAuthenticated(false);
-		localStorage.clear();
+		ls.clear();
 	};
 	return { authenticated, loading, firstName, email, handleLogin, handleLogout };
 }

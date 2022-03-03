@@ -13,13 +13,10 @@ import MessengerCustomerChat from 'react-messenger-customer-chat';
 import { AuthProvider } from 'context/AuthContext';
 import { SocketProvider } from 'context/SocketContext';
 
-import { UseEffectScroll } from 'react-use-smooth-scroll';
-
 const App = () => {
 	return (
 		<AuthProvider>
 			<SocketProvider>
-				<UseEffectScroll>
 					<Router>
 						<Routes />
 						<MessengerCustomerChat
@@ -28,7 +25,6 @@ const App = () => {
 						/>
 						<ToastContainer autoClose={5000} style={{ padding: '0px', width: '500px' }} />
 					</Router>
-				</UseEffectScroll>
 			</SocketProvider>
 		</AuthProvider>
 	);

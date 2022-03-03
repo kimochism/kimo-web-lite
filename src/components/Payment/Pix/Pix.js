@@ -97,7 +97,6 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 				}) => {
 					setQrCode64(qr_code_base64);
 					setQrCodeCopyAndPaste(qr_code);
-					console.log(id);
 					setPaymentId(id);
 				}).catch(error => { console.log(error); });
 			}).catch(error => { console.log(error); });

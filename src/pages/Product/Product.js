@@ -1,16 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container } from './styles';
 import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router';
+import { AuthContext } from 'context/AuthContext';
 import Footer from 'shared/Footer/Footer';
 import Notification from 'shared/Notification/Notification';
 import Menu from 'shared/Menu/Menu';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
+import * as ls from 'utils/localStorage';
+import { v4 as uuidv4 } from 'uuid';
+import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
 
 const Product = () => {
 
 	const { id } = useParams();
+	const { authenticated } = useContext(AuthContext);
 	const history = useHistory();
 
 	const [fallback, showFallback, hideFallback] = useFallback();
@@ -32,6 +37,14 @@ const Product = () => {
 
 	const sizesRef = useRef(null);
 	const colorsRef = useRef(null);
+
+	const [customerBagsStoraged, setCustomerBagsStoraged] = useState(ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || []);
+
+	useEffect(() => {
+		if (customerBagsStoraged.customerBags) {
+			ls.storeItem(LS_KEY_CUSTOMER_BAG, customerBagsStoraged);
+		}
+	}, [customerBagsStoraged]);
 
 	useEffect(() => {
 		getProduct();
@@ -87,11 +100,39 @@ const Product = () => {
 		e.currentTarget.classList.add('selected-color');
 	};
 
-	const addProductToBag = () => {
-
-		if (productAddedToCart) {
+	const addCustomerBagToStoraged = () => {
+		if (customerBagsStoraged.length <= 0) {
+			setCustomerBagsStoraged({ customerBags: [{ id: uuidv4(), quantity, options, productId: product._id }] });
 			return;
 		}
+
+		const allCustomerBagsStoraged = customerBagsStoraged.customerBags || customerBagsStoraged;
+
+		const customerBagExistsInStorageIndex = allCustomerBagsStoraged.findIndex((customerBagStoraged) => {
+			return customerBagStoraged.productId === product._id &&
+				customerBagStoraged.options.color.name === options.color.name &&
+				customerBagStoraged.options.size === options.size;
+		});
+
+		if (customerBagExistsInStorageIndex !== -1) {
+			allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity = allCustomerBagsStoraged[customerBagExistsInStorageIndex].quantity + quantity;
+			setCustomerBagsStoraged({ customerBags: allCustomerBagsStoraged });
+			return;
+		}
+
+		setCustomerBagsStoraged({
+			customerBags: allCustomerBagsStoraged.concat({
+				id: uuidv4(),
+				quantity,
+				options,
+				productId: product._id
+			})
+		});
+	};
+
+	const addProductToBag = () => {
+
+		if (productAddedToCart) return;
 
 		if (!options.size) {
 			toast('Escolha um tamanho!', {
@@ -109,11 +150,23 @@ const Product = () => {
 			return;
 		}
 
+		if (!authenticated) {
+			addCustomerBagToStoraged();
+			toast(<Notification history={history} options={options} />, {
+				hideProgressBar: true,
+				position: toast.POSITION.TOP_RIGHT,
+			});
+			productAddedToCartDelay();
+			return;
+		}
+
+		const email = ls.getItem(LS_KEY_USER, 'email');
+
 		const response = api.customerBags.store({
 			product: product._id,
 			quantity,
 			options,
-			email: localStorage.getItem('email')
+			email
 		});
 
 		if (response) {
@@ -121,11 +174,7 @@ const Product = () => {
 				hideProgressBar: true,
 				position: toast.POSITION.TOP_RIGHT,
 			});
-			setProductAddedToCart(true);
-
-			setTimeout(() => {
-				setProductAddedToCart(false);
-			}, 3000);
+			productAddedToCartDelay();
 		}
 
 		if (!response) {
@@ -134,6 +183,13 @@ const Product = () => {
 				position: toast.POSITION.TOP_RIGHT,
 			});
 		}
+	};
+
+	const productAddedToCartDelay = () => {
+		setProductAddedToCart(true);
+		setTimeout(() => {
+			setProductAddedToCart(false);
+		}, 3000);
 	};
 
 	const calculateZipCode = async (e) => {

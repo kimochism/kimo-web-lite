@@ -3,11 +3,13 @@ import { Container } from './styles';
 import { AuthContext } from 'context/AuthContext';
 import { useHistory } from 'react-router';
 import { cpf } from 'cpf-cnpj-validator';
+import { LS_KEY_CUSTOMER_BAG } from 'constants/all';
 import BaseModal from '../BaseModal/BaseModal';
 import PropTypes from 'prop-types';
 import InputMask from 'react-input-mask';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
+import * as ls from 'utils/localStorage';
 
 const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
@@ -51,6 +53,20 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
 		showFallback();
 		const response = await handleLogin(login.email, login.password);
+
+		const customerBagsStored = ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || [];
+
+		if (customerBagsStored.length) {
+			customerBagsStored.map(async ({ options, quantity, productId }) => {
+				await api.customerBags.store({
+					product: productId,
+					quantity,
+					options,
+					email: login.email
+				});
+			});
+			ls.removeItem(LS_KEY_CUSTOMER_BAG, 'customerBags');
+		}
 
 		if (response && response.success) history.push('/profile/account');
 
