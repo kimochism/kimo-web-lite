@@ -41,7 +41,6 @@ export const Container = styled.div`
             bottom: 15px;
             button{
                 font-weight: bold;
-                letter-spacing: 2px;
                 width: 125px;
                 padding: 8px;
                 position: absolute;

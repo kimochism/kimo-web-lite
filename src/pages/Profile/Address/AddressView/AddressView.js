@@ -1,5 +1,7 @@
 import { AuthContext } from 'context/AuthContext';
 import React, { useContext, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import NotificationError from 'shared/NotificationError/NotificationError';
 import { Container } from './styles';
 import useFallback from 'hooks/useFallback';
 import PropTypes from 'prop-types';
@@ -9,7 +11,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 const AddressView = ({ goBack, addressToEdit }) => {
 
 	const [editable, setEditable] = useState(false);
-	const [error, setError] = useState('');
+	const [error] = useState('');
 	const [address, setAddress] = useState({
 		id: '',
 		zip_code: '',
@@ -93,27 +95,45 @@ const AddressView = ({ goBack, addressToEdit }) => {
 
 	const onSubmit = async () => {
 		if (address.zip_code === '') {
-			setError('O endereço precisa ter um CEP!');
+			toast(<NotificationError errorMessage='O endereço precisa ter um CEP!' />, {
+				hideProgressBar: true,
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
 			return;
 		}
 		if (address.street === '') {
-			setError('O endereço precisa ter um logradouro');
+			toast(<NotificationError errorMessage='O endereço precisa ter um logradouro' />, {
+				hideProgressBar: true,
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
 			return;
 		}
 		if (address.number === '') {
-			setError('O endereço precisa ter um número');
+			toast(<NotificationError errorMessage='O endereço precisa ter um número' />, {
+				hideProgressBar: true,
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
 			return;
 		}
 		if (address.district === '') {
-			setError('O endereço precisa ter um bairro');
+			toast(<NotificationError errorMessage='O endereço precisa ter um bairro' />, {
+				hideProgressBar: true,
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
 			return;
 		}
 		if (address.city === '') {
-			setError('O endereço precisa ter uma cidade');
+			toast(<NotificationError errorMessage='O endereço precisa ter uma cidade' />, {
+				hideProgressBar: true,
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
 			return;
 		}
 		if (address.state === '') {
-			setError('O endereço precisa ter um estado');
+			toast(<NotificationError errorMessage='O endereço precisa ter um estado' />, {
+				hideProgressBar: true,
+				position: toast.POSITION.BOTTOM_RIGHT,
+			});
 			return;
 		}
 
@@ -124,7 +144,10 @@ const AddressView = ({ goBack, addressToEdit }) => {
 				.then(() => params.return ? history.push('/customerbag') : goBack())
 				.catch(error => {
 					console.log(error);
-					setError('Ocorreu um erro, tente novamente mais tarde');
+					toast(<NotificationError errorMessage='Ocorreu um erro, tente novamente mais tarde' />, {
+						hideProgressBar: true,
+						position: toast.POSITION.BOTTOM_RIGHT,
+					});
 				});
 		}
 
@@ -146,19 +169,49 @@ const AddressView = ({ goBack, addressToEdit }) => {
 				<input placeholder="CEP" name="zip_code" value={address.zip_code} onChange={e => onChange(e)} />
 				<input placeholder="Número" name="number" value={address.number} onChange={e => onChange(e)} />
 				<input className='address-input-long' placeholder="Logradouro" name="street" value={address.street} onChange={e => onChange(e)} />
-				
 				<input placeholder="Complemento" name="complement" value={address.complement} onChange={e => onChange(e)} />
 				<input placeholder="Bairro" name="district" value={address.district} onChange={e => onChange(e)} />
-				<input placeholder="Ponto de referência" name="reference" value={address.reference} onChange={e => onChange(e)} />
 				<input placeholder="Cidade" name="city" value={address.city} onChange={e => onChange(e)} />
-				<input placeholder="Estado" name="state" value={address.state} onChange={e => onChange(e)} />
+				<select id="estado" name="state" value={address.state}>
+					<option value="">Selecione um estado</option>
+					<option value="AC">Acre</option>
+					<option value="AL">Alagoas</option>
+					<option value="AP">Amapá</option>
+					<option value="AM">Amazonas</option>
+					<option value="BA">Bahia</option>
+					<option value="CE">Ceará</option>
+					<option value="DF">Distrito Federal</option>
+					<option value="ES">Espírito Santo</option>
+					<option value="GO">Goiás</option>
+					<option value="MA">Maranhão</option>
+					<option value="MT">Mato Grosso</option>
+					<option value="MS">Mato Grosso do Sul</option>
+					<option value="MG">Minas Gerais</option>
+					<option value="PA">Pará</option>
+					<option value="PB">Paraíba</option>
+					<option value="PR">Paraná</option>
+					<option value="PE">Pernambuco</option>
+					<option value="PI">Piauí</option>
+					<option value="RJ">Rio de Janeiro</option>
+					<option value="RN">Rio Grande do Norte</option>
+					<option value="RS">Rio Grande do Sul</option>
+					<option value="RO">Rondônia</option>
+					<option value="RR">Roraima</option>
+					<option value="SC">Santa Catarina</option>
+					<option value="SP">São Paulo</option>
+					<option value="SE">Sergipe</option>
+					<option value="TO">Tocantins</option>
+					<option value="EX">Estrangeiro</option>
+				</select>
+				<input placeholder="Ponto de referência" name="reference" value={address.reference} onChange={e => onChange(e)} />
 			</div>
 			<div className='address-actions'>
 				<button onClick={() => goBack()}>Voltar</button>
 				<button onClick={() => onSubmit()}>{editable ? 'Editar endereço' : 'Criar endereço'}</button>
+			</div>
+			<div className='address-fallback'>
 				{error}
 				{fallback}
-				
 			</div>
 		</Container>
 	);
