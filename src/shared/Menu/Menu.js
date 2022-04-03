@@ -30,10 +30,8 @@ const Menu = () => {
 		mobileV = !mobileV;
 		if(mobileV){
 			document.getElementById('options-web').style.display = 'flex' ;
-			console.log('open');
 		}else{
 			document.getElementById('options-web').style.display = 'none' ;
-			console.log('closed');
 		}
 	}
 
