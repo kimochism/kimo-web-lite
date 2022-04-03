@@ -192,4 +192,31 @@ export const Container = styled.div`
 	.selected-color {
 		border: 1px solid black;
 	}
+	@media screen and (max-width: 1150px) {
+        .product-left{
+            width: 40vw;
+        }
+    }
+	@media screen and (max-width: 900px) {
+		.product-container{
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			display: flex;
+		}
+		.product-right{
+			width: 80vw;
+			padding: 0px;
+			padding-top: 40px;
+			img{
+				width: 100%;
+			}
+		}
+        .product-left{
+            width: 80vw;
+			margin-right: 0px;
+			justify-content: center;
+			display: flex;
+        }
+    }
 `;
