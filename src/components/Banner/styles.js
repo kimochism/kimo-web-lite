@@ -41,8 +41,8 @@ export const Container = styled.div`
         }
     }
     /* Media Query */
-    @media screen and (max-width: 1280px) {
-        flex-direction: column-reverse;
+    @media screen and (max-width: 1200px) {
+        flex-direction: column;
         .banner-letter{
             width: auto;
             h1{
@@ -59,6 +59,23 @@ export const Container = styled.div`
         }
     }
     @media screen and (max-width: 600px){
+        padding: 0px;
+        flex-direction: column;
+        display: flex;
+        .banner-letter{
+            width: 80vw;
+            padding-top: 50px;
+            .btn-primary{
+                width: 70vw;
+            }
+        }
         
+        .banner-image{
+            width: 70vw;
+            padding-top: 50px;
+            img{
+                width: 100%;
+            }
+        }
     }
 `;

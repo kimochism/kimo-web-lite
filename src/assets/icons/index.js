@@ -14,6 +14,7 @@ import MasterCardIcon from './Icon-mastercard-card.svg';
 import CloseIcon from './close_black.svg';
 import EditIconBlack from './edit-black.svg';
 import EditIconWhite from './edit-white.svg';
+import MenuHamburger from './menu_black.svg';
 
 export {
 	BagIcon,
@@ -32,4 +33,5 @@ export {
 	CloseIcon,
 	EditIconBlack,
 	EditIconWhite,
+	MenuHamburger
 };

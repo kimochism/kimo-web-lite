@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Container } from './styles';
-import { BagIcon, UserIcon } from 'assets/icons';
+import { BagIcon, UserIcon, MenuHamburger } from 'assets/icons';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from 'context/AuthContext';
 import SignInUp from 'shared/Modal/SignInUp/SignInUp';
@@ -24,6 +24,18 @@ const Menu = () => {
 			history.push('/profile/account');
 		}
 	};
+	var mobileV = false;
+	
+	function mobile() {
+		mobileV = !mobileV;
+		if(mobileV){
+			document.getElementById('options-web').style.display = 'flex' ;
+			console.log('open');
+		}else{
+			document.getElementById('options-web').style.display = 'none' ;
+			console.log('closed');
+		}
+	}
 
 	return (
 		<Container>
@@ -32,16 +44,30 @@ const Menu = () => {
 					<h1>KIMOCHISM <span>気持ち</span></h1>
 				</Link>
 			</div>
-			<div className="options">
-				<Link to='/'><span>Home</span></Link>
-				<Link to='/catalog'><span>Catálogo</span></Link>
-				<span>Coleções</span>
-				<span className="first-name" onClick={() => redirectToProfile()}>
-					<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ cadastre-se ⠀'}</div>
-					<img src={UserIcon} alt="Perfil" />
-				</span>
+			<div className="options-mobile">
+				<Link>
+					<img src={MenuHamburger} alt="Menu" onClick={mobile} />
+				</Link>
+			</div>
+			<div className="options" id="options-web">
+				<Link to='/'>
+					<span>Home</span>
+				</Link>
+				<Link to='/catalog'>
+					<span>Catálogo</span>
+				</Link>
+				<Link>
+					<span>Coleções</span>
+				</Link>
+				<Link>
+					<span className="first-name" onClick={() => redirectToProfile()}>
+						<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ cadastre-se ⠀'}</div>
+						<img src={UserIcon} alt="Perfil" />
+					</span>
+				</Link>
 				<Link to='/customerbag'>
 					<span className="bag-customer">
+						<div>Sacola</div>
 						<img src={BagIcon} alt="Sacola" />
 					</span>
 				</Link>
