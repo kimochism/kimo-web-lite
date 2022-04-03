@@ -26,7 +26,7 @@ export const Container = styled.div`
         cursor: pointer;
         display: none;
         img{
-            padding-left: 10px;
+            padding-left: 25px;
             filter: invert();
         }
         span{

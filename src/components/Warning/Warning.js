@@ -1,12 +1,17 @@
 import React from 'react';
 import { Container } from './styles';
+import PropTypes from 'prop-types';
 
-const Warning = () => {
+const Warning = ({message}) => {
 	return (
 		<Container>
-			<span>Only a example for a warnin</span>
+			<span> { message } </span>
 		</Container>
 	);
+};
+
+Warning.propTypes = {
+	message: PropTypes.string.isRequired
 };
 
 export default Warning;

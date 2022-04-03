@@ -7,6 +7,7 @@ import { Container } from './styles';
 import { Link } from 'react-router-dom';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
+import Warning from 'components/Warning/Warning';
 
 const Catalog = () => {
 
@@ -94,7 +95,7 @@ const Catalog = () => {
 	return (
 		<Container>
 			<Menu />
-			
+			<Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
 			<div className="container-catalog">
 				<div className="container-catalog-left">
 					<Filter handleGetFilters={filters => getFilters(filters) }/>
