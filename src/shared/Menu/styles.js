@@ -100,12 +100,6 @@ export const Container = styled.div`
                     width: 20px;
                 }
             }
-            &:hover{
-                background-color: #e0e0e0;
-            }
-            &:active{
-                background-color: #e0e0e0;
-            }
         }
         .options-mobile{
             display: flex;
