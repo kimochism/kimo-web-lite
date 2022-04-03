@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container } from './styles';
+import { Link } from 'react-router-dom';
 
 const Gallery = () => {
 	return (
@@ -82,9 +83,10 @@ const Gallery = () => {
 					</div>
 				</div>
 			</div>
-			<a href="/catalog">
+			<Link to="/catalog">
 				<button>Ver mais</button>
-			</a>
+			</Link>
+			
 
 		</Container>
 	);

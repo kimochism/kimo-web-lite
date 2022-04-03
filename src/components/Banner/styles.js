@@ -30,8 +30,8 @@ export const Container = styled.div`
         box-shadow: -15px 15px black;
         font-weight: bold;
         font-size: 16px;
-        cursor: pointer;
         text-transform: uppercase;
+        cursor: pointer;
     }
     .banner-image{
         width: 562px;

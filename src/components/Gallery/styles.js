@@ -98,5 +98,8 @@ export const Container = styled.div`
         .gallery-container{
             max-width: 346px;
         }
+        button{
+            width: 70vw;
+        }
     }
 `;

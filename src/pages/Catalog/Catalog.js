@@ -16,7 +16,7 @@ const Catalog = () => {
 	const [products, setProducts] = useState([]);
 	const [options, setOptions] = useState({
 		offset: 0,
-		limit: 6,
+		limit: 8,
 		total: 0
 	});
 	const [availablePages, setAvailablePages] = useState(0);
@@ -94,7 +94,9 @@ const Catalog = () => {
 	return (
 		<Container>
 			<Menu />
+			<h1 className="title-catalog">Catálogo</h1>
 			<div className="container-catalog">
+				
 				<div className="container-catalog-left">
 					<Filter handleGetFilters={filters => getFilters(filters) }/>
 				</div>

@@ -3,21 +3,19 @@ import styled from 'styled-components';
 export const Container = styled.div`
     background-color: white;
     margin: 0 auto;
-    
+    .title-catalog{
+        text-align: center;
+    }
     .container-catalog{
-        min-height: 1000px;
         padding: 0 140px;
-        margin-top: 80px;
         justify-content: center;
         display: flex;
     }
-    
     /* right */
-
     .container-catalog-right{
-        width: 1000px;
-        padding: 0px 80px;
-        justify-content: left;
+        width: 1200px;
+        padding: 0px 0px;
+        justify-content: center;
         flex-wrap: wrap;
         display: flex;
         a{
@@ -25,34 +23,29 @@ export const Container = styled.div`
             text-decoration: none;
         }
     }
-    
-    
     /* Media Query */
-    @media screen and (max-width: 1624px) {
+    @media screen and (max-width: 1540px) {
         .container-catalog-right{
-            width: auto;
-            flex-direction: column;
+            width: 900px;
             justify-content: center;
             align-items: center;
         }
     }
-    @media screen and (max-width: 600px){
+    @media screen and (max-width: 1240px){
         .container-catalog-right{
             width: auto;
             padding: 0px;
         }
     }
-
     /* aux */
-
     .aux-cont{
         flex-direction: column;
         align-items: center;
         padding-bottom: 70px;
         display: flex;
     }
-
     .pages-buttons{
+        padding-top: 50px;
         button{
             width: 40px;
             height: 40px;
