@@ -43,9 +43,7 @@ const Menu = () => {
 				</Link>
 			</div>
 			<div className="options-mobile">
-				<Link>
-					<img src={MenuHamburger} alt="Menu" onClick={mobile} />
-				</Link>
+				<img src={MenuHamburger} alt="Menu" onClick={mobile} />
 			</div>
 			<div className="options" id="options-web">
 				<Link to='/'>
@@ -54,10 +52,10 @@ const Menu = () => {
 				<Link to='/catalog'>
 					<span>Catálogo</span>
 				</Link>
-				<Link>
+				<Link to='/collections'>
 					<span>Coleções</span>
 				</Link>
-				<Link>
+				<Link to='/profile'>
 					<span className="first-name" onClick={() => redirectToProfile()}>
 						<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ cadastre-se ⠀'}</div>
 						<img src={UserIcon} alt="Perfil" />
