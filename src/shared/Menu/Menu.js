@@ -57,7 +57,7 @@ const Menu = () => {
 				</Link>
 				<Link to='/profile'>
 					<span className="first-name" onClick={() => redirectToProfile()}>
-						<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ cadastre-se ⠀'}</div>
+						<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ Cadastre-se ⠀'}</div>
 						<img src={UserIcon} alt="Perfil" />
 					</span>
 				</Link>

@@ -23,7 +23,8 @@ export const Container = styled.div`
         padding: 20px;
         justify-content: space-between;
         align-items: center;
-        display: flex;
+        cursor: pointer;
+        display: none;
         img{
             padding-left: 10px;
             filter: invert();
