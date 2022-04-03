@@ -4,12 +4,17 @@ export const Container = styled.div`
     background-color: white;
     margin: 0 auto;
     .title-catalog{
+        padding: 40px;
+        text-transform: uppercase;
         text-align: center;
     }
     .container-catalog{
         padding: 0 140px;
         justify-content: center;
         display: flex;
+    }
+    .container-catalog-left{
+        padding-top: 170px;
     }
     /* right */
     .container-catalog-right{
@@ -41,7 +46,7 @@ export const Container = styled.div`
     .aux-cont{
         flex-direction: column;
         align-items: center;
-        padding-bottom: 70px;
+        padding-bottom: 100px;
         display: flex;
     }
     .pages-buttons{

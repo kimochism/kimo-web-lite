@@ -94,13 +94,13 @@ const Catalog = () => {
 	return (
 		<Container>
 			<Menu />
-			<h1 className="title-catalog">Catálogo</h1>
+			
 			<div className="container-catalog">
-				
 				<div className="container-catalog-left">
 					<Filter handleGetFilters={filters => getFilters(filters) }/>
 				</div>
 				<div className="aux-cont">
+				<h1 className="title-catalog">Catálogo</h1>
 					<div className="container-catalog-right">
 						{products && products.map(product => {
 							return (
