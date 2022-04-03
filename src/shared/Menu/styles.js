@@ -20,22 +20,17 @@ export const Container = styled.div`
         background-color: black;
         width: 100%;
         display: none;
-        a{
+        padding: 20px;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        img{
+            padding-left: 10px;
             filter: invert();
-            width: 100%;
-            padding: 20px;
-            justify-content: space-between;
-            align-items: center;
-            display: flex;
-            img{
-                padding-left: 10px;
-            }
-            span{
-                font-weight: 600;
-            }
         }
-
-        
+        span{
+            font-weight: 600;
+        }
     }
     .options{
         align-items: center;
