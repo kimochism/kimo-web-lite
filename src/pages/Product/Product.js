@@ -11,6 +11,7 @@ import api from 'api/index';
 import * as ls from 'utils/localStorage';
 import { v4 as uuidv4 } from 'uuid';
 import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
+import Warning from 'components/Warning/Warning';
 
 const Product = () => {
 
@@ -219,6 +220,7 @@ const Product = () => {
 	return (
 		<Container>
 			<Menu />
+			<Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
 			{product &&
 				<div className="product-container">
 					<div className="product-left">

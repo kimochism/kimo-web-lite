@@ -15,6 +15,7 @@ import CloseIcon from './close_black.svg';
 import EditIconBlack from './edit-black.svg';
 import EditIconWhite from './edit-white.svg';
 import MenuHamburger from './menu_black.svg';
+import ContentCopy from './content_copy.svg';
 
 export {
 	BagIcon,
@@ -33,5 +34,6 @@ export {
 	CloseIcon,
 	EditIconBlack,
 	EditIconWhite,
-	MenuHamburger
+	MenuHamburger,
+	ContentCopy
 };

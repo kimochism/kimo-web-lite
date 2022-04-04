@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Container } from './styles';
 import { AuthContext } from 'context/AuthContext';
 import { SocketContext } from 'context/SocketContext';
+import { CloseIcon, ContentCopy } from 'assets/icons/index';
 import BaseModal from 'shared/Modal/BaseModal/BaseModal';
 import PropTypes from 'prop-types';
 import api from 'api/index';
@@ -133,18 +134,25 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 			isCenterScreen={true}
 		>
 			<Container>
+				<button id='closeModal' onClick={() => cancelPayment()}>
+					<img src={CloseIcon} width="24px"/>
+				</button>
 				{qrCode64 && <img src={`data:image/jpeg;base64,${qrCode64}`} style={{ width: '200px' }} />}
-				{paymentId}
+				<span className='paymentId'>{paymentId}</span>
 				{qrCodeCopyAndPaste &&
-					<>
+					<>	
 						<label htmlFor="copyQrCode">Copiar Hash:</label>
-						<input type="text" id="copyQrCode" value={qrCodeCopyAndPaste} onChange={() => { }} />
+						<div className='containerQrCode'>
+							<input type="text" id="copyQrCode" value={qrCodeCopyAndPaste} onChange={() => { }} />
+							<button>
+								<img className='copyCut' src={ContentCopy} width="24px"/>
+							</button>
+						</div>
 					</>
 				}
 
 				{paymentAccept}
-				<button onClick={() => showPaymentStatus()}>Confirmar pagamento</button>
-				<button onClick={() => cancelPayment()}>Cancelar</button>
+				<button className='btn-primary' onClick={() => showPaymentStatus()}>Confirmar pagamento</button>
 				{/* {fallback} */}
 			</Container>
 		</BaseModal>

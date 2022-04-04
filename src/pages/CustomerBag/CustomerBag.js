@@ -303,7 +303,7 @@ const CustomerBag = () => {
 										<span>Cor: {customerBag.options.color.label}</span>
 										<div className="quantity-products">
 											<div>
-												<span>Quantidade: {customerBag.quantity}</span>
+												<span>Quantidade:</span>
 											</div>
 											<div className="quantity-buttons">
 												<button onClick={() => {
