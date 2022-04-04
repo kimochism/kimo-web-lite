@@ -55,12 +55,12 @@ const Menu = () => {
 				<Link to='/collections'>
 					<span>Coleções</span>
 				</Link>
-				<Link to='/profile'>
+				<a to='/profile'>
 					<span className="first-name" onClick={() => redirectToProfile()}>
 						<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ Cadastre-se ⠀'}</div>
 						<img src={UserIcon} alt="Perfil" />
 					</span>
-				</Link>
+				</a>
 				<Link to='/customerbag'>
 					<span className="bag-customer">
 						<div>Sacola</div>
