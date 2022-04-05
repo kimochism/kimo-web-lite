@@ -11,8 +11,8 @@ export const Container = styled.div`
         padding: 20px;
     }
     .gallery-container{
-        max-width: 1480px;
-        justify-content: left;
+        max-width: 1360px;
+        justify-content: center;
         margin: 0 auto;
         flex-wrap: wrap;
         flex: 1 1 340px;
@@ -21,28 +21,34 @@ export const Container = styled.div`
 
     
     .gallery-box{
-        width: 340px;
-        height: 430px;
+        width: 300px;
+        height: auto;
         margin: 1%;
-        background-image: url('https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406');
-        background-repeat: no-repeat;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
         align-items: end;
         display: flex;
-        div{
-            width: 340px;
-            text-align: center;
-            padding: 12px;
-            flex-direction: column;
-            display: flex;
+        img{
+            width: 300px;
+            height: 300px;
         }
+    }
+    .gallery-box-title{
+        width: 100%;
+        text-align: center;
+        flex-direction: column;
+        display: flex;
         label{
             font-weight: 600;
+            padding: 8px;
             letter-spacing: 2px;
-            margin-bottom: 10px;
         }
         span{
             font-size: 14px;
             font-weight: 500;
+            padding: 8px;
+            padding-bottom: 50px;
         }
         i{
             text-decoration: line-through;
@@ -57,12 +63,6 @@ export const Container = styled.div`
             font-size: 13px;
         }
     }
-    /* apenas pra testes */
-    .gallery-box:nth-child(2n){
-        background-image:url('https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591')
-    }
-
-    /* fim testes */
 
     a {
         width: auto;
@@ -71,9 +71,8 @@ export const Container = styled.div`
     }
     button{
         width: auto;
-        margin: 50px auto;
-        width: 360px;
-        padding: 20px;
+        margin: 70px auto;
+        padding: 18px 100px;
         border: 5px solid black;
         background-color: white;
         box-shadow: -15px 15px black;

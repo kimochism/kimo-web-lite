@@ -5,13 +5,12 @@ import { Link } from 'react-router-dom';
 const Gallery = () => {
 	return (
 		<Container>
-
 			<h2>Original Kimochism</h2>
-			{/* Container da galeria */}
 			<div className="gallery-container">
 				{/* Items da galeria */}
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -20,7 +19,8 @@ const Gallery = () => {
 					</div>
 				</div>
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -29,7 +29,8 @@ const Gallery = () => {
 					</div>
 				</div>
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -38,7 +39,8 @@ const Gallery = () => {
 					</div>
 				</div>
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -47,7 +49,8 @@ const Gallery = () => {
 					</div>
 				</div>
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -56,7 +59,8 @@ const Gallery = () => {
 					</div>
 				</div>
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -65,7 +69,8 @@ const Gallery = () => {
 					</div>
 				</div>
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -74,7 +79,8 @@ const Gallery = () => {
 					</div>
 				</div>
 				<div className="gallery-box">
-					<div>
+					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
+					<div className="gallery-box-title">
 						<label>Kamisato Ayaka</label>
 						<span>
 							<i>$99,90</i>- $49,90
@@ -82,6 +88,7 @@ const Gallery = () => {
 						</span>
 					</div>
 				</div>
+				
 			</div>
 			<Link to="/catalog">
 				<button>Ver mais</button>

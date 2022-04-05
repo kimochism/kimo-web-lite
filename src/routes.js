@@ -10,6 +10,7 @@ const Home = lazy(() => import('./pages/Home/Home'));
 const Profile = lazy(() => import('./pages/Profile/Profile'));
 const Product = lazy(() => import('./pages/Product/Product'));
 const Catalog = lazy(() => import('./pages/Catalog/Catalog'));
+const Collections = lazy(() => import('./pages/Collections/Collections'));
 const CustomerBag = lazy(() => import('./pages/CustomerBag/CustomerBag'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 const EditEmail = lazy(() => import('./pages/Email/EditEmail/EditEmail'));
@@ -44,6 +45,7 @@ export default function Routes() {
 				<CustomRoute isPrivate exact path='/profile/:option' component={() => <Profile />} />
 				<CustomRoute isPrivate exact path='/profile/:option/:return' component={() => <Profile />} />
 				<CustomRoute exact path='/catalog' component={() => <Catalog />} />
+				<CustomRoute exact path='/collections' component={() => <Collections />} />
 				<CustomRoute exact path='/customerbag' component={() => <CustomerBag />} />
 				<CustomRoute exact path='/notfound' component={() => <NotFound />} />
 				<CustomRoute exact path='/email/edit' component={() => <EditEmail />} />

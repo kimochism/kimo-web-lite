@@ -10,4 +10,10 @@ export const Container = styled.div`
         text-transform: uppercase;
         font-weight: 600;
     }
+
+    @media screen and (max-width: 900px){
+        span{
+            font-size: 12px;
+        }
+    }
 `;

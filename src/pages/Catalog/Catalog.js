@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import useFallback from 'hooks/useFallback';
 import api from 'api/index';
 import Warning from 'components/Warning/Warning';
+import Newsletter from 'shared/Newsletter/Newsletter';
 
 const Catalog = () => {
 
@@ -116,7 +117,7 @@ const Catalog = () => {
 					</div>
 				</div>
 			</div>
-
+			<Newsletter/>
 			<Footer />
 			{fallback}
 		</Container>

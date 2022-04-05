@@ -12,6 +12,7 @@ import * as ls from 'utils/localStorage';
 import { v4 as uuidv4 } from 'uuid';
 import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
 import Warning from 'components/Warning/Warning';
+import Newsletter from 'shared/Newsletter/Newsletter';
 
 const Product = () => {
 
@@ -297,6 +298,7 @@ const Product = () => {
 					</div>
 				</div>
 			}
+			<Newsletter />
 			<Footer />
 			{fallback}
 		</Container>

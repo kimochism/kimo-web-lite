@@ -5,6 +5,7 @@ import Banner from 'components/Banner/Banner';
 import Gallery from 'components/Gallery/Gallery';
 import Footer from 'shared/Footer/Footer';
 import { Container } from './styles';
+import Newsletter from 'shared/Newsletter/Newsletter';
 
 const Home = () => {
 	return (
@@ -13,6 +14,7 @@ const Home = () => {
 				<Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
 				<Banner />
 				<Gallery />
+				<Newsletter/>
 				<Footer />
 		</Container>
 	);

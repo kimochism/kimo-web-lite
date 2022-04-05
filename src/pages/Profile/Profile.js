@@ -11,6 +11,8 @@ import Account from './Account/Account';
 import Address from './Address/Address';
 import AddressView from './Address/AddressView/AddressView';
 import useFallback from 'hooks/useFallback';
+import Newsletter from 'shared/Newsletter/Newsletter';
+import Warning from 'components/Warning/Warning';
 
 const Profile = () => {
 
@@ -46,6 +48,7 @@ const Profile = () => {
 		<>
 			<Container>
 				<Menu />
+				<Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
 				<div className="container-profile">
 					<div className="profile-left">
 						<div className="profile-btn-option">
@@ -97,6 +100,7 @@ const Profile = () => {
 						{currentOption === options[3].name && <AddressView goBack={() => setCurrentOption(options[1].name)} addressToEdit={addressToEdit}/>}
 					</div>
 				</div>
+				<Newsletter/>
 				<Footer />
 			</Container>
 			{fallback}
