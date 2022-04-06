@@ -116,11 +116,6 @@ export const Container = styled.div`
             display: flex;
         }
     }
-    @media only screen and (max-width: 1380px){
-        .options-web{
-            display: flex;
-        }
-    }
     @media screen and (max-width: 1380px){
         .option-generic{
             img{

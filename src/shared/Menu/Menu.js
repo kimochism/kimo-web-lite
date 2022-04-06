@@ -38,6 +38,8 @@ const Menu = () => {
 		var largura = window.innerWidth;
 		if (largura > 1380) {
 			document.getElementById('options-web').style.display = 'flex' ;
+		}else if ( largura < 1380){
+			document.getElementById('options-web').style.display = 'none' ;
 		}
 	});
 
