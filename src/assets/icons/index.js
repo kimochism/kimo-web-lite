@@ -16,6 +16,9 @@ import EditIconBlack from './edit-black.svg';
 import EditIconWhite from './edit-white.svg';
 import MenuHamburger from './menu_black.svg';
 import ContentCopy from './content_copy.svg';
+import HomeIcon from './home_black.svg';
+import CollectionsIcon from './collections_black.svg';
+import CatalogIcon from './catalog_black.svg';
 
 export {
 	BagIcon,
@@ -35,5 +38,8 @@ export {
 	EditIconBlack,
 	EditIconWhite,
 	MenuHamburger,
-	ContentCopy
+	ContentCopy,
+	HomeIcon,
+	CollectionsIcon,
+	CatalogIcon
 };

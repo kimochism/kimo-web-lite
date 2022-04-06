@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Container } from './styles';
-import { BagIcon, UserIcon, MenuHamburger } from 'assets/icons';
+import { BagIcon, UserIcon, MenuHamburger, SearchIcon, CatalogIcon, CollectionsIcon, HomeIcon } from 'assets/icons';
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from 'context/AuthContext';
 import SignInUp from 'shared/Modal/SignInUp/SignInUp';
@@ -34,6 +34,12 @@ const Menu = () => {
 			document.getElementById('options-web').style.display = 'none' ;
 		}
 	}
+	window.addEventListener('resize', function () {
+		var largura = window.innerWidth;
+		if (largura > 1380) {
+			document.getElementById('options-web').style.display = 'flex' ;
+		}
+	});
 
 	return (
 		<Container>
@@ -43,26 +49,43 @@ const Menu = () => {
 				</Link>
 			</div>
 			<div className="options-mobile">
-				<img src={MenuHamburger} alt="Menu" onClick={mobile} />
+				<div className="options-mobile-left">
+					<img src={MenuHamburger} alt="Menu" onClick={mobile} />
+				</div>
+				<div className="options-mobile-right">
+					<img className="option-search" src={SearchIcon} alt="Search" />
+					<Link to='/customerbag'>
+						<img src={BagIcon} alt="Sacola" />
+					</Link>
+				</div>
 			</div>
 			<div className="options" id="options-web">
 				<Link to='/'>
-					<span>Home</span>
+					<span className='option-generic'>
+						<div>Home</div>
+						<img src={HomeIcon} alt="Home" />
+					</span>
 				</Link>
 				<Link to='/catalog'>
-					<span>Catálogo</span>
+					<span className='option-generic'>
+						<div>Catálogo</div>
+						<img src={CatalogIcon} alt="Catalogo" />
+					</span>
 				</Link>
 				<Link to='/collections'>
-					<span>Coleções</span>
+					<span className='option-generic'>
+						<div>Coleções</div>
+						<img src={CollectionsIcon} alt="Coleções" />
+					</span>
 				</Link>
-				<a to='/profile'>
-					<span className="first-name" onClick={() => redirectToProfile()}>
+				<Link to='/profile'>
+					<span className="option-generic opt-desktop" onClick={() => redirectToProfile()}>
 						<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ Cadastre-se ⠀'}</div>
 						<img src={UserIcon} alt="Perfil" />
 					</span>
-				</a>
+				</Link>
 				<Link to='/customerbag'>
-					<span className="bag-customer">
+					<span className="option-generic opt-desktop" onClick={() => redirectToProfile()}>
 						<div>Sacola</div>
 						<img src={BagIcon} alt="Sacola" />
 					</span>

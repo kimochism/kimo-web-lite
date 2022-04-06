@@ -25,12 +25,27 @@ export const Container = styled.div`
         align-items: center;
         cursor: pointer;
         display: none;
+        div{
+            padding: 0px 7.5vw;
+        }
         img{
-            padding-left: 25px;
             filter: invert();
+            width: 20px;
         }
         span{
             font-weight: 600;
+        }
+    }
+    .options-mobile-left{
+        img{
+            width: 24px;
+        }
+    }
+    .options-mobile-right{
+        .option-search{
+            padding-right: 20px;
+            width: 20px;
+            filter: unset;
         }
     }
     .options{
@@ -47,21 +62,21 @@ export const Container = styled.div`
             }
         }
     }
-    .first-name{
+    .option-generic {
+        justify-content: space-between;
         align-items: center;
         display: flex;
-        justify-content: space-between;
         div{
             padding-right:10px;
         }
+        img{
+            width: 22px;
+            display: none;
+        }
     }
-    .bag-customer {
-        justify-content: space-between;
-        align-items: center;
-        display: flex;
-        div{
+    .opt-desktop{
+        img{
             display: flex;
-            padding-right:10px;
         }
     }
 
@@ -99,6 +114,18 @@ export const Container = styled.div`
         }
         .options-mobile{
             display: flex;
+        }
+    }
+    @media only screen and (max-width: 1380px){
+        .options-web{
+            display: flex;
+        }
+    }
+    @media screen and (max-width: 1380px){
+        .option-generic{
+            img{
+                display: block;
+            }
         }
     }
     @media screen and (max-width: 850px) {
