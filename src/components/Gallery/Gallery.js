@@ -1,100 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
+import api from 'api';
+import useFallback from 'hooks/useFallback';
 
 const Gallery = () => {
+
+	const [fallback, showFallback, hideFallback] = useFallback();
+
+	const [products, setProducts] = useState([]);
+
+	useEffect(() => {
+		getProducts();
+	}, []);
+
+	const getProducts = async () => {
+
+		showFallback();
+		const { data } = await api.products.list({ limit: 8 });
+
+		setProducts(data);
+
+		hideFallback();
+	};
+
+	const formatPrice = price => {
+		return new Intl.NumberFormat('pt-BR', {
+			style: 'currency',
+			currency: 'BRL',
+		}).format(price);
+	};
+
 	return (
 		<Container>
 			<h2>Original Kimochism</h2>
 			<div className="gallery-container">
 				{/* Items da galeria */}
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/Ayaka_web_360x.png?v=1637992406"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				<div className="gallery-box">
-					<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/AyakaPEEKER_web_360x.png?v=1637992591"></img>
-					<div className="gallery-box-title">
-						<label>Kamisato Ayaka</label>
-						<span>
-							<i>$99,90</i>- $49,90
-							<b>Save $50,00</b>
-						</span>
-					</div>
-				</div>
-				
+				{products && products.map(product => {
+					return (
+						<div className="gallery-box" key={product._id}>
+							<img src={product.images[0].url}></img>
+							<div className="gallery-box-title">
+								<label>{product.name}</label>
+								<span>
+									<i>{formatPrice(product.price)}</i>- {formatPrice(product.discount_price)}
+									<b>Save {formatPrice(product.discount_price)}</b>
+								</span>
+							</div>
+						</div>
+					);
+				})}
 			</div>
 			<Link to="/catalog">
 				<button>Ver mais</button>
 			</Link>
-			
-
+			{fallback}
 		</Container>
 	);
 };
