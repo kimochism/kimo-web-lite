@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { colors } from 'variables';
 
 export const Container = styled.div`
     margin: 50px 0px;
@@ -17,9 +18,11 @@ export const Container = styled.div`
         flex-wrap: wrap;
         flex: 1 1 340px;
         display: flex;
+        a{
+            text-decoration: none;
+            color: ${colors.black}
+        }
     }
-
-    
     .gallery-box{
         width: 300px;
         height: auto;
@@ -29,6 +32,7 @@ export const Container = styled.div`
         flex-direction: column;
         align-items: end;
         display: flex;
+        cursor: pointer;
         img{
             width: 300px;
             height: 300px;

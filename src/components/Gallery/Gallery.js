@@ -38,7 +38,7 @@ const Gallery = () => {
 				{/* Items da galeria */}
 				{products && products.map(product => {
 					return (
-						<div className="gallery-box" key={product._id}>
+						<Link to={`/product/${product._id}`} className="gallery-box"  key={product._id}>
 							<img src={product.images[0].url}></img>
 							<div className="gallery-box-title">
 								<label>{product.name}</label>
@@ -47,7 +47,7 @@ const Gallery = () => {
 									<b>Save {formatPrice(product.discount_price)}</b>
 								</span>
 							</div>
-						</div>
+						</Link>
 					);
 				})}
 			</div>

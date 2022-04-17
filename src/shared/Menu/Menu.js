@@ -80,12 +80,10 @@ const Menu = () => {
 						<img src={CollectionsIcon} alt="Coleções" />
 					</span>
 				</Link>
-				<Link to='/profile'>
-					<span className="option-generic opt-desktop" onClick={() => redirectToProfile()}>
-						<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ Cadastre-se ⠀'}</div>
-						<img src={UserIcon} alt="Perfil" />
-					</span>
-				</Link>
+				<span className="option-generic opt-desktop" onClick={() => redirectToProfile()}>
+					<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ Cadastre-se ⠀'}</div>
+					<img src={UserIcon} alt="Perfil" />
+				</span>
 				<Link to='/customerbag'>
 					<span className="option-generic opt-desktop" onClick={() => redirectToProfile()}>
 						<div>Sacola</div>
