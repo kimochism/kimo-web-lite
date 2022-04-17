@@ -233,7 +233,7 @@ const Product = () => {
 							<h4>{product.name}</h4>
 							<span><b>KIMOCHISM 気持ち</b></span>
 							<div className="product-price">
-								<span>R$ {parseFloat(product.price).toFixed(2)}</span>
+								<span>R$ {parseFloat(product.discount_price).toFixed(2)}</span>
 								<span>Até 8x de {product.price / 8}</span>
 							</div>
 							<div className="product-size">
