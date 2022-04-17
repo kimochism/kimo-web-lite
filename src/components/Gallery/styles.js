@@ -27,7 +27,7 @@ export const Container = styled.div`
         width: 300px;
         height: auto;
         margin: 1%;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         flex-direction: column;
         align-items: end;
