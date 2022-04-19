@@ -4,12 +4,13 @@ import { colors } from 'variables';
 export const Container = styled.div`
 	background-color: white;
 	.product-container{
-		padding: 80px 0px;
+		padding: 120px 0px;
+		padding-bottom: 160px;
 		justify-content: center;
 		display: flex;
 	}
 	.product-left{
-		width: 650px;
+		width: 750px;
 		margin-right: 5%;
 		flex-direction: column;
 		display: flex;
@@ -55,9 +56,15 @@ export const Container = styled.div`
 		display: flex;
 		h4{
 			font-size: 30px;
-			font-weight: 400;
+			font-weight: 600;
 			padding-bottom: 15px;
 			margin: 0px;
+		}
+		.medium-hr{
+			width: 100%;
+			margin-top: 30px;
+			border-radius: 50px;
+			border: 1px solid #ebebeb;
 		}
 		span{
 			font-size: 14px;
@@ -192,7 +199,7 @@ export const Container = styled.div`
 	.selected-color {
 		border: 1px solid black;
 	}
-	@media screen and (max-width: 1150px) {
+	@media screen and (max-width: 1250px) {
         .product-left{
             width: 40vw;
         }

@@ -12,6 +12,8 @@ import * as ls from 'utils/localStorage';
 import { v4 as uuidv4 } from 'uuid';
 import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
 import Warning from 'components/Warning/Warning';
+import Suggestions from 'components/Suggestions/Suggestions';
+import RecentlyViewed from 'components/RecentlyViewed/RecentlyViewed';
 import Newsletter from 'shared/Newsletter/Newsletter';
 
 const Product = () => {
@@ -232,6 +234,7 @@ const Product = () => {
 						<div className="product-buy">
 							<h4>{product.name}</h4>
 							<span><b>KIMOCHISM 気持ち</b></span>
+							<hr className='medium-hr'/>
 							<div className="product-price">
 								<span>R$ {parseFloat(product.discount_price).toFixed(2)}</span>
 								<span>Até 8x de {product.price / 8}</span>
@@ -298,6 +301,8 @@ const Product = () => {
 					</div>
 				</div>
 			}
+			<Suggestions />
+			<RecentlyViewed/>
 			<Newsletter />
 			<Footer />
 			{fallback}
