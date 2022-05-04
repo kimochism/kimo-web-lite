@@ -4,14 +4,11 @@ import { Container } from './styles';
 import { AuthContext } from 'context/AuthContext';
 import { CheckedIcon, EditIconBlack, EditIconWhite } from 'assets/icons/index';
 import { useHistory } from 'react-router-dom';
-import useFallback from 'hooks/useFallback';
 import InputMask from 'react-input-mask';
 import api from 'api/index';
 
 const Account = () => {
 	const { email } = useContext(AuthContext);
-
-	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
 	const history = useHistory();
 
@@ -37,8 +34,6 @@ const Account = () => {
 	}, [email]);
 
 	const getData = async () => {
-
-		showFallback();
 
 		const foundUser = await api.users.showByEmail(email);
 
@@ -69,8 +64,6 @@ const Account = () => {
 					document: foundCustomer.document,
 					cell_phone_number: foundCustomer.cell_phone_number
 				});
-
-				hideFallback();
 			}
 		}
 	};
@@ -137,7 +130,7 @@ const Account = () => {
 						<div className="profile-input-is-not">
 							<label>
 								Email
-								{(!loading && user && !user.email_verified) && <span className="email-verified">Verificar email!</span>}
+								{( user && !user.email_verified) && <span className="email-verified">Verificar email!</span>}
 							</label>
 
 							<div className="input-with-icon input-disabled">
@@ -191,7 +184,6 @@ const Account = () => {
 					</button>
 				</Container>
 			}
-			{fallback}
 		</>
 	);
 };

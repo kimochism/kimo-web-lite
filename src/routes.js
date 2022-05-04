@@ -17,15 +17,11 @@ const EditEmail = lazy(() => import('./pages/Email/EditEmail/EditEmail'));
 const ConfirmEmail = lazy(() => import('./pages/Email/ConfirmEmail/ConfirmEmail'));
 const VerifyEmail = lazy(() => import('./pages/Email/VerifyEmail/VerifyEmail'));
 
-const CustomRoute = ({ isPrivate, ...rest }) => {
-	const { loading, authenticated } = useContext(AuthContext);
+const CustomRoute = ({ ...rest }) => {
+	const { loading } = useContext(AuthContext);
 
 	if (loading) {
 		return <h1>Loading...</h1>;
-	}
-
-	if (isPrivate && !authenticated) {
-		return <Redirect to="/" />;
 	}
 
 	return <Route {...rest} />;
@@ -42,15 +38,15 @@ export default function Routes() {
 				<CustomRoute exact path='/' component={() => <Home />} />
 				<CustomRoute exact path='/product/:id' component={() => <Product />} />
 				<CustomRoute exact path='/profile' component={() => <Redirect to="/profile/account" />} />
-				<CustomRoute isPrivate exact path='/profile/:option' component={() => <Profile />} />
-				<CustomRoute isPrivate exact path='/profile/:option/:return' component={() => <Profile />} />
+				<CustomRoute exact path='/profile/:option' component={() => <Profile />} />
+				<CustomRoute exact path='/profile/:option/:return' component={() => <Profile />} />
 				<CustomRoute exact path='/catalog' component={() => <Catalog />} />
 				<CustomRoute exact path='/collections' component={() => <Collections />} />
 				<CustomRoute exact path='/customerbag' component={() => <CustomerBag />} />
 				<CustomRoute exact path='/notfound' component={() => <NotFound />} />
 				<CustomRoute exact path='/email/edit' component={() => <EditEmail />} />
-				<CustomRoute isPrivate exact path='/email/confirm' component={() => <ConfirmEmail />} />
-				<CustomRoute isPrivate exact path='/email/verify/:id' component={() => <VerifyEmail />} />
+				<CustomRoute exact path='/email/confirm' component={() => <ConfirmEmail />} />
+				<CustomRoute exact path='/email/verify/:id' component={() => <VerifyEmail />} />
 			</Suspense>
 		</Switch>
 	);
