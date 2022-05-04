@@ -118,8 +118,7 @@ code {
   border-radius: 0px !important;
   box-shadow: 12px 12px black !important;
 }
-.Toastify__toast--rtl {
-}
+
 .Toastify__toast-body div{
   letter-spacing: 2px;
   text-align: center;

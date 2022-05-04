@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Container } from './styles';
 import { toast } from 'react-toastify';
 import { AuthContext } from 'context/AuthContext';
-import useFallback from 'hooks/useFallback';
 import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
 import api from 'api/index';
@@ -11,12 +10,10 @@ import NotificationError from 'shared/NotificationError/NotificationError';
 const CreditCard = ({ orderAmount }) => {
 
 	const [cardExpiration, setCardExpiration] = useState();
-	const [fallback, showFallback, hideFallback] = useFallback();
 	const [thumbnail, setThumbnail] = useState();
 	const { email } = useContext(AuthContext);
 
 	useEffect(() => {
-		showFallback();
 
 		const cardForm = window.mp.cardForm({
 			amount: orderAmount.toString(),
@@ -172,8 +169,6 @@ const CreditCard = ({ orderAmount }) => {
 			},
 		});
 
-		hideFallback();
-
 		return () => {
 			cardForm.unmount();
 		};
@@ -197,14 +192,12 @@ const CreditCard = ({ orderAmount }) => {
 		const identificationType = document.getElementById('form-checkout__identificationType');
 		identificationType.value = 'CPF';
 
-		showFallback();
 		await api.users.showByEmail(email).then(async ({_id}) => {
 			await api.customers.showByUser(_id).then(customer => {
 				const identificationNumber = document.getElementById('form-checkout__identificationNumber');
 				identificationNumber.value = customer.document.replace(/[^\w\s]/gi, '');
 			});
 		});
-		hideFallback();
 	};
 
 	const errorMessage = message => {
@@ -290,7 +283,6 @@ const CreditCard = ({ orderAmount }) => {
 					Finalizar compra
 				</button>
 			</form>
-			{fallback}
 		</Container>
 	);
 };

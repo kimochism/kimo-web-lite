@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import BaseModal from 'shared/Modal/BaseModal/BaseModal';
 import { Container } from './styles';
-import useFallback from 'hooks/useFallback';
 import api from 'api/index';
 import { AuthContext } from 'context/AuthContext';
 
@@ -11,7 +10,6 @@ const AddressSelector = ({ isOpen, handleClose, onSelected }) => {
   const [addresses, setAddresses] = useState([]);
   const [selected, setSelected] = useState();
 
-  const [fallback, showFallback, hideFallback] = useFallback();
   const { email } = useContext(AuthContext);
 
   useEffect(() => {
@@ -19,16 +17,11 @@ const AddressSelector = ({ isOpen, handleClose, onSelected }) => {
   }, []);
 
   const getAddresses = async () => {
-
-    showFallback();
-
     await api.users.showByEmail(email).then(async user => {
       await api.customers.showByUser(user._id).then(async customer => {
         await api.addresses.listByCustomer(customer._id).then(addresses => setAddresses(addresses));
       });
     });
-
-    hideFallback();
   };
 
   const selectAddress = (event, address) => {
@@ -70,7 +63,6 @@ const AddressSelector = ({ isOpen, handleClose, onSelected }) => {
           Selecionar
         </button>
       </Container>
-      {fallback}
     </BaseModal>
   );
 };

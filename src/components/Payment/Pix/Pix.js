@@ -6,7 +6,6 @@ import { CloseIcon, ContentCopy } from 'assets/icons/index';
 import BaseModal from 'shared/Modal/BaseModal/BaseModal';
 import PropTypes from 'prop-types';
 import api from 'api/index';
-// import useFallback from 'hooks/useFallback';
 
 const Pix = ({ isOpen, handleClose, amount, description }) => {
 
@@ -17,8 +16,6 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 	const [qrCodeCopyAndPaste, setQrCodeCopyAndPaste] = useState();
 	const [paymentId, setPaymentId] = useState(0);
 	const [paymentAccept, setPaymentAccept] = useState(false);
-
-	// const [fallback, showFallback, hideFallback] = useFallback();
 
 	useEffect(() => {
 		if (isOpen) {
@@ -153,7 +150,6 @@ const Pix = ({ isOpen, handleClose, amount, description }) => {
 
 				{paymentAccept}
 				<button className='btn-primary' onClick={() => showPaymentStatus()}>Confirmar pagamento</button>
-				{/* {fallback} */}
 			</Container>
 		</BaseModal>
 	);

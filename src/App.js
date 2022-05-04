@@ -2,14 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Routes from 'routes';
 
-// toasts
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// facebook chat
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 
-// contexts
 import { AuthProvider } from 'context/AuthContext';
 import { SocketProvider } from 'context/SocketContext';
 
