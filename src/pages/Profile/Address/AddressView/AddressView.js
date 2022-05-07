@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import NotificationError from 'shared/NotificationError/NotificationError';
 import { Container } from './styles';
-import useFallback from 'hooks/useFallback';
 import PropTypes from 'prop-types';
 import api from 'api/index';
 import { useHistory, useRouteMatch } from 'react-router-dom';
@@ -28,8 +27,6 @@ const AddressView = ({ goBack, addressToEdit }) => {
 	const { params } = useRouteMatch();
 
 	const history = useHistory();
-
-	const [fallback, showFallback, hideFallback] = useFallback();
 
 	const { email } = useContext(AuthContext);
 
@@ -56,16 +53,11 @@ const AddressView = ({ goBack, addressToEdit }) => {
 	}, []);
 
 	const getCustomer = async () => {
-
-		showFallback();
-
 		await api.users.showByEmail(email).then(async user => {
 			await api.customers.showByUser(user._id).then(customer => {
 				setAddress(prevAddress => ({ ...prevAddress, customer_id: customer._id }));
 			});
 		});
-
-		hideFallback();
 	};
 
 	const onChange = async e => {
@@ -135,9 +127,6 @@ const AddressView = ({ goBack, addressToEdit }) => {
 			});
 			return;
 		}
-
-		showFallback();
-
 		if (!editable) {
 			await api.addresses.store(address)
 				.then(() => params.return ? history.push('/customerbag') : goBack())
@@ -153,8 +142,6 @@ const AddressView = ({ goBack, addressToEdit }) => {
 		if (editable) {
 			await api.addresses.update(address.id, address);
 		}
-
-		hideFallback();
 	};
 
 	return (
@@ -210,7 +197,6 @@ const AddressView = ({ goBack, addressToEdit }) => {
 			</div>
 			<div className='address-fallback'>
 				{error}
-				{fallback}
 			</div>
 		</Container>
 	);

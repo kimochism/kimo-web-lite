@@ -10,15 +10,12 @@ import Footer from 'shared/Footer/Footer';
 import Account from './Account/Account';
 import Address from './Address/Address';
 import AddressView from './Address/AddressView/AddressView';
-import useFallback from 'hooks/useFallback';
 import Newsletter from 'shared/Newsletter/Newsletter';
 import Warning from 'components/Warning/Warning';
 
 const Profile = () => {
 
 	const { authenticated, handleLogout } = useContext(AuthContext);
-
-	const [fallback] = useFallback();
 
 	const { params } = useRouteMatch();
 
@@ -103,7 +100,6 @@ const Profile = () => {
 				<Newsletter/>
 				<Footer />
 			</Container>
-			{fallback}
 		</>
 	);
 };

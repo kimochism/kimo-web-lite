@@ -10,7 +10,6 @@ import Menu from 'shared/Menu/Menu';
 import Footer from 'shared/Footer/Footer';
 import NoProducts from 'components/NoProducts/NoProducts';
 import Payment from 'components/Payment/Payment';
-import useFallback from 'hooks/useFallback';
 import api from 'api/index';
 import AddressSelector from 'shared/Modal/AddressSelector/AddressSelector';
 import SignInUp from 'shared/Modal/SignInUp/SignInUp';
@@ -42,7 +41,6 @@ const CustomerBag = () => {
 	const email = ls.getItem(LS_KEY_USER, 'email');
 
 	const { authenticated } = useContext(AuthContext);
-	const [fallback, showFallback, hideFallback, loading] = useFallback();
 
 	const history = useHistory();
 
@@ -111,7 +109,6 @@ const CustomerBag = () => {
 	};
 
 	const getCustomerBags = async () => {
-		showFallback();
 		await getMainAddress();
 
 		const customerBags = await api.customerBags.listByEmail(email);
@@ -130,8 +127,6 @@ const CustomerBag = () => {
 
 		dispatch({ type: SET_CUSTOMER_BAGS, payload: customerBagsMap });
 		calculateProductsAmount(customerBagsMap);
-
-		hideFallback();
 	};
 
 	const calculateProductsAmount = (customerBags) => {
@@ -165,19 +160,14 @@ const CustomerBag = () => {
 
 	const changeQuantity = async (id, quantity) => {
 
-		showFallback();
-
 		if (!quantity) {
 			await api.customerBags.destroy(id);
 			await getCustomerBags();
-			hideFallback();
 			return;
 		}
 
 		await api.customerBags.update(id, { quantity });
 		await getCustomerBags();
-
-		hideFallback();
 	};
 
 	const getMainAddress = async () => {
@@ -214,7 +204,7 @@ const CustomerBag = () => {
 		}
 	};
 
-	if (!customerBagsStored.length && !customerBags.length && !loading) return (
+	if (!customerBagsStored.length && !customerBags.length) return (
 		<>
 			<Menu />
 			<NoProducts />
@@ -224,7 +214,7 @@ const CustomerBag = () => {
 
 	return (
 		<Container>
-			{(customerBags.length && !loading) && <>
+			{(customerBags.length) && <>
 				<div className="customer-bag-left">
 					<div className="logo">
 						<Link to='/'>
@@ -355,7 +345,6 @@ const CustomerBag = () => {
 				handleClose={() => setShowSignInUp(false)}
 				defaultIsSignIn />
 			}
-			{fallback}
 		</Container>
 	);
 };

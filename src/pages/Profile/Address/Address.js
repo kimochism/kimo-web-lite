@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { EditIconBlack } from '../../../assets/icons/index';
 import { Container } from './styles';
 import PropTypes from 'prop-types';
-import useFallback from 'hooks/useFallback';
 import { AuthContext } from 'context/AuthContext';
 import api from 'api/index';
 import ConfirmModal from 'shared/Modal/ConfirmModal/ConfirmModal';
@@ -16,23 +15,17 @@ const Address = ({ handleCreateAddress, handleEditAddress }) => {
 
 	const { email } = useContext(AuthContext);
 
-	const [fallback, showFallback, hideFallback] = useFallback();
-
 	useEffect(() => {
 		getAddresses();
 	}, []);
 
 	const getAddresses = async () => {
 
-		showFallback();
-
 		await api.users.showByEmail(email).then(async user => {
 			await api.customers.showByUser(user._id).then(async customer => {
 				await api.addresses.listByCustomer(customer._id).then(addresses => setAddresses(addresses));
 			});
 		});
-
-		hideFallback();
 	};
 
 	const deleteAddress = async id => {
@@ -77,8 +70,6 @@ const Address = ({ handleCreateAddress, handleEditAddress }) => {
 				handleClose={() => setConfirmModalIsOpen(false)}
 				handleConfirm={async () => { await deleteAddress(addressToDelete); setConfirmModalIsOpen(false);}}
 			/>
-			
-			{fallback}
 		</Container>
 	);
 };

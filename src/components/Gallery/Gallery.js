@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Container } from './styles';
 import { Link } from 'react-router-dom';
 import api from 'api';
-import useFallback from 'hooks/useFallback';
 
 const Gallery = () => {
-
-	const [fallback, showFallback, hideFallback] = useFallback();
 
 	const [products, setProducts] = useState([]);
 
@@ -15,13 +12,9 @@ const Gallery = () => {
 	}, []);
 
 	const getProducts = async () => {
-
-		showFallback();
 		const { data } = await api.products.list({ limit: 8 });
 
 		setProducts(data);
-
-		hideFallback();
 	};
 
 	const formatPrice = price => {
@@ -54,7 +47,6 @@ const Gallery = () => {
 			<Link to="/catalog">
 				<button>Ver mais</button>
 			</Link>
-			{fallback}
 		</Container>
 	);
 };

@@ -1,28 +1,26 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Container } from './styles';
-import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router';
 import { AuthContext } from 'context/AuthContext';
 import Footer from 'shared/Footer/Footer';
 import Notification from 'shared/Notification/Notification';
 import Menu from 'shared/Menu/Menu';
-import useFallback from 'hooks/useFallback';
+import Warning from 'components/Warning/Warning';
+// import Suggestions from 'components/Suggestions/Suggestions';
+// import RecentlyViewed from 'components/RecentlyViewed/RecentlyViewed';
+// import Newsletter from 'shared/Newsletter/Newsletter';
+import { toast } from 'react-toastify';
 import api from 'api/index';
 import * as ls from 'utils/localStorage';
 import { v4 as uuidv4 } from 'uuid';
 import { LS_KEY_CUSTOMER_BAG, LS_KEY_USER } from 'constants/all';
-import Warning from 'components/Warning/Warning';
-import Suggestions from 'components/Suggestions/Suggestions';
-import RecentlyViewed from 'components/RecentlyViewed/RecentlyViewed';
-import Newsletter from 'shared/Newsletter/Newsletter';
+
 
 const Product = () => {
 
 	const { id } = useParams();
 	const { authenticated } = useContext(AuthContext);
 	const history = useHistory();
-
-	const [fallback, showFallback, hideFallback] = useFallback();
 
 	const [defaultProduct, setDefaultProduct] = useState();
 	const [product, setProduct] = useState();
@@ -63,14 +61,10 @@ const Product = () => {
 
 	const getProduct = async () => {
 
-		showFallback();
-
 		const data = await api.products.show(id);
 
 		setProduct(data);
 		setDefaultProduct(data);
-
-		hideFallback();
 	};
 
 	const selectSize = (e, size) => {
@@ -231,7 +225,7 @@ const Product = () => {
 					</div>
 
 					<div className="product-right">
-						<div className="product-buy">
+						<div className="product-buy chama">
 							<h4>{product.name}</h4>
 							<span><b>KIMOCHISM 気持ち</b></span>
 							<hr className='medium-hr'/>
@@ -301,11 +295,10 @@ const Product = () => {
 					</div>
 				</div>
 			}
-			<Suggestions />
+			{/* <Suggestions />
 			<RecentlyViewed/>
-			<Newsletter />
+			<Newsletter /> */}
 			<Footer />
-			{fallback}
 		</Container>
 	);
 };
