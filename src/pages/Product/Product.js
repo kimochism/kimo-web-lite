@@ -237,7 +237,7 @@ const Product = () => {
 							<hr className='medium-hr'/>
 							<div className="product-price">
 								<span>R$ {parseFloat(product.discount_price).toFixed(2)}</span>
-								<span>Até 8x de {product.price / 8}</span>
+								<span>Até 8x de {(product.price / 8).toFixed(2)}</span>
 							</div>
 							<div className="product-size">
 								<div>
