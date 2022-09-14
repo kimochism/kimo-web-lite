@@ -61,6 +61,15 @@ export const Container = styled.div`
             font-weight: 500;
         }
     }
+    .suggestion-save-price{
+        margin-left: 15px;
+        padding: 4px 8px;
+        border-radius: 50px;
+        font-weight: 500;
+        background-color: #d5bbff;
+        border: 1px solid #ab7cf7;
+        font-size: 13px;
+    }
     .suggestion-cut-price{
         text-decoration: line-through;
     }

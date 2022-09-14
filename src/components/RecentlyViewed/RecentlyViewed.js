@@ -6,69 +6,69 @@ const Newsletter = () => {
 	return (
 		<Container>
 			<h1>Vistos recentemente</h1>
-			<div className="latest-suggestions">
+			<div className="latest-recentlyVieweds">
 				<Link to="/catalog">
-					<div className="suggestion">
-						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/RaidendakiBACKSFW_web_1b18d0e2-933d-4c39-b453-261c821d755a_900x.png?v=1649218186"/>
+					<div className="recentlyViewed">
+						<div className="recentlyViewed-image">
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
-						<div className="suggestion-prices">
-							<span className="suggestion-cut-price">$8,99</span>
-							<span className="suggestion-price">$7,99</span>
-							<span className="suggestion-save-price">Save $1,00</span>
+						<span className="recentlyViewed-name">Camiseta Shanks - One Piece</span>
+						<div className="recentlyViewed-prices">
+							<span className="recentlyViewed-cut-price">$8,99</span>
+							<span className="recentlyViewed-price">$7,99</span>
+							<span className="recentlyViewed-save-price">Save $1,00</span>
 						</div>
 					</div>
 				</Link>
 				<Link to="/catalog">
-					<div className="suggestion">
-						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/RaidendakiBACKSFW_web_1b18d0e2-933d-4c39-b453-261c821d755a_900x.png?v=1649218186"/>
+					<div className="recentlyViewed">
+						<div className="recentlyViewed-image">
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
-						<div className="suggestion-prices">
-							<span className="suggestion-cut-price">$8,99</span>
-							<span className="suggestion-price">$7,99</span>
-							<span className="suggestion-save-price">Save $1,00</span>
-						</div>
-					</div>
-				</Link>
-				<Link to="/catalog">
-					<div className="suggestion">
-						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/RaidendakiBACKSFW_web_1b18d0e2-933d-4c39-b453-261c821d755a_900x.png?v=1649218186"/>
-						</div>
-						<span className="suggestion-name">Gostosinha</span>
-						<div className="suggestion-prices">
-							<span className="suggestion-cut-price">$8,99</span>
-							<span className="suggestion-price">$7,99</span>
-							<span className="suggestion-save-price">Save $1,00</span>
+						<span className="recentlyViewed-name">Camiseta Shanks - One Piece</span>
+						<div className="recentlyViewed-prices">
+							<span className="recentlyViewed-cut-price">$8,99</span>
+							<span className="recentlyViewed-price">$7,99</span>
+							<span className="recentlyViewed-save-price">Save $1,00</span>
 						</div>
 					</div>
 				</Link>
 				<Link to="/catalog">
-					<div className="suggestion">
-						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/RaidendakiBACKSFW_web_1b18d0e2-933d-4c39-b453-261c821d755a_900x.png?v=1649218186"/>
+					<div className="recentlyViewed">
+						<div className="recentlyViewed-image">
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
-						<div className="suggestion-prices">
-							<span className="suggestion-cut-price">$8,99</span>
-							<span className="suggestion-price">$7,99</span>
-							<span className="suggestion-save-price">Save $1,00</span>
+						<span className="recentlyViewed-name">Camiseta Shanks - One Piece</span>
+						<div className="recentlyViewed-prices">
+							<span className="recentlyViewed-cut-price">$8,99</span>
+							<span className="recentlyViewed-price">$7,99</span>
+							<span className="recentlyViewed-save-price">Save $1,00</span>
 						</div>
 					</div>
 				</Link>
 				<Link to="/catalog">
-					<div className="suggestion">
-						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/RaidendakiBACKSFW_web_1b18d0e2-933d-4c39-b453-261c821d755a_900x.png?v=1649218186"/>
+					<div className="recentlyViewed">
+						<div className="recentlyViewed-image">
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
-						<div className="suggestion-prices">
-							<span className="suggestion-cut-price">$8,99</span>
-							<span className="suggestion-price">$7,99</span>
-							<span className="suggestion-save-price">Save $1,00</span>
+						<span className="recentlyViewed-name">Camiseta Shanks - One Piece</span>
+						<div className="recentlyViewed-prices">
+							<span className="recentlyViewed-cut-price">$8,99</span>
+							<span className="recentlyViewed-price">$7,99</span>
+							<span className="recentlyViewed-save-price">Save $1,00</span>
+						</div>
+					</div>
+				</Link>
+				<Link to="/catalog">
+					<div className="recentlyViewed">
+						<div className="recentlyViewed-image">
+							<img src="https://imgur.com/USL0D1J.png"/>
+						</div>
+						<span className="recentlyViewed-name">Camiseta Shanks - One Piece</span>
+						<div className="recentlyViewed-prices">
+							<span className="recentlyViewed-cut-price">$8,99</span>
+							<span className="recentlyViewed-price">$7,99</span>
+							<span className="recentlyViewed-save-price">Save $1,00</span>
 						</div>
 					</div>
 				</Link>

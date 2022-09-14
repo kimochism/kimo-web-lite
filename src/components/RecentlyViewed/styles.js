@@ -20,7 +20,7 @@ export const Container = styled.div`
         padding-bottom: 30px;
         text-transform: uppercase;
     }
-    .latest-suggestions{
+    .latest-recentlyVieweds{
         width: auto;
         overflow: auto;
         justify-content: left;
@@ -30,7 +30,7 @@ export const Container = styled.div`
         text-decoration: none;
         color: black
     }
-    .suggestion{
+    .recentlyViewed{
         max-width: 260px;
         width: 50vw;
         margin: 12px;
@@ -38,12 +38,12 @@ export const Container = styled.div`
         flex-direction: column;
         display: flex;
     }
-    .suggestion-image{
+    .recentlyViewed-image{
         img{
             width: 100%;
         }
     }
-    .suggestion-name{
+    .recentlyViewed-name{
         text-align: center;
         font-size: 14px;
         text-transform: uppercase;
@@ -51,7 +51,7 @@ export const Container = styled.div`
         padding: 8px;
         letter-spacing: 2px;
     }
-    .suggestion-prices{
+    .recentlyViewed-prices{
         padding: 8px;
         font-size: 13.4px;
         justify-content: center;
@@ -61,12 +61,21 @@ export const Container = styled.div`
             font-weight: 500;
         }
     }
-    .suggestion-cut-price{
+    .recentlyViewed-save-price{
+        margin-left: 15px;
+        padding: 4px 8px;
+        border-radius: 50px;
+        font-weight: 500;
+        background-color: #d5bbff;
+        border: 1px solid #ab7cf7;
+        font-size: 13px;
+    }
+    .recentlyViewed-cut-price{
         text-decoration: line-through;
     }
 
     @media screen and (max-width: 985px){
-        .latest-suggestions{
+        .latest-recentlyVieweds{
             min-width: unset;
             width: 85vw;
             justify-content: left;

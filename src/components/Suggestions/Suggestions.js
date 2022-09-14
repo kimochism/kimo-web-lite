@@ -10,9 +10,9 @@ const Newsletter = () => {
 				<Link to="/catalog">
 					<div className="suggestion">
 						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/PecorinePRICONNE_web_360x.png?v=1644710667"/>
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
+						<span className="suggestion-name">Camiseta Shanks - One Piece</span>
 						<div className="suggestion-prices">
 							<span className="suggestion-cut-price">$8,99</span>
 							<span className="suggestion-price">$7,99</span>
@@ -23,9 +23,9 @@ const Newsletter = () => {
 				<Link to="/catalog">
 					<div className="suggestion">
 						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/PecorinePRICONNE_web_360x.png?v=1644710667"/>
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
+						<span className="suggestion-name">Camiseta Shanks - One Piece</span>
 						<div className="suggestion-prices">
 							<span className="suggestion-cut-price">$8,99</span>
 							<span className="suggestion-price">$7,99</span>
@@ -36,9 +36,9 @@ const Newsletter = () => {
 				<Link to="/catalog">
 					<div className="suggestion">
 						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/PecorinePRICONNE_web_360x.png?v=1644710667"/>
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
+						<span className="suggestion-name">Camiseta Shanks - One Piece</span>
 						<div className="suggestion-prices">
 							<span className="suggestion-cut-price">$8,99</span>
 							<span className="suggestion-price">$7,99</span>
@@ -49,9 +49,9 @@ const Newsletter = () => {
 				<Link to="/catalog">
 					<div className="suggestion">
 						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/PecorinePRICONNE_web_360x.png?v=1644710667"/>
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
+						<span className="suggestion-name">Camiseta Shanks - One Piece</span>
 						<div className="suggestion-prices">
 							<span className="suggestion-cut-price">$8,99</span>
 							<span className="suggestion-price">$7,99</span>
@@ -62,9 +62,9 @@ const Newsletter = () => {
 				<Link to="/catalog">
 					<div className="suggestion">
 						<div className="suggestion-image">
-							<img src="https://cdn.shopify.com/s/files/1/0508/9745/3208/products/PecorinePRICONNE_web_360x.png?v=1644710667"/>
+							<img src="https://imgur.com/USL0D1J.png"/>
 						</div>
-						<span className="suggestion-name">Gostosinha</span>
+						<span className="suggestion-name">Camiseta Shanks - One Piece</span>
 						<div className="suggestion-prices">
 							<span className="suggestion-cut-price">$8,99</span>
 							<span className="suggestion-price">$7,99</span>

@@ -6,9 +6,9 @@ import Footer from 'shared/Footer/Footer';
 import Notification from 'shared/Notification/Notification';
 import Menu from 'shared/Menu/Menu';
 import Warning from 'components/Warning/Warning';
-// import Suggestions from 'components/Suggestions/Suggestions';
-// import RecentlyViewed from 'components/RecentlyViewed/RecentlyViewed';
-// import Newsletter from 'shared/Newsletter/Newsletter';
+import Suggestions from 'components/Suggestions/Suggestions';
+import RecentlyViewed from 'components/RecentlyViewed/RecentlyViewed';
+import Newsletter from 'shared/Newsletter/Newsletter';
 import { toast } from 'react-toastify';
 import api from 'api/index';
 import * as ls from 'utils/localStorage';
@@ -295,9 +295,9 @@ const Product = () => {
 					</div>
 				</div>
 			}
-			{/* <Suggestions />
+			<Suggestions />
 			<RecentlyViewed/>
-			<Newsletter /> */}
+			<Newsletter />
 			<Footer />
 		</Container>
 	);
