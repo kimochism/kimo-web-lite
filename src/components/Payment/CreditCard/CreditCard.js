@@ -6,8 +6,11 @@ import InputMask from 'react-input-mask';
 import PropTypes from 'prop-types';
 import api from 'api/index';
 import NotificationError from 'shared/NotificationError/NotificationError';
+import useFallback from 'hooks/useFallback';
 
 const CreditCard = ({ orderAmount }) => {
+
+	const [fallback, showFallback, hideFallback] = useFallback();
 
 	const [cardExpiration, setCardExpiration] = useState();
 	const [thumbnail, setThumbnail] = useState();
@@ -15,6 +18,7 @@ const CreditCard = ({ orderAmount }) => {
 
 	useEffect(() => {
 
+		showFallback();
 		const cardForm = window.mp.cardForm({
 			amount: orderAmount.toString(),
 			autoMount: true,
@@ -169,6 +173,8 @@ const CreditCard = ({ orderAmount }) => {
 			},
 		});
 
+		hideFallback();
+
 		return () => {
 			cardForm.unmount();
 		};
@@ -192,12 +198,15 @@ const CreditCard = ({ orderAmount }) => {
 		const identificationType = document.getElementById('form-checkout__identificationType');
 		identificationType.value = 'CPF';
 
+		showFallback();
 		await api.users.showByEmail(email).then(async ({_id}) => {
 			await api.customers.showByUser(_id).then(customer => {
 				const identificationNumber = document.getElementById('form-checkout__identificationNumber');
 				identificationNumber.value = customer.document.replace(/[^\w\s]/gi, '');
 			});
 		});
+
+		hideFallback();
 	};
 
 	const errorMessage = message => {
@@ -283,6 +292,7 @@ const CreditCard = ({ orderAmount }) => {
 					Finalizar compra
 				</button>
 			</form>
+			{fallback}
 		</Container>
 	);
 };

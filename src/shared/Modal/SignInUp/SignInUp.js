@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import InputMask from 'react-input-mask';
 import api from 'api/index';
 import * as ls from 'utils/localStorage';
+import useFallback from 'hooks/useFallback';
 
 const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 
@@ -21,6 +22,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 	const { handleLogin } = useContext(AuthContext);
 
 	const history = useHistory();
+	const [fallback, showFallback, hideFallback] = useFallback();
 
 	const [isSignIn, setIsSignIn] = useState(defaultIsSignIn);
 	const [isTopScreen, setIsTopScreen] = useState(false);
@@ -47,6 +49,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		e.preventDefault();
 
 		if (!validateLoginFields()) return;
+		showFallback();
 		const response = await handleLogin(login.email, login.password);
 
 		const customerBagsStored = ls.getItem(LS_KEY_CUSTOMER_BAG, 'customerBags') || [];
@@ -68,6 +71,8 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		if (response && !response.success) {
 			setError(response.message);
 		}
+
+		hideFallback();
 	};
 
 	const doRegister = async (e) => {
@@ -76,6 +81,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 		setError('');
 		if (!validateRegisterFields()) return;
 
+		showFallback();
 		await api.users.showByEmail(register.email)
 			.then(async user => {
 				return storeCustomer(user._id);
@@ -92,6 +98,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 					}
 				});
 			});
+		hideFallback();
 	};
 
 	const validateLoginFields = () => {
@@ -195,11 +202,13 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 			const response = await handleLogin(register.email, register.password);
 
 			if (response && response.success) history.push('/profile/account');
+			hideFallback();
 		}).catch(error => {
 
 			// 409 - conflict code
 			if (error.response && error.response.status === 406) {
 				setError(error.response.data.message);
+				hideFallback();
 			}
 		});
 	};
