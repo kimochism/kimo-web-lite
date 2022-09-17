@@ -351,6 +351,7 @@ const SignInUp = ({ isOpen, handleClose, defaultIsSignIn }) => {
 						</p>
 					</form>
 				}
+				{fallback}
 			</Container>
 		</BaseModal>
 	);
