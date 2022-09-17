@@ -8,8 +8,11 @@ import { Link } from 'react-router-dom';
 import api from 'api/index';
 import Warning from 'components/Warning/Warning';
 import Newsletter from 'shared/Newsletter/Newsletter';
+import useFallback from 'hooks/useFallback';
 
 const Catalog = () => {
+
+	const [fallback, showFallback, hideFallback] = useFallback();
 
 	const [products, setProducts] = useState([]);
 	const [options, setOptions] = useState({
@@ -26,6 +29,7 @@ const Catalog = () => {
 
 	const getProducts = async () => {
 
+		showFallback();
 		const { data, total } = await api.products.list(options);
 
 		setProducts(data);
@@ -35,6 +39,7 @@ const Catalog = () => {
 		}
 
 		setAvailablePages(options.total / options.limit);
+		hideFallback();
 	};
 
 	useEffect(() => {
@@ -112,6 +117,7 @@ const Catalog = () => {
 			</div>
 			<Newsletter/>
 			<Footer />
+			{fallback}
 		</Container>
 	);
 };

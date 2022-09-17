@@ -13,6 +13,7 @@ import Payment from 'components/Payment/Payment';
 import api from 'api/index';
 import AddressSelector from 'shared/Modal/AddressSelector/AddressSelector';
 import SignInUp from 'shared/Modal/SignInUp/SignInUp';
+import useFallback from 'hooks/useFallback';
 
 const initialState = {
 	customerBags: [],
@@ -37,7 +38,8 @@ const reducer = (state, { type, payload }) => {
 };
 
 const CustomerBag = () => {
-	
+	const [fallback, showFallback, hideFallback, loading] = useFallback();
+
 	const email = ls.getItem(LS_KEY_USER, 'email');
 
 	const { authenticated } = useContext(AuthContext);
@@ -109,6 +111,7 @@ const CustomerBag = () => {
 	};
 
 	const getCustomerBags = async () => {
+		showFallback();
 		await getMainAddress();
 
 		const customerBags = await api.customerBags.listByEmail(email);
@@ -127,6 +130,8 @@ const CustomerBag = () => {
 
 		dispatch({ type: SET_CUSTOMER_BAGS, payload: customerBagsMap });
 		calculateProductsAmount(customerBagsMap);
+
+		hideFallback();
 	};
 
 	const calculateProductsAmount = (customerBags) => {
@@ -159,7 +164,7 @@ const CustomerBag = () => {
 	};
 
 	const changeQuantity = async (id, quantity) => {
-
+		showFallback();
 		if (!quantity) {
 			await api.customerBags.destroy(id);
 			await getCustomerBags();
@@ -168,6 +173,8 @@ const CustomerBag = () => {
 
 		await api.customerBags.update(id, { quantity });
 		await getCustomerBags();
+
+		hideFallback();
 	};
 
 	const getMainAddress = async () => {
@@ -204,7 +211,7 @@ const CustomerBag = () => {
 		}
 	};
 
-	if (!customerBagsStored.length && !customerBags.length) return (
+	if (!customerBagsStored.length && !customerBags.length  && !loading) return (
 		<>
 			<Menu />
 			<NoProducts />
@@ -345,6 +352,7 @@ const CustomerBag = () => {
 				handleClose={() => setShowSignInUp(false)}
 				defaultIsSignIn />
 			}
+			{fallback}
 		</Container>
 	);
 };
