@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { colors } from 'variables';
 
 export const Container = styled.div`
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background: ${colors.white};
     z-index: 9999;

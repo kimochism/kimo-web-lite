@@ -5,14 +5,15 @@ export const Container = styled.div`
     background-color: white;
     .container-profile{
         min-height: 600px;
-        padding: 80px;
+        padding: 50px;
         padding-bottom: 120px;
         justify-content: center;
         display: flex;
     }
     .profile-left{
-        width: 265px;
+        width: auto;
         height: auto;
+        display: flex;
     }
     .input-disabled{
         background: ${colors.gray2};
@@ -20,7 +21,6 @@ export const Container = styled.div`
     .profile-btn-option{
         button{
             width: 100%;
-            background-color: black;
             margin-top: 29px;
             padding: 18px;
             border: 3px solid black;
@@ -44,12 +44,6 @@ export const Container = styled.div`
     /* right */
 
     .profile-right{
-        width: 550px;
-        padding: 0px 100px;
-        padding-right: 0px;
-        align-items: flex-end;
-        flex-direction: column;
-        display: flex;
         button{
             cursor: pointer;
             width: 264px;
@@ -64,7 +58,7 @@ export const Container = styled.div`
         }
     }
     .profile-picture-and-name{
-        width: 550px;
+        width: auto;
         align-items: center;
         display: flex;
         span{
@@ -82,15 +76,13 @@ export const Container = styled.div`
         border-radius: 50%;
     }
     .profile-account-form{
-        width: 550px;
-        height: 260px;
         padding-top: 50px;
         justify-content: space-between;
         flex-direction: column;
         display: flex;
         label{
             font-weight: 600;
-            padding-bottom: 8px;
+            padding: 12px 0px;
         }
         .email-verified {
             margin-left: 10px;
@@ -131,6 +123,56 @@ export const Container = styled.div`
                 width:24px;
                 height:24px;
                 cursor: pointer;
+            }
+        }
+    }
+    @media screen and (min-width: 1020px){
+        .profile-left{
+            button{
+                min-width: 220px;
+                padding: 18px;
+            }
+        }
+        .profile-right{
+            margin-left: 70px;
+            justify-content: center;
+            display: flex;
+        }
+        .profile-account-form{
+            width: 500px;
+        }
+    }
+    @media screen and (max-width: 1020px){
+        .container-profile{
+            justify-content: center;
+            flex-direction: column;
+            display: flex;
+        }
+        .profile-right{
+            button{
+                width: 100%
+            }
+        }
+        .profile-picture-and-name{
+            padding-top: 60px;
+        }
+        .profile-account-form{
+            width: auto;
+            flex-direction: column;
+            display: flex;
+            div{
+                flex-direction: column;
+                display: flex;
+                div{
+                    width: auto;
+                }
+            }
+        }
+        div{
+            flex-direction: column;
+            display: flex;
+            div{
+                width: 100%;
             }
         }
     }
