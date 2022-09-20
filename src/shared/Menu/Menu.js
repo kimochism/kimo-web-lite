@@ -1,101 +1,90 @@
-import React, { useContext, useState } from 'react';
-import { Container } from './styles';
-import { BagIcon, UserIcon, MenuHamburger, SearchIcon, CatalogIcon, CollectionsIcon, HomeIcon } from 'assets/icons';
-import { Link, useHistory } from 'react-router-dom';
+import { BagIcon, CatalogIcon, CloseIcon, CollectionsIcon, HomeIcon, UserIcon } from 'assets/icons';
+import { MenuHamburger, SearchIcon } from 'assets/icons/index';
 import { AuthContext } from 'context/AuthContext';
+import { MenuContext } from 'context/MenuContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import SignInUp from 'shared/Modal/SignInUp/SignInUp';
+import { Container, SubHeader } from './styles';
 
 const Menu = () => {
 
-	const { firstName, authenticated } = useContext(AuthContext);
+    const history = useHistory();
 
-	const [isOpen, setIsOpen] = useState(false);
+    const { firstName, authenticated } = useContext(AuthContext);
 
-	const history = useHistory();
+    const { isOpen, setIsOpen } = useContext(MenuContext);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
-	const redirectToProfile = () => {
+    const isMobile = window.screen.width < 768;
 
-		if (!authenticated) {
-			setIsOpen(true);
-			return;
-		}
+    const [options] = useState([
+        { name: 'Home', icon: HomeIcon, navigateTo: '/' },
+        { name: 'Catálogo', icon: CatalogIcon, navigateTo: '/catalog' },
+        { name: 'Coleções', icon: CollectionsIcon, navigateTo: '/collections' },
+        { name: firstName || 'Entre ou cadastre-se', icon: UserIcon, navigateTo: '/profile' },
+        { name: 'Sacola', icon: BagIcon, navigateTo: '/customerBag' },
+    ]);
 
-		if (authenticated) {
-			history.push('/profile/account');
-		}
-	};
-	var mobileV = false;
-	
-	function mobile() {
-		mobileV = !mobileV;
-		if(mobileV){
-			document.getElementById('options-web').style.display = 'flex' ;
-		}else{
-			document.getElementById('options-web').style.display = 'none' ;
-		}
-	}
-	window.addEventListener('resize', function () {
-		var largura = window.innerWidth;
-		if (largura > 1380) {
-			document.getElementById('options-web').style.display = 'flex' ;
-		}else if ( largura < 1380){
-			document.getElementById('options-web').style.display = 'none' ;
-		}
-	});
+    const navigateTo = (route) => {
 
-	return (
-		<Container>
-			<div className="logo">
-				<Link to='/'>
-					<h1>KIMOCHISM <span>気持ち</span></h1>
-				</Link>
-			</div>
-			<div className="options-mobile">
-				<div className="options-mobile-left">
-					<img src={MenuHamburger} alt="Menu" onClick={mobile} />
-				</div>
-				<div className="options-mobile-right">
-					<img className="option-search" src={SearchIcon} alt="Search" />
-					<Link to='/customerbag'>
-						<img src={BagIcon} alt="Sacola" />
-					</Link>
-				</div>
-			</div>
-			<div className="options" id="options-web">
-				<Link to='/'>
-					<span className='option-generic'>
-						<div>Home</div>
-						<img src={HomeIcon} alt="Home" />
-					</span>
-				</Link>
-				<Link to='/catalog'>
-					<span className='option-generic'>
-						<div>Catálogo</div>
-						<img src={CatalogIcon} alt="Catalogo" />
-					</span>
-				</Link>
-				<Link to='/collections'>
-					<span className='option-generic'>
-						<div>Coleções</div>
-						<img src={CollectionsIcon} alt="Coleções" />
-					</span>
-				</Link>
-				<span className="option-generic opt-desktop" onClick={() => redirectToProfile()}>
-					<div>{authenticated ? firstName : 'Entre  ⠀ou⠀ Cadastre-se ⠀'}</div>
-					<img src={UserIcon} alt="Perfil" />
-				</span>
-				<Link to='/customerbag'>
-					<span className="option-generic opt-desktop" onClick={() => redirectToProfile()}>
-						<div>Sacola</div>
-						<img src={BagIcon} alt="Sacola" />
-					</span>
-				</Link>
-				<SignInUp isOpen={isOpen} defaultIsSignIn={true} handleClose={() => { setIsOpen(false); }} />
-			</div>
+        if (route === '/profile' && !authenticated) {
+            setModalIsOpen(true);
+            return;
+        }
 
-		</Container>
+        isMobile && setIsOpen(false);
 
-	);
+        history.push(route);
+    };
+
+    useEffect(() => {
+        !isMobile && setIsOpen(true);
+    }, [window.screen.width]);
+    
+    const SubHeaderComponent = () => {
+        return (
+            <SubHeader>
+                <Link to='/'>
+                    <h1>KIMOCHISM</h1>
+                </Link>
+
+                <div className="actions">
+                    <div className="left-side">
+                        <img src={MenuHamburger} onClick={() => setIsOpen(true)} />
+                    </div>
+                    <div className="right-side">
+                        <img src={SearchIcon} />
+                        <img src={BagIcon} className="invert" onClick={() => navigateTo('/customerBag')} />
+                    </div>
+                </div>
+            </SubHeader>
+        );
+    };
+
+    return <>
+        {isOpen &&
+            <Container>
+                <div className="header">
+                    <Link to='/'>
+                        <h1>KIMOCHISM</h1>
+                    </Link>
+
+                    <img src={CloseIcon} onClick={() => setIsOpen(false)} />
+                </div>
+                <ul className="content">
+                    {options.map(option => <li key={option.name} onClick={() => navigateTo(option.navigateTo)}>
+                        <img src={option.icon}></img>
+                        <span>{option.name}</span>
+                    </li>)}
+                </ul>
+                <div className="footer">Kimochism {new Date().getFullYear()} &copy;</div>
+
+                <SignInUp isOpen={modalIsOpen} handleClose={() => setModalIsOpen(false)} defaultIsSignIn />
+            </Container>
+        }
+        {!isOpen && <SubHeaderComponent />}
+    </>;
 };
 
 export default Menu;

@@ -10,12 +10,12 @@ import Newsletter from 'shared/Newsletter/Newsletter';
 const Home = () => {
 	return (
 		<Container>
-				<Menu />
-				<Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
-				<Banner />
-				<Gallery />
-				<Newsletter/>
-				<Footer />
+			<Menu />
+			<Warning message="Cupom de R$20 OFF em todo site! Utilize o cupom: KIMOOFF" />
+			<Banner />
+			<Gallery />
+			<Newsletter />
+			<Footer />
 		</Container>
 	);
 };
