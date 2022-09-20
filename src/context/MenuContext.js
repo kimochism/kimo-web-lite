@@ -8,7 +8,7 @@ const MenuProvider = ({ children }) => {
     const [isOpen, setIsOpen] = useState();
 
     return (
-        <MenuContext.Provider isOpen={isOpen} setIsOpen={setIsOpen}>
+        <MenuContext.Provider value={{ isOpen, setIsOpen }}>
             {children}
         </MenuContext.Provider>
     );
